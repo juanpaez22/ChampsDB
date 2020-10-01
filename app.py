@@ -26,16 +26,17 @@ def model(model=None):
 
 
 @app.route('/instance/<string:model>/<int:id>')
-def instance(model=None, instance=0):
+def instance(model=None, id=0):
     '''
     Return a instance's page.
 
     <model> is one of: player, team or nationality, or match
-    <instance> is the integer id of the specific instance
+    <id> is the integer id of the specific instance
     '''
     # TODO: Load data from the DB
     # TODO: 404 if the model or id do not exist
-    return render_template('instance.html', model=model, instance=instance)
+    # TODO: The templates may need to be split up for each model
+    return render_template('instance.html', model=model, id=id)
 
 
 if __name__ == '__main__':
