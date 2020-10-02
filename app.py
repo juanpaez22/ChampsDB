@@ -63,15 +63,15 @@ def model(model=None):
 
     <model> is one of: {player, team, match}
     '''
-    # TODO: The templates may need to be split up for each model
     if model == 'players':
         players = Players.objects()
-
-        return render_template('model_players.html', model=model, id=id, players=players)
+        return render_template('model_players.html', model=model, players=players)
     elif model == 'teams':
-        model_info = Teams.objects()
+        teams = Teams.objects()
+        return render_template('model_teams.html', model=model, teams=teams)
     elif model == 'matches':
-        return render_template('model.html', model=model, id=id, model_info=model_info)
+        matches = Matches.objects()
+        return render_template('model_matches.html', model=model, matches=matches)
 
     return render_template('404.html')
 
