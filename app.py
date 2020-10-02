@@ -1,6 +1,49 @@
-from flask import Flask, render_template, url_for, request, redirect
+import json
+from flask import Flask, redirect, render_template, request, url_for
+from flask_mongoengine import MongoEngine
+from pymongo import MongoClient
 
 app = Flask(__name__)
+app.config['MONGODB_SETTINGS'] = {
+    'db': 'ChampionsDB',
+    'host': 'localhost',
+    'port': 27017
+}
+db = MongoEngine()
+db.init_app(app)
+
+
+class Players(db.Document):
+    _id = db.IntField()
+    name = db.StringField()
+    position = db.StringField()
+    dob = db.DateTimeField()
+    nationality = db.StringField()
+    height = db.StringField()
+    weight = db.StringField()
+    team_id = db.IntField()
+    team_name = db.StringField()
+    media_link = db.URLField()
+
+
+class Teams(db.Document):
+    _id = db.IntField()
+    name = db.StringField()
+    country = db.StringField()
+    city = db.StringField()
+    stadium = db.StringField()
+    media_link = db.URLField()
+
+
+class Matches(db.Document):
+    _id = db.IntField()
+    date = db.DateTimeField()
+    stadium = db.StringField()
+    home_team_name = db.StringField()
+    home_team_id = db.IntField()
+    away_team_name = db.StringField()
+    away_team_id = db.IntField()
+    score = db.StringField()
 
 
 @app.route('/')
@@ -13,30 +56,52 @@ def about():
     return render_template('about.html')
 
 
-@app.route('/model/<string:model>')
+@app.route('/model/<string:model>', methods=['POST', 'GET'])
 def model(model=None):
     '''
     Return a model's page.
 
-    <model> is one of: player, team or nationality, or match
+    <model> is one of: {player, team, match}
     '''
-    # TODO: Load data from the DB
-    # TODO: 404 if the model does not exist
-    return render_template('model.html', model=model)
+    # TODO: The templates may need to be split up for each model
+    if model == 'players':
+        players = Players.objects()
+
+        return render_template('model_players.html', model=model, id=id, players=players)
+    elif model == 'teams':
+        model_info = Teams.objects()
+    elif model == 'matches':
+        return render_template('model.html', model=model, id=id, model_info=model_info)
+
+    return render_template('404.html')
 
 
-@app.route('/instance/<string:model>/<int:id>')
-def instance(model=None, id=0):
+@app.route('/instance/<string:model>/<int:id>', methods=['POST', 'GET'])
+def instance(model=None, id=0, player=None):
     '''
     Return a instance's page.
 
-    <model> is one of: player, team or nationality, or match
+    <model> is one of: {player, team, match}
+        404 error if <model> is not one of these three posibilities
     <id> is the integer id of the specific instance
+        404 error if <id> does not exist in the model
     '''
-    # TODO: Load data from the DB
-    # TODO: 404 if the model or id do not exist
     # TODO: The templates may need to be split up for each model
-    return render_template('instance.html', model=model, id=id)
+    if model == 'players':
+        player = Players.objects(_id=id)
+
+        if len(player) == 0:
+            return render_template('404.html')
+
+        player = player[0]
+
+        return render_template('instance.html', model=model, id=id, player=player)
+    elif model == 'teams':
+        return render_template('instance.html', model=model, id=id)
+    elif model == 'matches':
+        return render_template('instance.html', model=model, id=id)
+    else:
+        return render_template('404.html')
 
 
 if __name__ == '__main__':
