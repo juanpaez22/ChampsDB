@@ -77,7 +77,7 @@ def model(model=None):
 
 
 @app.route('/instance/<string:model>/<int:id>', methods=['POST', 'GET'])
-def instance(model=None, id=0, player=None):
+def instance(model=None, id=0):
     '''
     Return a instance's page.
 
@@ -95,13 +95,25 @@ def instance(model=None, id=0, player=None):
 
         player = player[0]
 
-        return render_template('instance.html', model=model, id=id, player=player)
+        return render_template('instance_player.html', model=model, id=id, player=player)
     elif model == 'teams':
-        return render_template('instance.html', model=model, id=id)
+        team = Teams.objects(_id=id)
+
+        if len(team) == 0:
+            return render_template('404.html')
+
+        team = team[0]
+        return render_template('instance_team.html', model=model, id=id, team=team)
     elif model == 'matches':
-        return render_template('instance.html', model=model, id=id)
-    else:
-        return render_template('404.html')
+        match = Matches.objects(_id=id)
+
+        if len(match) == 0:
+            return render_template('404.html')
+
+        match = match[0]
+        return render_template('instance_match.html', model=model, id=id, match=match)
+
+    return render_template('404.html')
 
 
 if __name__ == '__main__':
