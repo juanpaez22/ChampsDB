@@ -1,4 +1,5 @@
 import json
+import config
 from flask import Flask, redirect, render_template, request, url_for
 from flask_mongoengine import MongoEngine
 from pymongo import MongoClient
@@ -6,7 +7,7 @@ from pymongo import MongoClient
 app = Flask(__name__)
 app.config['MONGODB_SETTINGS'] = {
     'db': 'ChampionsDB',
-    'host': 'localhost',
+    'host': config.db_connection_string,
     'port': 27017
 }
 db = MongoEngine()
