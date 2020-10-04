@@ -68,7 +68,7 @@ def get_match_data(matchid):
 
 
 def main():
-    client = MongoClient("localhost", 27017)
+    client = MongoClient(config.db_connection_string, connect=False)
     db = client['ChampionsDB']
     players = db.players
     teams = db.teams
