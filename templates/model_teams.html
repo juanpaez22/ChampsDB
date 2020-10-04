@@ -1,0 +1,15 @@
+{% extends 'model.html' %}
+
+{% block model %}
+  <!-- This is just an example of how to use the teams information -->
+  {% for team in teams %}
+    <p> This is a team </p>
+    <p> _id: {{ team._id }} </p>
+    <p> name: {{ team.name }} </p>
+    <p> country: {{ team.country }} </p>
+    <p> city: {{ team.city }} </p>
+    <p> stadium: {{ team.stadium }} </p>
+    <p> media_link: <img src={{ team.media_link }} alt={{ team.name }} crest></p>
+    <p> This is the end of a team </p>
+  {% endfor %}
+{% endblock %}

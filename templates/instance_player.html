@@ -1,0 +1,17 @@
+{% extends 'instance.html' %}
+
+{% block instance %}
+<!-- This is just an example of how to access a player's information -->
+<p> This is a player </p>
+<p> id: {{ player._id }} </p>
+<p> name: {{ player.name }} </p>
+<p> position: {{ player.position }} </p>
+<p> dob: {{ player.dob }} </p>
+<p> nationality: {{ player.nationality }} </p>
+<p> height: {{ player.height }} </p>
+<p> weight: {{ player.weight }} </p>
+<p> team_id: {{ player.team_id }} </p>
+<p> team_name: {{ player.team_name }} </p>
+<p> media_link: {{ player.media_link }} </p>
+<p> This is the end of a player </p>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'model.html' %}
+
+{% block model %}
+  <!-- This is just an example of how to use the match data -->
+  {% for match in matches %}
+    <p> This is a match </p>
+    <p> id: {{ match._id }} </p>
+    <p> date: {{ match.date }} </p>
+    <p> stadium: {{ match.stadium }} </p>
+    <p> home_team_name: {{ match.home_team_name }} </p>
+    <p> home_team_id: {{ match.home_team_id }} </p>
+    <p> away_team_name: {{ match.away_team_name }} </p>
+    <p> away_team_id: {{ match.away_team_id }} </p>
+    <p> score: {{ match.score }} </p>
+    <p> This is the end of a match </p>
+  {% endfor %}
+{% endblock %}

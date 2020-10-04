@@ -13,12 +13,15 @@ Bootstraps info from the 2019-2020 Champions League (id=530) for the following p
 """
 
 api_uri = "https://api-football-v1.p.rapidapi.com/v2/"
-headers = {'x-rapidapi-host': "api-football-v1.p.rapidapi.com", 'x-rapidapi-key': config.api_football_key}
+headers = {'x-rapidapi-host': "api-football-v1.p.rapidapi.com",
+           'x-rapidapi-key': config.api_football_key}
 
 
 def get_player_data(playerid):
-    response = requests.get(api_uri + "/players/player/{}".format(playerid), headers=headers).json()
-    player_json = [player for player in response["api"]["players"] if player["season"] == "2019-2020"][0]
+    response = requests.get(
+        api_uri + "/players/player/{}".format(playerid), headers=headers).json()
+    player_json = [player for player in response["api"]
+                   ["players"] if player["season"] == "2019-2020"][0]
     player = {}
     player["_id"] = player_json["player_id"]
     player["name"] = player_json["player_name"]
@@ -31,10 +34,11 @@ def get_player_data(playerid):
     player["team_name"] = player_json["team_name"]
     player["media_link"] = ""
     return player
-    
+
 
 def get_team_data(teamid):
-    response = requests.get(api_uri + "/teams/team/{}".format(teamid), headers=headers).json()
+    response = requests.get(
+        api_uri + "/teams/team/{}".format(teamid), headers=headers).json()
     team_json = response["api"]["teams"][0]
     team = {}
     team["_id"] = team_json["team_id"]
@@ -45,8 +49,10 @@ def get_team_data(teamid):
     team["media_link"] = team_json["logo"]
     return team
 
+
 def get_match_data(matchid):
-    response = requests.get(api_uri + "/fixtures/id/{}".format(matchid), headers=headers).json()
+    response = requests.get(
+        api_uri + "/fixtures/id/{}".format(matchid), headers=headers).json()
     match_json = response["api"]["fixtures"][0]
     match = {}
     match["_id"] = match_json["fixture_id"]
@@ -69,15 +75,18 @@ def main():
     matches = db.matches
 
     # Get 3 players
-    players.insert_many([get_player_data(278), get_player_data(521), get_player_data(667)])
+    players.insert_many(
+        [get_player_data(278), get_player_data(521), get_player_data(667)])
     print("Player count: {}".format(players.count_documents({})))
 
     # Get 4 teams
-    teams.insert_many([get_team_data(157), get_team_data(173), get_team_data(85), get_team_data(80)])
+    teams.insert_many([get_team_data(157), get_team_data(
+        173), get_team_data(85), get_team_data(80)])
     print("Team count: {}".format(teams.count_documents({})))
 
     # Get 3 matches
-    matches.insert_many([get_match_data(591151), get_match_data(589197), get_match_data(589000)])
+    matches.insert_many(
+        [get_match_data(591151), get_match_data(589197), get_match_data(589000)])
     print("Match count: {}".format(matches.count_documents({})))
 
 
