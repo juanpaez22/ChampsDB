@@ -14,6 +14,13 @@ db = MongoEngine()
 db.init_app(app)
 
 
+class Tweet(db.EmbeddedDocument):
+    id = db.StringField()
+    text = db.StringField()
+    lang = db.StringField()
+    html = db.StringField()
+
+
 class Players(db.Document):
     _id = db.IntField()
     name = db.StringField()
@@ -25,6 +32,14 @@ class Players(db.Document):
     team_id = db.IntField()
     team_name = db.StringField()
     media_link = db.URLField()
+    tweets = db.ListField(db.EmbeddedDocumentField(Tweet))
+    rating_defending = db.IntField()
+    rating_dribbling = db.IntField()
+    rating_overall = db.IntField()
+    rating_pace = db.IntField()
+    rating_passing = db.IntField()
+    rating_physicality = db.IntField()
+    rating_shooting = db.IntField()
 
 
 class Teams(db.Document):
