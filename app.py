@@ -1,50 +1,50 @@
 import json
 import config
 from flask import Flask, redirect, render_template, request, url_for
-#from flask_mongoengine import MongoEngine
-#from pymongo import MongoClient
+from flask_mongoengine import MongoEngine
+from pymongo import MongoClient
 
 app = Flask(__name__)
-#app.config['MONGODB_SETTINGS'] = {
- #   'db': 'ChampionsDB',
- #   'host': config.db_connection_string,
- #   'port': 27017
-#}
-#db = MongoEngine()
-#db.init_app(app)
+app.config['MONGODB_SETTINGS'] = {
+    'db': 'ChampionsDB',
+    'host': config.db_connection_string,
+    'port': 27017
+}
+db = MongoEngine()
+db.init_app(app)
 
 
-# class Players(db.Document):
-#     _id = db.IntField()
-#     name = db.StringField()
-#     position = db.StringField()
-#     dob = db.DateTimeField()
-#     nationality = db.StringField()
-#     height = db.StringField()
-#     weight = db.StringField()
-#     team_id = db.IntField()
-#     team_name = db.StringField()
-#     media_link = db.URLField()
+class Players(db.Document):
+     _id = db.IntField()
+     name = db.StringField()
+     position = db.StringField()
+     dob = db.DateTimeField()
+     nationality = db.StringField()
+     height = db.StringField()
+     weight = db.StringField()
+     team_id = db.IntField()
+     team_name = db.StringField()
+     media_link = db.URLField()
 
 
-# class Teams(db.Document):
-#     _id = db.IntField()
-#     name = db.StringField()
-#     country = db.StringField()
-#     city = db.StringField()
-#     stadium = db.StringField()
-#     media_link = db.URLField()
+class Teams(db.Document):
+     _id = db.IntField()
+     name = db.StringField()
+     country = db.StringField()
+     city = db.StringField()
+     stadium = db.StringField()
+     media_link = db.URLField()
 
 
-# class Matches(db.Document):
-#     _id = db.IntField()
-#     date = db.DateTimeField()
-#     stadium = db.StringField()
-#     home_team_name = db.StringField()
-#     home_team_id = db.IntField()
-#     away_team_name = db.StringField()
-#     away_team_id = db.IntField()
-#     score = db.StringField()
+class Matches(db.Document):
+     _id = db.IntField()
+     date = db.DateTimeField()
+     stadium = db.StringField()
+     home_team_name = db.StringField()
+     home_team_id = db.IntField()
+     away_team_name = db.StringField()
+     away_team_id = db.IntField()
+     score = db.StringField()
 
 
 @app.route('/')
