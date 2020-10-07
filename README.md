@@ -5,7 +5,7 @@
 Team Member | UT EID | GitHub
 --- | --- | ---
 Juan Paez | jfp778 | juanpaez22
-Ben Buhse | |
+Ben Buhse | bwb887 | bwbuhse
 Conor Flood | |
 Pearse Flood | |
 
@@ -18,7 +18,7 @@ TODO: Insert link
 Team Member | Estimated Completion Time (Hrs) | Actual Completion Time (Hrs)
 --- | --- | ---
 Juan Paez | 8 | 
-Ben Buhse | |
+Ben Buhse | 6 |
 Conor Flood | |
 Pearse Flood | |
 
