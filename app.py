@@ -61,6 +61,7 @@ def about():
 def model(model=None):
     '''
     Return a model's page.
+
     <model> is one of: {player, team, match}
     '''
     if model == 'players':
@@ -80,6 +81,7 @@ def model(model=None):
 def instance(model=None, id=0):
     '''
     Return a instance's page.
+
     <model> is one of: {player, team, match}
         404 error if <model> is not one of these three posibilities
     <id> is the integer id of the specific instance
