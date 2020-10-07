@@ -68,26 +68,26 @@ def get_match_data(matchid):
 
 
 def main():
-     client = MongoClient(config.db_connection_string, connect=False)
-     db = client['ChampionsDB']
-     players = db.players
-     teams = db.teams
-     matches = db.matches
+    client = MongoClient(config.db_connection_string, connect=False)
+    db = client['ChampionsDB']
+    players = db.players
+    teams = db.teams
+    matches = db.matches
 
     # Get 3 players
-     players.insert_many(
-         [get_player_data(278), get_player_data(521), get_player_data(667)])
-     print("Player count: {}".format(players.count_documents({})))
+    players.insert_many(
+        [get_player_data(278), get_player_data(521), get_player_data(667)])
+    print("Player count: {}".format(players.count_documents({})))
 
     # Get 4 teams
-     teams.insert_many([get_team_data(157), get_team_data(
-         173), get_team_data(85), get_team_data(80)])
-     print("Team count: {}".format(teams.count_documents({})))
+    teams.insert_many([get_team_data(157), get_team_data(
+        173), get_team_data(85), get_team_data(80)])
+    print("Team count: {}".format(teams.count_documents({})))
 
     # Get 3 matches
-     matches.insert_many(
-         [get_match_data(591151), get_match_data(589197), get_match_data(589000)])
-     print("Match count: {}".format(matches.count_documents({})))
+    matches.insert_many(
+        [get_match_data(591151), get_match_data(589197), get_match_data(589000)])
+    print("Match count: {}".format(matches.count_documents({})))
 
 
 if __name__ == "__main__":

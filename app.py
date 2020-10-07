@@ -15,36 +15,36 @@ db.init_app(app)
 
 
 class Players(db.Document):
-     _id = db.IntField()
-     name = db.StringField()
-     position = db.StringField()
-     dob = db.DateTimeField()
-     nationality = db.StringField()
-     height = db.StringField()
-     weight = db.StringField()
-     team_id = db.IntField()
-     team_name = db.StringField()
-     media_link = db.URLField()
+    _id = db.IntField()
+    name = db.StringField()
+    position = db.StringField()
+    dob = db.DateTimeField()
+    nationality = db.StringField()
+    height = db.StringField()
+    weight = db.StringField()
+    team_id = db.IntField()
+    team_name = db.StringField()
+    media_link = db.URLField()
 
 
 class Teams(db.Document):
-     _id = db.IntField()
-     name = db.StringField()
-     country = db.StringField()
-     city = db.StringField()
-     stadium = db.StringField()
-     media_link = db.URLField()
+    _id = db.IntField()
+    name = db.StringField()
+    country = db.StringField()
+    city = db.StringField()
+    stadium = db.StringField()
+    media_link = db.URLField()
 
 
 class Matches(db.Document):
-     _id = db.IntField()
-     date = db.DateTimeField()
-     stadium = db.StringField()
-     home_team_name = db.StringField()
-     home_team_id = db.IntField()
-     away_team_name = db.StringField()
-     away_team_id = db.IntField()
-     score = db.StringField()
+    _id = db.IntField()
+    date = db.DateTimeField()
+    stadium = db.StringField()
+    home_team_name = db.StringField()
+    home_team_id = db.IntField()
+    away_team_name = db.StringField()
+    away_team_id = db.IntField()
+    score = db.StringField()
 
 
 @app.route('/')
@@ -61,7 +61,6 @@ def about():
 def model(model=None):
     '''
     Return a model's page.
-
     <model> is one of: {player, team, match}
     '''
     if model == 'players':
@@ -81,7 +80,6 @@ def model(model=None):
 def instance(model=None, id=0):
     '''
     Return a instance's page.
-
     <model> is one of: {player, team, match}
         404 error if <model> is not one of these three posibilities
     <id> is the integer id of the specific instance
