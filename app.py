@@ -60,6 +60,7 @@ class Matches(db.Document):
     away_team_name = db.StringField()
     away_team_id = db.IntField()
     score = db.StringField()
+    media_link = db.URLField()
 
 
 @app.route('/')
@@ -79,13 +80,13 @@ def model(model=None):
 
     <model> is one of: {player, team, match}
     '''
-    if model == 'players':
+    if model == 'player':
         players = Players.objects()
         return render_template('model_players.html', model=model, players=players)
-    elif model == 'teams':
+    elif model == 'team':
         teams = Teams.objects()
         return render_template('model_teams.html', model=model, teams=teams)
-    elif model == 'matches':
+    elif model == 'match':
         matches = Matches.objects()
         return render_template('model_matches.html', model=model, matches=matches)
 
@@ -103,7 +104,7 @@ def instance(model=None, id=0):
         404 error if <id> does not exist in the model
     '''
     # TODO: The templates may need to be split up for each model
-    if model == 'players':
+    if model == 'player':
         player = Players.objects(_id=id)
 
         if len(player) == 0:
@@ -112,7 +113,7 @@ def instance(model=None, id=0):
         player = player[0]
 
         return render_template('instance_player.html', model=model, id=id, player=player)
-    elif model == 'teams':
+    elif model == 'team':
         team = Teams.objects(_id=id)
 
         if len(team) == 0:
@@ -120,7 +121,7 @@ def instance(model=None, id=0):
 
         team = team[0]
         return render_template('instance_team.html', model=model, id=id, team=team)
-    elif model == 'matches':
+    elif model == 'match':
         match = Matches.objects(_id=id)
 
         if len(match) == 0:
