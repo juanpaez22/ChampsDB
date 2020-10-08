@@ -3,70 +3,77 @@
 {% block head %}
 <title>ChampionsDB</title>
 <style>
-	/* Make the image fully responsive */
-	.carousel-inner img {
-	  width: 100%;
-	  height: 100%;
-	}
-	</style>
+  /* Make the image fully responsive */
+  .carousel-inner img {
+    width: 100%;
+    height: 100%;
+  }
+</style>
 {% endblock %}
 
 {% block body %}
-  <div id="demo" class="carousel slide" data-ride="carousel">
+<div id="demo" class="carousel slide" data-ride="carousel">
 
-	<!-- Indicators -->
-	<ul class="carousel-indicators">
-	  <li data-target="#demo" data-slide-to="0" class="active"></li>
-	  <li data-target="#demo" data-slide-to="1"></li>
-	  <li data-target="#demo" data-slide-to="2"></li>
-	</ul>
-	
-	<!-- The slideshow -->
-	<div class="carousel-inner">
-	  <div class="carousel-item active">
-		<img src="https://www.telegraph.co.uk/content/dam/football/spark/FootballIndex/footballer-kicking-ball-on-pitch-xlarge.jpg" alt="Players" width="800" height="350">
-		<div class="container">
-			<div class="carousel-caption">
-				<div class="caption-one" style="padding-left: 55%; margin-right: 5%; padding-bottom: 50%; text-align: left;">
-					<h1>Get In-Depth Player Statistics</h1>
-					<br>
-					<a href="/model/players" class="btn btn-primary btn-lg hvr-underline-from-left" role="button">View Players</a>
-				</div>
-			</div>
-		</div>
-	  </div>
-	  <div class="carousel-item">
-		<img src="https://www.stadia-magazine.com/wp-content/uploads/2018/10/web-2_Zumtobel_Group_FC_Bayern_Arena_Visualisierung.jpg" alt="Matches" width="800" height="350">
-		<div class="container">
-			<div class="carousel-caption">
-				<div class="caption-two" style="padding-left: 10%; margin-right: 5%; padding-bottom: 30%;">
-					<h1>Revisit Your Favorite Matches</h1>
-					<br>
-					<a href="/model/matches" class="btn btn-primary btn-lg hvr-underline-from-left" role="button">View Matches</a>
-				</div>
-			</div>
-		</div>
-	  </div>
-	  <div class="carousel-item">
-		<img src="https://www.gamblingsites.org/wp-content/uploads/2019/09/Liverpool-Champions-League-Winners.jpg" alt="Teams" width="800" height="350">
-		<div class="container">
-			<div class="carousel-caption">
-				<div class="caption-three" style="padding-left: 10%; margin-right: 5%; padding-bottom: 40%;">
-					<h1>Research Your Favorite Teams</h1>
-					<br>
-					<a href="/model/teams" class="btn btn-primary btn-lg hvr-underline-from-left" role="button">View Teams</a>
-				</div>
-			</div>
-		</div>
-	  </div>
-	</div>
-	
-	<!-- Left and right controls -->
-	<a class="carousel-control-prev" href="#demo" data-slide="prev">
-	  <span class="carousel-control-prev-icon"></span>
-	</a>
-	<a class="carousel-control-next" href="#demo" data-slide="next">
-	  <span class="carousel-control-next-icon"></span>
-	</a>
+  <!-- Indicators -->
+  <ul class="carousel-indicators">
+    <li data-target="#demo" data-slide-to="0" class="active"></li>
+    <li data-target="#demo" data-slide-to="1"></li>
+    <li data-target="#demo" data-slide-to="2"></li>
+  </ul>
+
+  <!-- The slideshow -->
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img
+        src="https://www.telegraph.co.uk/content/dam/football/spark/FootballIndex/footballer-kicking-ball-on-pitch-xlarge.jpg"
+        alt="Players" width="800" height="350">
+      <div class="container">
+        <div class="carousel-caption">
+          <div class="caption-one" style="padding-left: 55%; margin-right: 5%; padding-bottom: 50%; text-align: left;">
+            <h1>Get In-Depth Player Statistics</h1>
+            <br>
+            <a href="/model/player" class="btn btn-primary btn-lg hvr-underline-from-left" role="button">View
+              Players</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img
+        src="https://www.stadia-magazine.com/wp-content/uploads/2018/10/web-2_Zumtobel_Group_FC_Bayern_Arena_Visualisierung.jpg"
+        alt="Matches" width="800" height="350">
+      <div class="container">
+        <div class="carousel-caption">
+          <div class="caption-two" style="padding-left: 10%; margin-right: 5%; padding-bottom: 30%;">
+            <h1>Revisit Your Favorite Matches</h1>
+            <br>
+            <a href="/model/match" class="btn btn-primary btn-lg hvr-underline-from-left" role="button">View Matches</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="https://www.gamblingsites.org/wp-content/uploads/2019/09/Liverpool-Champions-League-Winners.jpg"
+        alt="Teams" width="800" height="350">
+      <div class="container">
+        <div class="carousel-caption">
+          <div class="caption-three" style="padding-left: 10%; margin-right: 5%; padding-bottom: 40%;">
+            <h1>Research Your Favorite Teams</h1>
+            <br>
+            <a href="/model/team" class="btn btn-primary btn-lg hvr-underline-from-left" role="button">View Teams</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <!-- Left and right controls -->
+  <a class="carousel-control-prev" href="#demo" data-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </a>
+  <a class="carousel-control-next" href="#demo" data-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </a>
+</div>
 {% endblock %}
+
