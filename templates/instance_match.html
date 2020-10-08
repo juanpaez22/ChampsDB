@@ -1,15 +1,41 @@
 {% extends 'instance.html' %}
 
 {% block instance %}
-<!-- This is just an example of how to use the match data -->
-<p> This is a match </p>
-<p> id: {{ match._id }} </p>
-<p> date: {{ match.date }} </p>
-<p> stadium: {{ match.stadium }} </p>
-<p> home_team_name: {{ match.home_team_name }} </p>
-<p> home_team_id: {{ match.home_team_id }} </p>
-<p> away_team_name: {{ match.away_team_name }} </p>
-<p> away_team_id: {{ match.away_team_id }} </p>
-<p> score: {{ match.score }} </p>
-<p> This is the end of a match </p>
+<div class="container p-auto mx-auto my-3">
+  <div class="row align-items-center">
+    <img src={{ match.media_link }} alt="stadium_img" class="img-thumbnail mx-auto d-block"></br>
+  </div>
+  <div class="row justify-content-center mt-2 mg-auto mx-auto p-auto">
+    <div class="col">
+      <p>Date: </p>
+    </div>
+    <div class="col">
+      <p>{{ match.date }}</p>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-2 mg-auto mx-auto p-auto">
+    <div class="col">
+      <h1>Home team:<br>{{ match.home_team_name }}</h1>
+    </div>
+    <div class="col">
+      <h1>Away team:<br>{{ match.away_team_name }}</h1>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-2 mg-auto mx-auto p-auto">
+    <div class="col-sm">
+      <h3>Score:</h3>
+    </div>
+    <div class="col">
+      <h3>{{ match.score }}</h3>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-2 mg-auto mx-auto p-auto">
+    <div class="col-sm">
+      <h3>Stadium:</h3>
+    </div>
+    <div class="col">
+      <h3>{{ match.stadium }}</h3>
+    </div>
+  </div>
+</div>
 {% endblock %}

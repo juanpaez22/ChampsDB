@@ -6,19 +6,20 @@
 
 
 {% block instance %}
-<img src={{ player.media_link }} alt="player_img" class="img-thumbnail"></br>
-<h1 style="padding-top: 15px;">{{ player.name }}</h1>
-<h3>{{ player.position }}, {{ player.nationality }}</h3>
+<div class="content">
+  <img src={{ player.media_link }} alt="player_img" class="img-thumbnail"></br>
+  <h1 style="padding-top: 15px;">{{ player.name }}</h1>
+  <h3>{{ player.position }}, {{ player.nationality }}</h3>
 
-<div style="padding-top: 20px;">
+  <div style="padding-top: 20px;">
     <h3>Basic Information:</h3>
     <p> Team: {{ player.team_name }} </p>
     <p> Date of Birth: {{ player.dob }} </p>
     <p> Height: {{ player.height }} </p>
     <p> Weight: {{ player.weight }} </p>
-</div>
+  </div>
 
-<div style="padding-top: 20px;">
+  <div style="padding-top: 20px;">
     <h2>Ratings:</h2>
     <p>Overall Rating: {{player.rating_overall}} / 100</p>
     <p>Pace Rating: {{player.rating_overall}} / 100</p>
@@ -27,14 +28,15 @@
     <p>Defending Rating: {{player.rating_defending}} / 100</p>
     <p>Dribbling Rating: {{player.rating_dribbling}} / 100</p>
     <p>Physical Rating: {{player.rating_physicality}} / 100</p>
-</div>
+  </div>
 
-<div style="padding-top: 20px;">
+  <div style="padding-top: 20px;">
     <h2>What People are Saying:</h2>
     <ul>
-    {% for item in player.tweets %}
-        {{item.html | safe}}
-    {% endfor %}
+      {% for item in player.tweets %}
+      {{item.html | safe}}
+      {% endfor %}
     </ul>
+  </div>
 </div>
 {% endblock %}
