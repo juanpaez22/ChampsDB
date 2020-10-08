@@ -1,13 +1,25 @@
 {% extends 'instance.html' %}
 
 {% block instance %}
-<!-- This is just an example of how to use the teams information -->
-<p> This is a team </p>
-<p> _id: {{ team._id }} </p>
-<p> name: {{ team.name }} </p>
-<p> country: {{ team.country }} </p>
-<p> city: {{ team.city }} </p>
-<p> stadium: {{ team.stadium }} </p>
-<p> media_link: <img src={{ team.media_link }} alt={{ team.name }} crest></p>
-<p> This is the end of a team </p>
+<div class="container p-auto mx-auto my-3">
+  <div class="row align-items-center">
+    <img src={{ team.media_link }} alt="team_img" class="img-thumbnail mx-auto d-block"></br>
+  </div>
+  <div class="row justify-content-center mt-2 mg-auto mx-auto p-auto">
+    <div class="col">
+      <h1>{{ team.name }}</h1>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-2 mg-auto mx-auto p-auto">
+    <div class="col">
+      <p>Country: {{ team.country }}</p>
+    </div>
+    <div class="col">
+      <p>City: {{ team.city }}</p>
+    </div>
+    <div class="col">
+      <p>Stadium: {{ team.stadium }}</p>
+    </div>
+  </div>
+</div>
 {% endblock %}
