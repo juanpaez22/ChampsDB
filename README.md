@@ -28,6 +28,9 @@ Link instance pages to at least 2 other instances | 5,7 | 2 | 4
 ### Conor
 Task | Linked Stories | Estimated Completion Time (Hrs) | Actual Completion Time (Hrs)
 --- | --- | --- | ---
+Create home page with navbar in base template | 1, 3 | 3 | 4 |
+Help implement about page | 2 | 2 | 3 |
+Help format model pages for players, teams, and matches | 6 | 3 | 4 |
 
 ### Ben
 Task | Linked Stories | Estimated Completion Time (Hrs) | Actual Completion Time (Hrs)
@@ -39,6 +42,9 @@ Create the instance templates for teams and matches | 5, 6 | 3, 3
 ### Pearse
 Task | Linked Stories | Estimated Completion Time (Hrs) | Actual Completion Time (Hrs)
 --- | --- | --- | ---
+Create model pages for players, teams, and matches | 1, 6 | 3 | 4 |
+Help with home page formatting | 3 | 2 | 3 |
+Help implement about page | 2 | 2 | 3 |
 
 ## Phase II Completion Time
 
