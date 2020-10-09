@@ -1,15 +1,55 @@
 {% extends 'model.html' %}
 
 {% block model %}
+
+<div class ="container1">
+  <h1 style="width: 100%; height: 250px; background-image: url('https://www.gamblingsites.com/wp-content/uploads/2020/10/7-Most-Likely-Winners-2020-21-UEFA-Champions-League.jpg'); background-size: 100% 100%;"></h1>
+  </div>
+    <div class="container">
+    <h1 style="color: white; font-size: 40pt; padding-top: 3%;">Teams</h1>
+    <!-- <p class="lead">
+      <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+    </p> -->
+    </div>
   <!-- This is just an example of how to use the teams information -->
-  {% for team in teams %}
-    <p> This is a team </p>
-    <p> _id: {{ team._id }} </p>
-    <p> name: {{ team.name }} </p>
-    <p> country: {{ team.country }} </p>
-    <p> city: {{ team.city }} </p>
-    <p> stadium: {{ team.stadium }} </p>
-    <p> media_link: <img src={{ team.media_link }} alt={{ team.name }} crest></p>
-    <p> This is the end of a team </p>
-  {% endfor %}
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 10px !important;">
+        <div class="box" style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
+          <p> <img src={{ teams[0].media_link }} alt={{ teams[0].name }} crest></p>
+          <p> <a href="/instance/team/173">{{ teams[0].name }}</a> </p>
+          <p> Country: {{ teams[0].country }} </p>
+          <p> City: {{ teams[0].city }} </p>
+          <p> Stadium: {{ teams[0].stadium }} </p>
+        </div>
+      </div>
+      <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 10px !important;">
+        <div class="box" style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
+          <p> <img src={{ teams[1].media_link }} alt={{ teams[1].name }} crest></p>
+          <p> <a href="/instance/team/80">{{ teams[1].name }}</a> </p>
+          <p> Country: {{ teams[1].country }} </p>
+          <p> City: {{ teams[1].city }} </p>
+          <p> Stadium: {{ teams[1].stadium }} </p>
+        </div>
+      </div>
+      <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 10px !important;">
+        <div class="box" style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
+          <p> <img src={{ teams[2].media_link }} alt={{ teams[2].name }} crest></p>
+          <p> <a href="/instance/team/85">{{ teams[2].name }}</a> </p>
+          <p> Country: {{ teams[2].country }} </p>
+          <p> City: {{ teams[2].city }} </p>
+          <p> Stadium: {{ teams[2].stadium }} </p>
+        </div>
+      </div>
+      <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 10px !important;">
+        <div class="box" style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
+          <p> <img src={{ teams[3].media_link }} alt={{ teams[3].name }} crest></p>
+          <p> <a href="/instance/team/157">{{ teams[3].name }}</a> </p>
+          <p> Country: {{ teams[3].country }} </p>
+          <p> City: {{ teams[3].city }} </p>
+          <p> Stadium: {{ teams[3].stadium }} </p>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
