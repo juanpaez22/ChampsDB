@@ -8,8 +8,8 @@ Team Member | UT EID | GitHub
 --- | --- | ---
 Juan Paez | jfp778 | juanpaez22
 Ben Buhse | bwb887 | bwbuhse
-Conor Flood | |
-Pearse Flood | |
+Conor Flood | cf26784 | cnflood
+Pearse Flood | pkf256 | pkflood
 
 
 ## Deployed Web Application
