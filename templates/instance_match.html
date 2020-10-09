@@ -15,10 +15,10 @@
   </div>
   <div class="row justify-content-center mt-2 mg-auto mx-auto p-auto">
     <div class="col">
-      <h1>Home team:<br>{{ match.home_team_name }}</h1>
+      <h1>Home team:<br><a href="/instance/team/{{match.home_team_id}}"">{{ match.home_team_name }}</a></h1>
     </div>
     <div class="col">
-      <h1>Away team:<br>{{ match.away_team_name }}</h1>
+      <h1>Away team:<br><a href="/instance/team/{{match.away_team_id}}"">{{ match.away_team_name }}</a></h1>
     </div>
   </div>
   <div class="row justify-content-center mt-2 mg-auto mx-auto p-auto">
@@ -36,6 +36,17 @@
     <div class="col">
       <h3>{{ match.stadium }}</h3>
     </div>
+  </div>
+  <div style="padding-top: 20px;" class="row justify-content-start mt-2 mg-auto mx-auto p-auto">
+    <h3>Featured Players</h3>
+  </div>
+  <div class="row justify-content-start mt-2 mg-auto mx-auto p-auto">
+    {% for player in players %}
+    <div class="col">
+      <p><a href="/instance/player/{{player._id}}">{{player.name}}</a></p>
+      <p style="padding-bottom:10px">{{player.position}}, {{player.nationality}}</p>
+    </div>
+    {% endfor %}
   </div>
 </div>
 {% endblock %}

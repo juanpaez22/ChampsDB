@@ -3,6 +3,7 @@ import config
 from flask import Flask, redirect, render_template, request, url_for
 from flask_mongoengine import MongoEngine
 from pymongo import MongoClient
+from mongoengine.queryset.visitor import Q
 
 app = Flask(__name__)
 app.config['MONGODB_SETTINGS'] = {
@@ -111,8 +112,9 @@ def instance(model=None, id=0):
             return render_template('404.html')
 
         player = player[0]
+        player_matches = Matches.objects(Q(home_team_id=player.team_id) | Q(away_team_id=player.team_id))
 
-        return render_template('instance_player.html', model=model, id=id, player=player)
+        return render_template('instance_player.html', model=model, id=id, player=player, matches=player_matches)
     elif model == 'team':
         team = Teams.objects(_id=id)
 
@@ -120,7 +122,10 @@ def instance(model=None, id=0):
             return render_template('404.html')
 
         team = team[0]
-        return render_template('instance_team.html', model=model, id=id, team=team)
+        team_players = Players.objects(team_id=team._id)
+        team_matches = Matches.objects(Q(home_team_id=team._id) | Q(away_team_id=team._id))
+
+        return render_template('instance_team.html', model=model, id=id, team=team, matches=team_matches, players=team_players)
     elif model == 'match':
         match = Matches.objects(_id=id)
 
@@ -128,7 +133,9 @@ def instance(model=None, id=0):
             return render_template('404.html')
 
         match = match[0]
-        return render_template('instance_match.html', model=model, id=id, match=match)
+        teams = Teams.objects(Q(_id=match.home_team_id) | Q(_id=match.away_team_id))
+        players = Players.objects(Q(team_id=match.home_team_id) | Q(team_id=match.away_team_id))
+        return render_template('instance_match.html', model=model, id=id, match=match, teams=teams, players=players)
 
     return render_template('404.html')
 
