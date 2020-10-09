@@ -32,6 +32,9 @@ Task | Linked Stories | Estimated Completion Time (Hrs) | Actual Completion Time
 ### Ben
 Task | Linked Stories | Estimated Completion Time (Hrs) | Actual Completion Time (Hrs)
 --- | --- | --- | ---
+Create the initial routing for the site and connect to the database | 1 | 6 | 4
+Create the instance templates for teams and matches | 5, 6 | 3, 3
+
 
 ### Pearse
 Task | Linked Stories | Estimated Completion Time (Hrs) | Actual Completion Time (Hrs)
