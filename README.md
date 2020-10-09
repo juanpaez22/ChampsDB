@@ -22,7 +22,7 @@ Task | Linked Stories | Estimated Completion Time (Hrs) | Actual Completion Time
 --- | --- | --- | ---
 Initialize MongoDB database with information about 10 instances from 3 API's | 4,5,6,7,8,9 | 6 | 8
 Design instance page for players | 9 | 3 | 2
-Link instance pages to at least 2 other instances | 5,7 | 2 | ?
+Link instance pages to at least 2 other instances | 5,7 | 2 | 4
 
 
 ### Conor
