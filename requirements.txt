@@ -5,6 +5,7 @@ dnspython==2.0.0
 Flask==1.1.2
 flask-mongoengine==0.9.5
 Flask-WTF==0.14.3
+gunicorn==20.0.4
 idna==2.10
 itsdangerous==1.1.0
 Jinja2==2.11.2
