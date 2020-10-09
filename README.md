@@ -13,7 +13,7 @@ Pearse Flood | pkf256 | pkflood
 
 
 ## Deployed Web Application
-TODO: Insert link
+TODO: champsdb.herokuapp.com
 
 
 ## Phase I Completion Time
@@ -36,7 +36,7 @@ Help format model pages for players, teams, and matches | 6 | 3 | 4 |
 Task | Linked Stories | Estimated Completion Time (Hrs) | Actual Completion Time (Hrs)
 --- | --- | --- | ---
 Create the initial routing for the site and connect to the database | 1 | 6 | 4
-Create the instance templates for teams and matches | 5, 6 | 3, 3
+Create the instance templates for teams and matches | 5, 6 | 3 | 3
 
 
 ### Pearse
