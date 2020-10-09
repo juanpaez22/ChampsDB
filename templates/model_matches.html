@@ -1,17 +1,44 @@
 {% extends 'model.html' %}
 
 {% block model %}
-  <!-- This is just an example of how to use the match data -->
-  {% for match in matches %}
-    <p> This is a match </p>
-    <p> id: {{ match._id }} </p>
-    <p> date: {{ match.date }} </p>
-    <p> stadium: {{ match.stadium }} </p>
-    <p> home_team_name: {{ match.home_team_name }} </p>
-    <p> home_team_id: {{ match.home_team_id }} </p>
-    <p> away_team_name: {{ match.away_team_name }} </p>
-    <p> away_team_id: {{ match.away_team_id }} </p>
-    <p> score: {{ match.score }} </p>
-    <p> This is the end of a match </p>
-  {% endfor %}
+
+<div class ="container1">
+  <h1 style="width: 100%; height: 250px; background-image: url('https://www.nativespanishtapas.com/wp-content/uploads/2016/02/estadio-bernabeu.jpg'); background-size: 100% 100%;"></h1>
+  </div>
+    <div class="container">
+    <h1 style="color: white; font-size: 40pt; padding-top: 3%;">Matches</h1>
+    <!-- <p class="lead">
+      <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+    </p> -->
+    </div>
+  <!-- This is just an example of how to use the teams information -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 10px !important;">
+        <div class="box" style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
+          <p> <img style="width: 320px; height: 160px;" src= "https://sportshub.cbsistatic.com/i/r/2020/08/17/133149bc-2f24-4098-8c70-37a9d9e4593d/thumbnail/1200x675/dedcf160f636b87d30a1ce87e962be85/23-ucl-cbssports-semifinal1-leipzig-paris.jpg"></p>
+          <p> Name: <a href="/instance/match/589000">{{ matches[0].home_team_name }} vs. {{ matches[0].away_team_name }}</a> </p>
+          <p> Date: {{ matches[0].date }} </p>
+          <p> Score: {{ matches[0].score }} </p>
+        </div>
+      </div>
+      <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 10px !important;">
+        <div class="box" style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
+          <p> <img style="width: 320px; height: 160px;" src="https://as01.epimg.net/en/imagenes/2020/08/22/football/1598122071_034894_1598122134_noticia_normal.jpg"></p>
+          <p> Name: <a href="/instance/match/591151">{{ matches[1].home_team_name }} vs. {{ matches[1].away_team_name }}</a> </p>
+          <p> Date: {{ matches[1].date }} </p>
+          <p> Score: {{ matches[1].score }} </p>
+        </div>
+      </div>
+      <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 10px !important;">
+        <div class="box" style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
+          <p> <img style="width: 320px; height: 160px;" src="https://sportshub.cbsistatic.com/i/r/2020/08/17/7fa90228-685a-41c1-80dc-973e42a5932e/thumbnail/1200x675/fd7953d3cbb8583b308db31b8cf00198/24-ucl-cbssports-semifinal2-lyon-bayern.jpg"></p>
+          <p> <a href="/instance/match/589197">{{ matches[2].home_team_name }} vs. {{ matches[2].away_team_name }}</a> </p>
+          <p> Date: {{ matches[2].date }} </p>
+          <p> Score: {{ matches[2].score }} </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
 {% endblock %}
