@@ -13,7 +13,7 @@ Pearse Flood | pkf256 | pkflood
 
 
 ## Deployed Web Application
-https://www.champsdb.herokuapp.com
+http://champsdb.herokuapp.com
 
 
 ## Phase I Completion Time
