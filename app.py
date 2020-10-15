@@ -26,21 +26,35 @@ class Players(db.Document):
     _id = db.IntField()
     name = db.StringField()
     position = db.StringField()
-    dob = db.DateTimeField()
-    nationality = db.StringField()
-    height = db.StringField()
-    weight = db.StringField()
     team_id = db.IntField()
     team_name = db.StringField()
     media_link = db.URLField()
+    media_link_2 = db.URLField()
+    number = db.IntField()
+    captain = db.BooleanField()
+
+    # Twitter API
     tweets = db.ListField(db.EmbeddedDocumentField(Tweet))
+
+    # FutDB fields
+    rating_overall = db.IntField()  # -1 if scraping failed
     rating_defending = db.IntField()
     rating_dribbling = db.IntField()
-    rating_overall = db.IntField()
     rating_pace = db.IntField()
     rating_passing = db.IntField()
     rating_physicality = db.IntField()
     rating_shooting = db.IntField()
+
+    # Summary from match events
+    goals = db.IntField()
+    assists = db.IntField()
+    passes = db.IntField()
+    shots = db.IntField()
+    shots_on_target = db.IntField()
+    avg_minutes_played = db.DecimalField()
+    avg_rating = db.DecimalField()
+    avg_pass_accuracy = db.DecimalField()
+    
 
 
 class Teams(db.Document):
@@ -50,6 +64,14 @@ class Teams(db.Document):
     city = db.StringField()
     stadium = db.StringField()
     media_link = db.URLField()
+    media_link_2 = db.URLField()
+    founded = db.IntField()
+    stadium_surface = db.StringField()
+    stadium_address = db.StringField()
+    stadium_capacity = db.IntField()
+
+    # Twitter API
+    tweets = db.ListField(db.EmbeddedDocumentField(Tweet))
 
 
 class Matches(db.Document):
@@ -62,6 +84,11 @@ class Matches(db.Document):
     away_team_id = db.IntField()
     score = db.StringField()
     media_link = db.URLField()
+    media_link_2 = db.URLField()
+    round = db.StringField()
+    referee = db.StringField()
+    goals_home_team = db.IntField()
+    goals_away_team = db.IntField()
 
 
 @app.route('/')
