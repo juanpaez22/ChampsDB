@@ -9,6 +9,8 @@ Initialize Full Database (phase 2-4):
 2. scrape_teams.py: scrapes teams from API-Football and Twitter
 3. scrape_player_events.py: scrapes player events (goals, cards, substitutes) from API-Football
 4. coalesce_players.py: coalesces player events into players and brings in data from FutDB
+5. migrate_to_prod.py: copy data from dev database to prod database
+6. add_fut_data.py: incrementally adds 50 FUT API ratings to the players model.
 
 Notes:
 1. Some matches pre-group stage did not have info available about players/scorers.
