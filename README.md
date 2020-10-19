@@ -47,6 +47,11 @@ Help with home page formatting | 3 | 2 | 3 |
 Help implement about page | 2 | 2 | 3 |
 
 ## Phase II Completion Time
+Note: new format used after feedback from Phase 1
+
+User Story | Assigned Member(s) | Estimated Completion Time (Hrs) | Actual Completion Time (Hrs)
+#1 | Juan | 6 | 12
+#2 | | | 
 
 
 ## Phase III Completion Time
