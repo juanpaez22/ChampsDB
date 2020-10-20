@@ -53,6 +53,7 @@ User Story | Assigned Member(s) | Estimated Completion Time (Hrs) | Actual Compl
 --- | --- | --- | ---
 #1 | Juan | 6 | 12
 #2 | Juan, Ben | 6 | 
+#3 | Ben, Conor | 12 |
 
 
 ## Phase III Completion Time
