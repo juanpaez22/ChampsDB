@@ -54,7 +54,6 @@ class Players(db.Document):
     avg_minutes_played = db.DecimalField()
     avg_rating = db.DecimalField()
     avg_pass_accuracy = db.DecimalField()
-    
 
 
 class Teams(db.Document):
@@ -139,7 +138,8 @@ def instance(model=None, id=0):
             return render_template('404.html')
 
         player = player[0]
-        player_matches = Matches.objects(Q(home_team_id=player.team_id) | Q(away_team_id=player.team_id))
+        player_matches = Matches.objects(
+            Q(home_team_id=player.team_id) | Q(away_team_id=player.team_id))
 
         return render_template('instance_player.html', model=model, id=id, player=player, matches=player_matches)
     elif model == 'team':
@@ -150,7 +150,8 @@ def instance(model=None, id=0):
 
         team = team[0]
         team_players = Players.objects(team_id=team._id)
-        team_matches = Matches.objects(Q(home_team_id=team._id) | Q(away_team_id=team._id))
+        team_matches = Matches.objects(
+            Q(home_team_id=team._id) | Q(away_team_id=team._id))
 
         return render_template('instance_team.html', model=model, id=id, team=team, matches=team_matches, players=team_players)
     elif model == 'match':
@@ -160,8 +161,10 @@ def instance(model=None, id=0):
             return render_template('404.html')
 
         match = match[0]
-        teams = Teams.objects(Q(_id=match.home_team_id) | Q(_id=match.away_team_id))
-        players = Players.objects(Q(team_id=match.home_team_id) | Q(team_id=match.away_team_id))
+        teams = Teams.objects(Q(_id=match.home_team_id) |
+                              Q(_id=match.away_team_id))
+        players = Players.objects(
+            Q(team_id=match.home_team_id) | Q(team_id=match.away_team_id))
         return render_template('instance_match.html', model=model, id=id, match=match, teams=teams, players=players)
 
     return render_template('404.html')
