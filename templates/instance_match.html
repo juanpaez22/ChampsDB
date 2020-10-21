@@ -27,9 +27,9 @@
   </div>
 
   <!-- Date, round, score, stadium, and ref -->
-  <!-- We love ISO 8601 -->
   <div class="row justify-content-center mt-2 mg-auto mx-auto p-auto">
     <div class="col-sm text-center">
+      <!-- We love ISO 8601 -->
       <h5>Date: {{ match.date[0:10] }}</h5>
     </div>
     <div class="col-sm text-center">
@@ -53,7 +53,7 @@
   </div>
   <div style="padding-top: 20px;"
     class="row justify-content-start mt-2 mg-auto mx-auto p-auto text-center table-responsive">
-    <table class="table table-striped">
+    <table id="stats" class="table table-striped">
       <caption>List of featured players and their stats for the match</caption>
       <thead>
         <th scope="col">Name</th>
