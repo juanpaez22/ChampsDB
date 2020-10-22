@@ -19,10 +19,11 @@
   <!-- Team names -->
   <div class="row justify-content-center mt-2 mg-auto mx-auto p-auto">
     <div class="col">
-      <h1>Home team:<br><a href="/instance/team/{{match.home_team_id}}">{{ match.home_team_name }}</a></h1>
+      <h1>Home team:<br><a href="/instance/team/{{match.home_team_id}}" class="text-link">{{ match.home_team_name }}</a>
+      </h1>
     </div>
     <div class="col text-right">
-      <h1>Away team:<br><a href="/instance/team/{{match.away_team_id}}">{{ match.away_team_name }}</a></h1>
+      <h1>Away team:<br><a href="/instance/team/{{match.away_team_id}}" class="text-link">{{ match.away_team_name }}</a></h1>
     </div>
   </div>
 
@@ -73,7 +74,7 @@
         {% for event in events %}
         <tr>
           <th scope="row" class="align-middle">
-            <a href="/instance/player/{{ event.player_id }}">{{ event.player_name }}</a>
+            <a href="/instance/player/{{ event.player_id }}" class="text-link">{{ event.player_name }}</a>
           </th>
           <td class="align-middle"> {{ event.team_name }} </td>
           <td class="align-middle"> {{ event.position }} </td>
