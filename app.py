@@ -170,8 +170,9 @@ def instance(model=None, id=0):
         player = player[0]
         player_matches = Matches.objects(
             Q(home_team_id=player.team_id) | Q(away_team_id=player.team_id))
+        player_events = Events.objects(Q(player_id=id))
 
-        return render_template('instance_player.html', model=model, id=id, player=player, matches=player_matches)
+        return render_template('instance_player.html', model=model, id=id, player=player, matches=player_matches, player_events=player_events)
     elif model == 'team':
         team = Teams.objects(_id=id)
 
@@ -195,7 +196,7 @@ def instance(model=None, id=0):
                               Q(_id=match.away_team_id))
         players = Players.objects(
             Q(team_id=match.home_team_id) | Q(team_id=match.away_team_id))
-        events = Events.objects(Q(match_id = id))
+        events = Events.objects(Q(match_id=id))
 
         return render_template('instance_match.html', model=model, id=id, match=match, teams=teams, players=players, events=events)
 
