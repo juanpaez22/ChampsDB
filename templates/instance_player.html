@@ -78,28 +78,30 @@
         <tr>
           {# Get the specific match for the event so we can know who it was against#}
           {% set match = matches|selectattr("_id", "equalto", event.match_id) |list%}
-          {% set match = match[0] %}
-          <th scope="row" class="align-middle">
-            {% if player.team_id == match.home_team_id %}
-            {# Player was on the home team #}
-            vs. <a href="/instance/team/{{ match.away_team_id }}"
-              class="text-link align-middle">{{ match.away_team_name }}</a>
-            {% else %}
-            {# Player was on the away team #}
-            @ <a href="/instance/team/{{ match.home_team_id }}" class="text-link">{{ match.home_team_name }}</a>
-            {% endif %}
-          </th>
-          <td class="align-middle">
-            <a href="/instance/match/{{ match._id }}" class="text-link">Link</a>
-          </td>
-          <td class="align-middle"> {{ match.date[:10] }} </td>
-          <td class="align-middle"> {{ event.minutes_played }} </td>
-          <td class="align-middle"> {{ event.shots }} </td>
-          <td class="align-middle"> {{ event.shots_on_target }} </td>
-          <td class="align-middle"> {{ event.goals }} </td>
-          <td class="align-middle"> {{ event.assists }} </td>
-          <td class="align-middle"> {{ event.passes }} </td>
-          <td class="align-middle"> {{ event.pass_accuracy }}% </td>
+          {% if match | length > 0 %}
+            {% set match = match[0] %}
+            <th scope="row" class="align-middle">
+              {% if player.team_id == match.home_team_id %}
+              {# Player was on the home team #}
+              vs. <a href="/instance/team/{{ match.away_team_id }}"
+                class="text-link align-middle">{{ match.away_team_name }}</a>
+              {% else %}
+              {# Player was on the away team #}
+              @ <a href="/instance/team/{{ match.home_team_id }}" class="text-link">{{ match.home_team_name }}</a>
+              {% endif %}
+            </th>
+            <td class="align-middle">
+              <a href="/instance/match/{{ match._id }}" class="text-link">Link</a>
+            </td>
+            <td class="align-middle"> {{ match.date[:10] }} </td>
+            <td class="align-middle"> {{ event.minutes_played }} </td>
+            <td class="align-middle"> {{ event.shots }} </td>
+            <td class="align-middle"> {{ event.shots_on_target }} </td>
+            <td class="align-middle"> {{ event.goals }} </td>
+            <td class="align-middle"> {{ event.assists }} </td>
+            <td class="align-middle"> {{ event.passes }} </td>
+            <td class="align-middle"> {{ event.pass_accuracy }}% </td>
+          {% endif %}
         </tr>
         {% endfor %}
       </tbody>
