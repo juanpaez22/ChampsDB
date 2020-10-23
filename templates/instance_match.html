@@ -2,51 +2,96 @@
 
 {% block instance %}
 <div class="container p-auto mx-auto my-3">
+
+  <!-- Logos -->
   <div class="row align-items-center">
-    <img src={{ match.media_link }} alt="stadium_img" class="img-thumbnail mx-auto d-block"></br>
+    <div class="col">
+      <img src={{ match.media_link }} alt="home_team_img" class="img-thumbnail mx-auto d-block"></br>
+    </div>
+    <div class="col-sm text-center">
+      <h4>versus</h4>
+    </div>
+    <div class="col">
+      <img src={{ match.media_link_2 }} alt="away_team_img" class="img-thumbnail mx-auto d-block"></br>
+    </div>
   </div>
+
+  <!-- Team names -->
   <div class="row justify-content-center mt-2 mg-auto mx-auto p-auto">
     <div class="col">
-      <p>Date: </p>
+      <h1>Home team:<br><a href="/instance/team/{{match.home_team_id}}" class="text-link">{{ match.home_team_name }}</a>
+      </h1>
     </div>
-    <div class="col">
-      <p>{{ match.date }}</p>
+    <div class="col text-right">
+      <h1>Away team:<br><a href="/instance/team/{{match.away_team_id}}" class="text-link">{{ match.away_team_name }}</a></h1>
     </div>
   </div>
+
+  <!-- Date, round, score, stadium, and ref -->
   <div class="row justify-content-center mt-2 mg-auto mx-auto p-auto">
-    <div class="col">
-      <h1>Home team:<br><a href="/instance/team/{{match.home_team_id}}"">{{ match.home_team_name }}</a></h1>
+    <div class="col-sm text-center">
+      <!-- We love ISO 8601 -->
+      <h5>Date: {{ match.date[0:10] }}</h5>
     </div>
-    <div class="col">
-      <h1>Away team:<br><a href="/instance/team/{{match.away_team_id}}"">{{ match.away_team_name }}</a></h1>
+    <div class="col-sm text-center">
+      <h5>Round: {{ match.round }}</h5>
     </div>
-  </div>
-  <div class="row justify-content-center mt-2 mg-auto mx-auto p-auto">
-    <div class="col-sm">
-      <h3>Score:</h3>
+    <div class="col-sm text-center">
+      <h5>Score: {{ match.score }}</h5>
     </div>
-    <div class="col">
-      <h3>{{ match.score }}</h3>
+    <div class="col-sm text-center">
+      <h5>Stadium:</h5>
+      <h5>{{ match.stadium }}</h5>
     </div>
-  </div>
-  <div class="row justify-content-center mt-2 mg-auto mx-auto p-auto">
-    <div class="col-sm">
-      <h3>Stadium:</h3>
-    </div>
-    <div class="col">
-      <h3>{{ match.stadium }}</h3>
+    <div class="col-sm text-center">
+      <h5>Referee: {{ match.referee }}</h5>
     </div>
   </div>
-  <div style="padding-top: 20px;" class="row justify-content-start mt-2 mg-auto mx-auto p-auto">
-    <h3>Featured Players</h3>
+
+  <!-- Featured players -->
+  <div style="padding-top: 20px;" class="row justify-content-start mt-2 mg-auto mx-auto p-auto text-center">
+    <h3>Featured Player Match Stats</h3>
   </div>
-  <div class="row justify-content-start mt-2 mg-auto mx-auto p-auto">
-    {% for player in players %}
-    <div class="col">
-      <p><a href="/instance/player/{{player._id}}">{{player.name}}</a></p>
-      <p style="padding-bottom:10px">{{player.position}}, {{player.nationality}}</p>
-    </div>
-    {% endfor %}
+  <div style="padding-top: 20px;"
+    class="row justify-content-start mt-2 mg-auto mx-auto p-auto text-center table-responsive">
+    <table id="stats" class="table table-striped">
+      <caption class="text-info">List of featured players and their stats for the match</caption>
+      <thead>
+        <th scope="col">Name</th>
+        <th scope="col">Team</th>
+        <th scope="col">Position</th>
+        <th scope="col">Number</th>
+        <th scope="col">Minutes</th>
+        <th scope="col">Offsides</th>
+        <th scope="col">Shots</th>
+        <th scope="col">Shots on target</th>
+        <th scope="col">Goals</th>
+        <th scope="col">Assists</th>
+        <th scope="col">Passes</th>
+        <th scope="col">Pass accuracy</th>
+      </thead>
+      <tbody>
+        {% for event in events %}
+        <tr>
+          <th scope="row" class="align-middle">
+            <a href="/instance/player/{{ event.player_id }}" class="text-link">{{ event.player_name }}</a>
+          </th>
+          <td class="align-middle"> {{ event.team_name }} </td>
+          <td class="align-middle"> {{ event.position }} </td>
+          <td class="align-middle"> {{ event.number }} </td>
+          <td class="align-middle"> {{ event.minutes_played }} </td>
+          <td class="align-middle"> {{ event.offsides }} </td>
+          <td class="align-middle"> {{ event.shots }} </td>
+          <td class="align-middle"> {{ event.shots_on_target }} </td>
+          <td class="align-middle"> {{ event.goals }} </td>
+          <td class="align-middle"> {{ event.assists }} </td>
+          <td class="align-middle"> {{ event.passes }} </td>
+          <td class="align-middle"> {{ event.pass_accuracy }}% </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
+
 </div>
 {% endblock %}

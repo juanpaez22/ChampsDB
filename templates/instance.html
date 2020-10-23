@@ -2,6 +2,13 @@
 
 {% block head %}
 <title>{{model.title()}} - ChampionsDB</title>
+
+<!-- Add in DataTables so that the statistics are sortable -->
+<link rel="stylesheet" type="text/css"
+  href="https://cdn.datatables.net/v/bs4/dt-1.10.22/fc-3.3.1/r-2.2.6/datatables.min.css" />
+<script type="text/javascript"
+  src="https://cdn.datatables.net/v/bs4/dt-1.10.22/fc-3.3.1/r-2.2.6/datatables.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/instance_match.js') }}"></script>
 {% endblock %}
 
 {% block body %}
