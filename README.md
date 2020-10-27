@@ -52,7 +52,7 @@ Note: new format used after feedback from Phase 1
 User Story | Assigned Member(s) | Estimated Completion Time (Hrs) | Actual Completion Time (Hrs)
 --- | --- | --- | ---
 #1 | Juan | 6 | 12
-#2 | Juan, Ben | 6 | 
+#2 | Juan, Ben | 6 | 8
 #3 | Ben, Conor | 12 |
 
 

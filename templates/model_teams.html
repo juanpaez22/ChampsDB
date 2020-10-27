@@ -14,42 +14,20 @@
   <!-- This is just an example of how to use the teams information -->
   <div class="container">
     <div class="row">
+      {% for team in teams %}
       <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 10px !important;">
         <div class="box" style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
-          <p> <img src={{ teams[0].media_link }} alt={{ teams[0].name }} crest></p>
-          <p> <a href="/instance/team/173">{{ teams[0].name }}</a> </p>
-          <p> Country: {{ teams[0].country }} </p>
-          <p> City: {{ teams[0].city }} </p>
-          <p> Stadium: {{ teams[0].stadium }} </p>
+          <p> <img src={{ team.media_link }} alt={{ team.name }} crest></p>
+          <p> <a href="/instance/team/{{ team._id }}">{{ team.name }}</a> </p>
+          <p> Country: {{ team.country }} </p>
+          <p> City: {{ team.city }} </p>
+          <p> Stadium: {{ team.stadium }} </p>
         </div>
       </div>
-      <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 10px !important;">
-        <div class="box" style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
-          <p> <img src={{ teams[1].media_link }} alt={{ teams[1].name }} crest></p>
-          <p> <a href="/instance/team/80">{{ teams[1].name }}</a> </p>
-          <p> Country: {{ teams[1].country }} </p>
-          <p> City: {{ teams[1].city }} </p>
-          <p> Stadium: {{ teams[1].stadium }} </p>
-        </div>
-      </div>
-      <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 10px !important;">
-        <div class="box" style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
-          <p> <img src={{ teams[2].media_link }} alt={{ teams[2].name }} crest></p>
-          <p> <a href="/instance/team/85">{{ teams[2].name }}</a> </p>
-          <p> Country: {{ teams[2].country }} </p>
-          <p> City: {{ teams[2].city }} </p>
-          <p> Stadium: {{ teams[2].stadium }} </p>
-        </div>
-      </div>
-      <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 10px !important;">
-        <div class="box" style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
-          <p> <img src={{ teams[3].media_link }} alt={{ teams[3].name }} crest></p>
-          <p> <a href="/instance/team/157">{{ teams[3].name }}</a> </p>
-          <p> Country: {{ teams[3].country }} </p>
-          <p> City: {{ teams[3].city }} </p>
-          <p> Stadium: {{ teams[3].stadium }} </p>
-        </div>
-      </div>
+      {% endfor %}
+    </div>
+    <div class="containter" style="margin-top: 30px; margin-bottom: 50px; align-items: center; align-content: center; width: 40%; margin-left: 475px;">
+      {{ pagination.links }}
     </div>
   </div>
 {% endblock %}
