@@ -111,9 +111,9 @@
   <div style="padding-top: 20px;">
     <h2>What People are Saying:</h2>
     {% if player.tweets | length > 0 %}
-    <ul class="bg-light">
+    <ul>
       {% for item in player.tweets %}
-      <li> {{item.html | safe}} </li>
+      {{item.html | safe}}
       {% endfor %}
     </ul>
     {% else %}

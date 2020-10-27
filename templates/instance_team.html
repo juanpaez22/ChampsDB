@@ -65,11 +65,15 @@
 
     <div style="padding-top: 20px;">
       <h2 style="color: white; margin-bottom: 30px;">What People are Saying</h2>
+      {% if team.tweets | length > 0 %}
       <ul>
         {% for item in team.tweets %}
         {{item.html | safe}}
         {% endfor %}
       </ul>
+      {% else %}
+      <p> No one is tweeting about this team :( </p>
+      {% endif %}
     </div>
 </div>
 

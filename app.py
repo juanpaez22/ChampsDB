@@ -160,7 +160,7 @@ def model(model=None):
     if model == 'player':
         players = Players.objects()
 
-        page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page')
+        page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page', per_page=12)
         total = len(players)
         pagination_players = get_players(offset=offset, per_page=12)
         pagination = Pagination(page=page, per_page=per_page, total=total, css_framework='bootstrap4')
@@ -171,7 +171,7 @@ def model(model=None):
     elif model == 'team':
         teams = Teams.objects()
 
-        page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page')
+        page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page', per_page=12)
         total = len(teams)
         pagination_teams = get_teams(offset=offset, per_page=12)
         pagination = Pagination(page=page, per_page=per_page, total=total, css_framework='bootstrap4')
@@ -181,7 +181,7 @@ def model(model=None):
     elif model == 'match':
         matches = Matches.objects()
 
-        page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page')
+        page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page', per_page=12)
         total = len(matches)
         pagination_matches = get_matches(offset=offset, per_page=12)
         pagination = Pagination(page=page, per_page=per_page, total=total, css_framework='bootstrap4')
