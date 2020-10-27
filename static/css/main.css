@@ -5,5 +5,9 @@ body, html {
 
 .content {
     margin: 0 auto;
-    width: 400px;
+    width: 50%;
+}
+
+.text-link {
+    color: #0B0080 !important;
 }

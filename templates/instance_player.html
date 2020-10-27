@@ -6,48 +6,119 @@
 
 
 {% block instance %}
-<div class="content">
-  <img src={{ player.media_link }} alt="player_img" class="img-thumbnail"></br>
-  <h1 style="padding-top: 15px;">{{ player.name }}</h1>
-  <h3>{{ player.position }}, {{ player.nationality }}</h3>
-
-  <div style="padding-top: 20px;">
-    <h3>Basic Information:</h3>
-    <p> Date of Birth: {{ player.dob }} </p>
-    <p> Height: {{ player.height }} </p>
-    <p> Weight: {{ player.weight }} </p>
-    <p> Team: <a href="/instance/team/{{player.team_id}}">{{ player.team_name }}</a> </p>
+<div class="container p-auto mx-auto my-3">
+  <div class="row justify-content-center mt-2 mg-auto mx-auto p-auto">
+    <img src={{ player.media_link }} alt="player_img" class="mx-auto img-thumbnail" style="max-height: 700px"></br>
   </div>
+  <div class="row justify-content-center mt-2 mg-auto mx-auto p-auto d-flex flex-wrap align-items-center">
+    <div class="col-sm">
+      <h1 style="padding-top: 15px;">{{ player.name }}</h1>
 
-  <div style="padding-top: 20px;">
-    <h2>Ratings:</h2>
-    <p>Overall Rating: {{player.rating_overall}} / 100</p>
-    <p>Pace Rating: {{player.rating_overall}} / 100</p>
-    <p>Passing Rating: {{player.rating_passing}} / 100</p>
-    <p>Shooting Rating: {{player.rating_shooting}} / 100</p>
-    <p>Defending Rating: {{player.rating_defending}} / 100</p>
-    <p>Dribbling Rating: {{player.rating_dribbling}} / 100</p>
-    <p>Physical Rating: {{player.rating_physicality}} / 100</p>
-  </div>
+      <!-- player info -->
+      <div style="padding-top: 20px;">
+        <p> Team: <a href="/instance/team/{{player.team_id}}" class="text-link">{{ player.team_name }}</a> </p>
+        <p>Position: {{ player.position }}</p>
+        <p>Number: {{ player.number }}</p>
+        {% if player.captain %}
+        <p>Captain?: yes</p>
+        {% else %}
+        <p>Captain?: no</p>
+        {% endif %}
+      </div>
 
-  <div style="padding-top: 20px;">
-    <h2>Recent Matches:</h2>
-    {% for match in matches %}
-    <div style="padding-top=10px;">
-      <p> <a href=/instance/match/{{match._id}}>{{match.home_team_name}} vs. {{match.away_team_name}}</a></p>
-      <p>Date: {{ match.date }}</p>
-      <p>Score: {{match.score}} </p>
+      <!-- ratings -->
+      <div style="padding-top: 20px;">
+        <h2>Ratings:</h2>
+        <p>Overall Rating: {{player.rating_overall}} / 100</p>
+        <p>Pace Rating: {{player.rating_pace}} / 100</p>
+        <p>Passing Rating: {{player.rating_passing}} / 100</p>
+        <p>Shooting Rating: {{player.rating_shooting}} / 100</p>
+        <p>Defending Rating: {{player.rating_defending}} / 100</p>
+        <p>Dribbling Rating: {{player.rating_dribbling}} / 100</p>
+        <p>Physical Rating: {{player.rating_physicality}} / 100</p>
+      </div>
     </div>
-    {% endfor %}
+    <div class="col-lg align-middle">
+      <img src={{ player.media_link_2 }} alt="player_img_2" class="img-thumbnail align-middle">
+    </div>
+  </div>
+
+  <!-- stats -->
+  <div style="padding-top: 20px;"
+    class="row justify-content-start mt-2 mg-auto mx-auto p-auto text-center table-responsive">
+    <h3 class="text-left">Player Stats:</h3>
+    <table id="stats" class="table table-striped">
+      <caption class="text-info">{{player.name}}'s stats</caption>
+      <thead>
+        <th scope="col">Opponent</th>
+        <th scope="col">Match link</th>
+        <th scope="col">Date</th>
+        <th scope="col">Minutes</th>
+        <th scope="col">Shots</th>
+        <th scope="col">Shots on target</th>
+        <th scope="col">Goals</th>
+        <th scope="col">Assists</th>
+        <th scope="col">Passes</th>
+        <th scope="col">Pass accuracy</th>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row" class="align-middle">Total</th>
+          <td class="align-middle"> - </td>
+          <td class="align-middle"> - </td>
+          <td class="align-middle"> Avg. {{ player.avg_minutes_played }} </td>
+          <td class="align-middle"> {{ player.shots }} </td>
+          <td class="align-middle"> {{ player.shots_on_target }} </td>
+          <td class="align-middle"> {{ player.goals }} </td>
+          <td class="align-middle"> {{ player.assists }} </td>
+          <td class="align-middle"> {{ player.passes }} </td>
+          <td class="align-middle"> {{ player.avg_pass_accuracy }}% </td>
+        </tr>
+        {% for event in player_events %}
+        <tr>
+          {# Get the specific match for the event so we can know who it was against#}
+          {% set match = matches|selectattr("_id", "equalto", event.match_id) |list%}
+          {% if match | length > 0 %}
+            {% set match = match[0] %}
+            <th scope="row" class="align-middle">
+              {% if player.team_id == match.home_team_id %}
+              {# Player was on the home team #}
+              vs. <a href="/instance/team/{{ match.away_team_id }}"
+                class="text-link align-middle">{{ match.away_team_name }}</a>
+              {% else %}
+              {# Player was on the away team #}
+              @ <a href="/instance/team/{{ match.home_team_id }}" class="text-link">{{ match.home_team_name }}</a>
+              {% endif %}
+            </th>
+            <td class="align-middle">
+              <a href="/instance/match/{{ match._id }}" class="text-link">Link</a>
+            </td>
+            <td class="align-middle"> {{ match.date[:10] }} </td>
+            <td class="align-middle"> {{ event.minutes_played }} </td>
+            <td class="align-middle"> {{ event.shots }} </td>
+            <td class="align-middle"> {{ event.shots_on_target }} </td>
+            <td class="align-middle"> {{ event.goals }} </td>
+            <td class="align-middle"> {{ event.assists }} </td>
+            <td class="align-middle"> {{ event.passes }} </td>
+            <td class="align-middle"> {{ event.pass_accuracy }}% </td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 
   <div style="padding-top: 20px;">
     <h2>What People are Saying:</h2>
-    <ul>
+    {% if player.tweets | length > 0 %}
+    <ul class="bg-light">
       {% for item in player.tweets %}
-      {{item.html | safe}}
+      <li> {{item.html | safe}} </li>
       {% endfor %}
     </ul>
+    {% else %}
+    <p> No one is tweeting about this player :( </p>
+    {% endif %}
   </div>
 </div>
 {% endblock %}

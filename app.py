@@ -22,6 +22,11 @@ db.init_app(app)
 
 
 class Tweet(db.EmbeddedDocument):
+    '''
+    The embeded Tweet collection from the db
+
+    This belongs to the Players collection
+    '''
     id = db.StringField()
     text = db.StringField()
     lang = db.StringField()
@@ -29,6 +34,7 @@ class Tweet(db.EmbeddedDocument):
 
 
 class Players(db.Document):
+    ''' The Players collection from the db '''
     _id = db.IntField()
     name = db.StringField()
     position = db.StringField()
@@ -60,10 +66,10 @@ class Players(db.Document):
     avg_minutes_played = db.DecimalField()
     avg_rating = db.DecimalField()
     avg_pass_accuracy = db.DecimalField()
-    
 
 
 class Teams(db.Document):
+    ''' The Teams collection from the db '''
     _id = db.IntField()
     name = db.StringField()
     country = db.StringField()
@@ -81,6 +87,7 @@ class Teams(db.Document):
 
 
 class Matches(db.Document):
+    ''' The Matches collection from the db '''
     _id = db.IntField()
     date = db.DateTimeField()
     stadium = db.StringField()
@@ -95,6 +102,29 @@ class Matches(db.Document):
     referee = db.StringField()
     goals_home_team = db.IntField()
     goals_away_team = db.IntField()
+
+
+class Events(db.Document):
+    ''' The Events collection from the db '''
+    _id = db.IntField()
+    player_id = db.IntField()
+    player_name = db.StringField()
+    team_id = db.IntField()
+    team_name = db.StringField()
+    number = db.IntField()
+    position = db.StringField()
+    rating = db.StringField()
+    minutes_played = db.IntField()
+    captain = db.BooleanField()
+    substitute = db.BooleanField()
+    offsides = db.IntField(null=True)
+    match_id = db.IntField()
+    shots = db.IntField()
+    shots_on_target = db.IntField()
+    goals = db.IntField()
+    assists = db.IntField()
+    passes = db.IntField()
+    pass_accuracy = db.IntField()
 
 
 @app.route('/')
@@ -171,7 +201,6 @@ def instance(model=None, id=0):
     <id> is the integer id of the specific instance
         404 error if <id> does not exist in the model
     '''
-    # TODO: The templates may need to be split up for each model
     if model == 'player':
         player = Players.objects(_id=id)
 
@@ -179,9 +208,11 @@ def instance(model=None, id=0):
             return render_template('404.html')
 
         player = player[0]
-        player_matches = Matches.objects(Q(home_team_id=player.team_id) | Q(away_team_id=player.team_id))
+        player_matches = Matches.objects(
+            Q(home_team_id=player.team_id) | Q(away_team_id=player.team_id))
+        player_events = Events.objects(Q(player_id=id))
 
-        return render_template('instance_player.html', model=model, id=id, player=player, matches=player_matches)
+        return render_template('instance_player.html', model=model, id=id, player=player, matches=player_matches, player_events=player_events)
     elif model == 'team':
         team = Teams.objects(_id=id)
 
@@ -190,7 +221,8 @@ def instance(model=None, id=0):
 
         team = team[0]
         team_players = Players.objects(team_id=team._id)
-        team_matches = Matches.objects(Q(home_team_id=team._id) | Q(away_team_id=team._id))
+        team_matches = Matches.objects(
+            Q(home_team_id=team._id) | Q(away_team_id=team._id))
 
         return render_template('instance_team.html', model=model, id=id, team=team, matches=team_matches, players=team_players)
     elif model == 'match':
@@ -200,9 +232,13 @@ def instance(model=None, id=0):
             return render_template('404.html')
 
         match = match[0]
-        teams = Teams.objects(Q(_id=match.home_team_id) | Q(_id=match.away_team_id))
-        players = Players.objects(Q(team_id=match.home_team_id) | Q(team_id=match.away_team_id))
-        return render_template('instance_match.html', model=model, id=id, match=match, teams=teams, players=players)
+        teams = Teams.objects(Q(_id=match.home_team_id) |
+                              Q(_id=match.away_team_id))
+        players = Players.objects(
+            Q(team_id=match.home_team_id) | Q(team_id=match.away_team_id))
+        events = Events.objects(Q(match_id=id))
+
+        return render_template('instance_match.html', model=model, id=id, match=match, teams=teams, players=players, events=events)
 
     return render_template('404.html')
 
