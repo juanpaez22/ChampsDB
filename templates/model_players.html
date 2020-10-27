@@ -14,30 +14,19 @@
   <!-- This is just an example of how to use the teams information -->
   <div class="container">
     <div class="row">
-      <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 10px !important;">
-        <div class="box" style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
-          <p> <img style="height: 220px; width: 200px;" src="https://b.fssta.com/uploads/application/soccer/headshots/2100.png"></p>
-          <p> <a href="/instance/player/521">{{ players[0].name }}</a> </p>
-          <p> Team: <a href="/instance/team/157">{{ players[0].team_name }}</a> </p>
-          <p> Nationality: {{ players[0].nationality }} </p>
-        </div>
-      </div>
-      <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 10px !important;">
-        <div class="box" style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
-          <p> <img style="height: 220px; width: 310px;" src="https://s.yimg.com/xe/i/us/sp/v/soccer/wc/players/661231.3.png"></p>
-          <p> <a href="/instance/player/278">{{ players[1].name }}</a> </p>
-          <p> Team: <a href="/instance/team/85">{{ players[1].team_name }}</a> </p>
-          <p> Nationality: {{ players[1].nationality }} </p>
-        </div>
-      </div>
-      <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 10px !important;">
-        <div class="box" style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
-          <p> <img style="height: 200px; width: 200px;" src="https://bootsdb.between4lines.com//img/players/2696.png"></p>
-          <p> <a href="/instance/player/667">{{ players[2].name }}</a> </p>
-          <p> Team: <a href="/instance/team/80">{{ players[2].team_name }}</a> </p>
-          <p> Nationality: {{ players[2].nationality }} </p>
-        </div>
-      </div>
+        {% for player in players %}
+          <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 20px !important;">
+            <div class="box" style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
+              <p> <img style="max-height: 220px; max-width: 200px;" src= {{ player.media_link }}></p>
+              <p> <a href="/instance/player/{{ player._id }}">{{ player.name }}</a> </p>
+              <p> Team: <a href="/instance/team/{{ player.team_id }}">{{ player.team_name }}</a> </p>
+              <p> Average Rating: {{ player.avg_rating }} </p>
+            </div>
+          </div>
+        {% endfor %}
+    </div>
+    <div class="containter" style="margin-top: 30px; margin-bottom: 50px; align-items: center; align-content: center; width: 40%; margin-left: 375px;">
+      {{ pagination.links }}
     </div>
   </div>
 {% endblock %}

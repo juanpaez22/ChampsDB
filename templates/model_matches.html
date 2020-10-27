@@ -14,15 +14,29 @@
   <!-- This is just an example of how to use the teams information -->
   <div class="container">
     <div class="row">
+      {% for match in matches %}
       <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 10px !important;">
         <div class="box" style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
-          <p> <img style="width: 320px; height: 160px;" src= "https://sportshub.cbsistatic.com/i/r/2020/08/17/133149bc-2f24-4098-8c70-37a9d9e4593d/thumbnail/1200x675/dedcf160f636b87d30a1ce87e962be85/23-ucl-cbssports-semifinal1-leipzig-paris.jpg"></p>
-          <p> Name: <a href="/instance/match/589000">{{ matches[0].home_team_name }} vs. {{ matches[0].away_team_name }}</a> </p>
-          <p> Date: {{ matches[0].date }} </p>
-          <p> Score: {{ matches[0].score }} </p>
+          <!-- <p> <img src= {{ match.media_link }}></p> -->
+          <div class="row" style="margin-left: 20px;">
+            <div class="column">
+              <img src={{ match.media_link }} style="width:100%">
+            </div>
+            <div class="column">
+              <img src={{ match.media_link_2 }} style="width:100%">
+            </div>
+          </div>
+          <!-- var link = "/instance/match/"
+          var linkid = {{ match._id}}
+          var linked = link.concat(linkid) -->
+          <div class="container" style="margin-bottom: 20px;"></div>
+          <p> Name: <a href= "/instance/match/{{ match._id }}">{{ match.home_team_name }} vs. {{ match.away_team_name }}</a> </p>
+          <p> Date: {{ match.date }} </p>
+          <p> Score: {{ match.score }} </p>
         </div>
       </div>
-      <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 10px !important;">
+      {% endfor %}
+      <!-- <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 10px !important;">
         <div class="box" style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
           <p> <img style="width: 320px; height: 160px;" src="https://as01.epimg.net/en/imagenes/2020/08/22/football/1598122071_034894_1598122134_noticia_normal.jpg"></p>
           <p> Name: <a href="/instance/match/591151">{{ matches[1].home_team_name }} vs. {{ matches[1].away_team_name }}</a> </p>
@@ -37,7 +51,10 @@
           <p> Date: {{ matches[2].date }} </p>
           <p> Score: {{ matches[2].score }} </p>
         </div>
-      </div>
+      </div> -->
+    </div>
+    <div class="containter" style="margin-top: 30px; margin-bottom: 50px; align-items: center; align-content: center; width: 40%; margin-left: 375px;">
+      {{ pagination.links }}
     </div>
   </div>
 
