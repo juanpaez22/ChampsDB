@@ -7,42 +7,69 @@
   </div>
   <div class="row justify-content-center mt-2 mg-auto mx-auto p-auto">
     <div class="col">
-      <h1>{{ team.name }}</h1>
+      <h1 style="color: white;">{{ team.name }}</h1>
     </div>
   </div>
   <div class="row justify-content-center mt-2 mg-auto mx-auto p-auto">
     <div class="col">
-      <p>Country: {{ team.country }}</p>
+      <p style="color: white;">Country: {{ team.country }}</p>
     </div>
     <div class="col">
-      <p>City: {{ team.city }}</p>
+      <p style="color: white;">City: {{ team.city }}</p>
     </div>
     <div class="col">
-      <p>Stadium: {{ team.stadium }}</p>
+      <p style="color: white;">Stadium: {{ team.stadium }}</p>
     </div>
   </div>
   <div style="padding-top: 20px;" class="row justify-content-start mt-2 mg-auto mx-auto p-auto">
-  <h3>Featured Players</h3>
+  <h3 style="color: white;">Featured Players</h3>
   </div>
   <div class="row justify-content-start mt-2 mg-auto mx-auto p-auto">
     {% for player in players %}
-    <div class="col">
-      <p><a href="/instance/player/{{player._id}}">{{player.name}}</a></p>
-      <p style="padding-bottom:10px">{{player.position}}, {{player.nationality}}</p>
+    <div class="col-sm-4" style="margin-top: 20px !important; margin-bottom: 20px !important;">
+      <div class="box" style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
+        <p> <img style="max-height: 220px; max-width: 200px;" src= {{ player.media_link }}></p>
+        <p> <a href="/instance/player/{{ player._id }}">{{ player.name }}</a> </p>
+        <p> Position: {{ player.position }} </p>
+      </div>
     </div>
     {% endfor %}
   </div>
   <div style="padding-top: 20px;" class="row justify-content-start mt-2 mg-auto mx-auto p-auto">
-    <h3>Recent Matches</h3>
+    <h3 style="color: white;">Recent Matches</h3>
     </div>
     <div class="row justify-content-start mt-2 mg-auto mx-auto p-auto">
       {% for match in matches %}
-      <div class="col">
-        <p> <a href=/instance/match/{{match._id}}>{{match.home_team_name}} vs. {{match.away_team_name}}</a></p>
-        <p>Date: {{ match.date }}</p>
-        <p style="padding-bottom: 10px">Score: {{match.score}} </p>
+      <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 10px !important;">
+        <div class="box" style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
+          <!-- <p> <img src= {{ match.media_link }}></p> -->
+          <div class="row" style="margin-left: 20px;">
+            <div class="column">
+              <img src={{ match.media_link }} style="width:100%">
+            </div>
+            <div class="column">
+              <img src={{ match.media_link_2 }} style="width:100%">
+            </div>
+          </div>
+          <!-- var link = "/instance/match/"
+          var linkid = {{ match._id}}
+          var linked = link.concat(linkid) -->
+          <div class="container" style="margin-bottom: 20px;"></div>
+          <p> Name: <a href= "/instance/match/{{ match._id }}">{{ match.home_team_name }} vs. {{ match.away_team_name }}</a> </p>
+          <p> Date: {{ match.date }} </p>
+          <p> Score: {{ match.score }} </p>
+        </div>
       </div>
       {% endfor %}
+    </div>
+
+    <div style="padding-top: 20px;">
+      <h2 style="color: white; margin-bottom: 30px;">What People are Saying</h2>
+      <ul>
+        {% for item in team.tweets %}
+        {{item.html | safe}}
+        {% endfor %}
+      </ul>
     </div>
 </div>
 

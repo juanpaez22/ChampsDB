@@ -4,6 +4,12 @@ from flask import Flask, redirect, render_template, request, url_for
 from flask_mongoengine import MongoEngine
 from pymongo import MongoClient
 from mongoengine.queryset.visitor import Q
+#from django.contrib.auth.models import User
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import render
+from flask_sqlalchemy import SQLAlchemy
+from flask import Blueprint
+from flask_paginate import Pagination, get_page_parameter, get_page_args
 
 app = Flask(__name__)
 app.config['MONGODB_SETTINGS'] = {
@@ -130,6 +136,19 @@ def index():
 def about():
     return render_template('about.html')
 
+#Source used to help with pagination: https://gist.github.com/mozillazg/69fb40067ae6d80386e10e105e6803c9 
+
+def get_players(offset=0, per_page=12):
+    players = Players.objects()
+    return players[offset: offset + per_page]
+
+def get_teams(offset=0, per_page=12):
+    teams = Teams.objects()
+    return teams[offset: offset + per_page]
+
+def get_matches(offset=0, per_page=12):
+    matches = Matches.objects()
+    return matches[offset: offset + per_page]
 
 @app.route('/model/<string:model>', methods=['POST', 'GET'])
 def model(model=None):
@@ -140,13 +159,34 @@ def model(model=None):
     '''
     if model == 'player':
         players = Players.objects()
-        return render_template('model_players.html', model=model, players=players)
+
+        page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page')
+        total = len(players)
+        pagination_players = get_players(offset=offset, per_page=12)
+        pagination = Pagination(page=page, per_page=per_page, total=total, css_framework='bootstrap4')
+        
+        return render_template('model_players.html', players=pagination_players, page=page, per_page=per_page, pagination=pagination, model=model)
+
+        #return render_template('model_players.html', model=model, players=players, playerPages=playerPages)
     elif model == 'team':
         teams = Teams.objects()
-        return render_template('model_teams.html', model=model, teams=teams)
+
+        page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page')
+        total = len(teams)
+        pagination_teams = get_teams(offset=offset, per_page=12)
+        pagination = Pagination(page=page, per_page=per_page, total=total, css_framework='bootstrap4')
+        
+        return render_template('model_teams.html', teams=pagination_teams, page=page, per_page=per_page, pagination=pagination, model=model)
+    
     elif model == 'match':
         matches = Matches.objects()
-        return render_template('model_matches.html', model=model, matches=matches)
+
+        page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page')
+        total = len(matches)
+        pagination_matches = get_matches(offset=offset, per_page=12)
+        pagination = Pagination(page=page, per_page=per_page, total=total, css_framework='bootstrap4')
+        
+        return render_template('model_matches.html', matches=pagination_matches, page=page, per_page=per_page, pagination=pagination, model=model)
 
     return render_template('404.html')
 
