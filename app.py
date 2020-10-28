@@ -188,7 +188,7 @@ def model(model=None):
         
         return render_template('model_matches.html', matches=pagination_matches, page=page, per_page=per_page, pagination=pagination, model=model)
 
-    return render_template('404.html')
+    return not_found(404)
 
 
 @app.route('/instance/<string:model>/<int:id>', methods=['POST', 'GET'])
@@ -205,7 +205,7 @@ def instance(model=None, id=0):
         player = Players.objects(_id=id)
 
         if len(player) == 0:
-            return render_template('404.html')
+            return not_found(404)
 
         player = player[0]
         player_matches = Matches.objects(
@@ -217,7 +217,7 @@ def instance(model=None, id=0):
         team = Teams.objects(_id=id)
 
         if len(team) == 0:
-            return render_template('404.html')
+            return not_found(404)
 
         team = team[0]
         team_players = Players.objects(team_id=team._id)
@@ -229,7 +229,7 @@ def instance(model=None, id=0):
         match = Matches.objects(_id=id)
 
         if len(match) == 0:
-            return render_template('404.html')
+            return not_found(404)
 
         match = match[0]
         teams = Teams.objects(Q(_id=match.home_team_id) |
@@ -240,7 +240,13 @@ def instance(model=None, id=0):
 
         return render_template('instance_match.html', model=model, id=id, match=match, teams=teams, players=players, events=events)
 
-    return render_template('404.html')
+    return not_found(404)
+
+
+@app.errorhandler(404)
+def not_found(error):
+    ''' 404 Handler to return our custome template and set the 404 status code '''
+    return render_template('404.html'), 404
 
 
 if __name__ == '__main__':

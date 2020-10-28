@@ -19,11 +19,12 @@
         <p> Team: <a href="/instance/team/{{player.team_id}}" class="text-link">{{ player.team_name }}</a> </p>
         <p>Position: {{ player.position }}</p>
         <p>Number: {{ player.number }}</p>
-        {% if player.captain %}
-        <p>Captain?: yes</p>
-        {% else %}
-        <p>Captain?: no</p>
-        {% endif %}
+        {# This is currently showing that all players are captains. Not sure why #} 
+        <!-- {% if player.captain is sameas true %} -->
+        <!-- <p>Captain?: yes</p> -->
+        <!-- {% else %} -->
+        <!-- <p>Captain?: no</p> -->
+        <!-- {% endif %} -->
       </div>
 
       <!-- ratings -->
