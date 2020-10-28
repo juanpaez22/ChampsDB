@@ -53,9 +53,9 @@ User Story | Assigned Member(s) | Estimated Completion Time (Hrs) | Actual Compl
 --- | --- | --- | ---
 #1 | Juan | 6 | 12
 #2 | Juan, Ben | 6 | 8
-#3 | Ben, Conor | 9 | TODO TODO TODO TODO, Ben had ~2 hours for his testing
-#4 | Pearse, Conor | 12 | TODO TODO TODO TODO
-#5 | TODO TODO TODO TODO | 2 |
+#3 | Ben, Conor | 9 | 7
+#4 | Pearse, Conor | 8 | 10
+#5 | Pearse | 2 | 1
 #6 | Ben | 2 | 2
 
 ## Phase III Completion Time
