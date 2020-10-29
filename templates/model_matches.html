@@ -12,6 +12,21 @@
     </p> -->
     </div>
   <!-- This is just an example of how to use the teams information -->
+
+  <div class="container">
+    <div class="dropdown">
+      <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Sort By
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="/model/match?sort=-date">Most Recent</a>
+        <a class="dropdown-item" href="/model/match?sort=date">Least Recent</a>
+        <a class="dropdown-item" href="/model/match?sort=home_team_name">Home Team Name</a>
+        <a class="dropdown-item" href="/model/match?sort=away_team_name">Away Team Name</a>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
     <div class="row">
       {% for match in matches %}

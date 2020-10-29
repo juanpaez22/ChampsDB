@@ -138,16 +138,22 @@ def about():
 
 #Source used to help with pagination: https://gist.github.com/mozillazg/69fb40067ae6d80386e10e105e6803c9 
 
-def get_players(offset=0, per_page=12):
-    players = Players.objects()
+def get_players(offset=0, per_page=12, sort_by="-goals"):
+    if sort_by == None or sort_by == "None":
+        sort_by = "-goals"
+    players = Players.objects().order_by(sort_by)
     return players[offset: offset + per_page]
 
-def get_teams(offset=0, per_page=12):
-    teams = Teams.objects()
+def get_teams(offset=0, per_page=12, sort_by="name"):
+    if sort_by == None or sort_by == "None":
+        sort_by = "name"
+    teams = Teams.objects().order_by(sort_by)
     return teams[offset: offset + per_page]
 
-def get_matches(offset=0, per_page=12):
-    matches = Matches.objects()
+def get_matches(offset=0, per_page=12, sort_by="-date"):
+    if sort_by == None or sort_by == "None":
+        sort_by = "-date"
+    matches = Matches.objects().order_by(sort_by)
     return matches[offset: offset + per_page]
 
 @app.route('/model/<string:model>', methods=['POST', 'GET'])
@@ -157,12 +163,14 @@ def model(model=None):
 
     <model> is one of: {player, team, match}
     '''
+    sort_by = str(request.args.get('sort'))
+
     if model == 'player':
         players = Players.objects()
 
         page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page', per_page=12)
         total = len(players)
-        pagination_players = get_players(offset=offset, per_page=12)
+        pagination_players = get_players(offset=offset, per_page=12, sort_by=sort_by)
         pagination = Pagination(page=page, per_page=per_page, total=total, css_framework='bootstrap4')
         
         return render_template('model_players.html', players=pagination_players, page=page, per_page=per_page, pagination=pagination, model=model)
@@ -173,7 +181,7 @@ def model(model=None):
 
         page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page', per_page=12)
         total = len(teams)
-        pagination_teams = get_teams(offset=offset, per_page=12)
+        pagination_teams = get_teams(offset=offset, per_page=12, sort_by=sort_by)
         pagination = Pagination(page=page, per_page=per_page, total=total, css_framework='bootstrap4')
         
         return render_template('model_teams.html', teams=pagination_teams, page=page, per_page=per_page, pagination=pagination, model=model)
@@ -183,7 +191,7 @@ def model(model=None):
 
         page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page', per_page=12)
         total = len(matches)
-        pagination_matches = get_matches(offset=offset, per_page=12)
+        pagination_matches = get_matches(offset=offset, per_page=12, sort_by=sort_by)
         pagination = Pagination(page=page, per_page=per_page, total=total, css_framework='bootstrap4')
         
         return render_template('model_matches.html', matches=pagination_matches, page=page, per_page=per_page, pagination=pagination, model=model)

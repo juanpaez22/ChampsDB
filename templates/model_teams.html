@@ -12,6 +12,22 @@
     </p> -->
     </div>
   <!-- This is just an example of how to use the teams information -->
+
+  <div class="container">
+    <div class="dropdown">
+      <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Sort By
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="/model/team?sort=name">Team Name</a>
+        <a class="dropdown-item" href="/model/team?sort=founded">Year Founded- Oldest</a>
+        <a class="dropdown-item" href="/model/team?sort=-founded">Year Founded- Newest</a>
+        <a class="dropdown-item" href="/model/team?sort=-stadium_capacity">Stadium Capacity- Largest</a>
+        <a class="dropdown-item" href="/model/team?sort=stadium_capacity">Stadium Capacity- Smallest</a>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
     <div class="row">
       {% for team in teams %}
