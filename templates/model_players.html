@@ -12,6 +12,23 @@
     </p> -->
     </div>
   <!-- This is just an example of how to use the teams information -->
+
+  <div class="container">
+    <div class="dropdown">
+      <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Sort By
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="/model/player?sort=name">Player Name</a>
+        <a class="dropdown-item" href="/model/player?sort=-goals">Most Goals</a>
+        <a class="dropdown-item" href="/model/player?sort=-assists">Most Assists</a>
+        <a class="dropdown-item" href="/model/player?sort=-passes">Most Passes</a>
+        <a class="dropdown-item" href="/model/player?sort=-avg_rating">Average Match Rating</a>
+        <a class="dropdown-item" href="/model/player?sort=-avg_pass_accuracy">Pass Accuracy</a>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
     <div class="row">
         {% for player in players %}
