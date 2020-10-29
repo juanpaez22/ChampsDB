@@ -1,7 +1,10 @@
 # TeamA6: ChampionsDB 2019-2020
 
-## To build and run from scratch:
-First, install all dependencies listed in requirements.txt using pip. Next, provide the connection credentials for a running MongoDB database server populated with the model data in an environment variable named DB_CONNECTION_STRING. Optionally, you can initialize the database yourself the database with data from the API-Football API using the db_init.py script (populates with three players, 4 teams, and 3 matches for now). You can then populate the database with data from the other 2 API's using the append_data_db.py script, which uses the Twitter API and the Fifa Ultimate Team API to get more information about players. Finally, launch the application locally (or deploy to a cloud host) in app.py with the Flask framework (e.g. python app.py or flask run).
+## To build and run the web server on your local machine:
+1. Clone this repository
+2. Install dependencies with "pip install -r requirements.txt"
+3. Export the environment variable DB_CONNECTION_STRING with the connection string for the ChampionsDB database. We host ours on Google Cloud Platform, but if you would like to test it out with your own (local or remote), you can use the scripts in /scripts/--.py to populate the database to different extents (this requires that you store your API keys in /scripts/config.py-- be mindful of quota limits). Make sure your database's fields match the fields for players, matches, teams, and events listed in app.py.
+4. Run the web application with "flask run" or "python app.py", which will host the web application on localhost.
 
 ## Team Information
 Team Member | UT EID | GitHub
