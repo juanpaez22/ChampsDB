@@ -103,6 +103,13 @@ class Matches(db.Document):
     goals_home_team = db.IntField()
     goals_away_team = db.IntField()
 
+    meta = {'indexes': [
+        {'fields': ['$home_team_name', "$away_team_name", "$stadium", "$score", "$round", "$referee"],
+         'default_language': 'english',
+         'weights': {'home_team_name': 10, 'away_team_name': 10, 'stadium': 5, 'score': 1, 'round': 1, 'referee': 1}
+         }
+    ]}
+
 
 class Events(db.Document):
     ''' The Events collection from the db '''
@@ -127,18 +134,7 @@ class Events(db.Document):
     pass_accuracy = db.IntField()
 
 
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-
-@app.route('/about')
-def about():
-    return render_template('about.html')
-
 # Source used to help with pagination: https://gist.github.com/mozillazg/69fb40067ae6d80386e10e105e6803c9
-
-
 def get_players(offset=0, per_page=12, sort_by="-goals"):
     if sort_by == None or sort_by == "None":
         sort_by = "-goals"
@@ -153,11 +149,27 @@ def get_teams(offset=0, per_page=12, sort_by="name"):
     return teams[offset: offset + per_page]
 
 
-def get_matches(offset=0, per_page=12, sort_by="-date"):
-    if sort_by == None or sort_by == "None":
+def get_matches(offset=0, per_page=12, sort_by="-date", search_query=None):
+    if sort_by is None or sort_by == "None":
         sort_by = "-date"
-    matches = Matches.objects().order_by(sort_by)
-    return matches[offset: offset + per_page]
+
+    matches = None
+    if search_query is None or len(search_query) == 0 or search_query == "None":
+        matches = Matches.objects().order_by(sort_by)
+    else:
+        matches = Matches.objects().search_text(search_query).order_by(sort_by)
+
+    return matches[offset: offset + per_page], len(matches)
+
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 
 @app.route('/model/<string:model>', methods=['POST', 'GET'])
@@ -168,6 +180,7 @@ def model(model=None):
     <model> is one of: {player, team, match}
     '''
     sort_by = str(request.args.get('sort'))
+    search_query = str(request.args.get('q'))
 
     if model == 'player':
         players = Players.objects()
@@ -188,9 +201,9 @@ def model(model=None):
 
         page, per_page, offset = get_page_args(
             page_parameter='page', per_page_parameter='per_page', per_page=12)
-        total = len(teams)
         pagination_teams = get_teams(
             offset=offset, per_page=12, sort_by=sort_by)
+        total = len(pagination_teams)
         pagination = Pagination(
             page=page, per_page=per_page, total=total, css_framework='bootstrap4')
 
@@ -201,9 +214,8 @@ def model(model=None):
 
         page, per_page, offset = get_page_args(
             page_parameter='page', per_page_parameter='per_page', per_page=12)
-        total = len(matches)
-        pagination_matches = get_matches(
-            offset=offset, per_page=12, sort_by=sort_by)
+        pagination_matches, total = get_matches(
+            offset=offset, per_page=12, sort_by=sort_by, search_query=search_query)
         pagination = Pagination(
             page=page, per_page=per_page, total=total, css_framework='bootstrap4')
 

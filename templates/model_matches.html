@@ -25,14 +25,14 @@
       </div>
       {# TODO: Add filtering here #}
       <!-- <label class="text-light col-auto col-form-label" for="filter">Filter</label> -->
-      <!-- <div class="col-3 form-group"> -->
+      <!-- <div class="col-auto form-group"> -->
       <!--   <select class="selectpicker form-control multiple" name="filter" id="filter" title="filter"> -->
       {# TODO: This is just an example of how to create the options. Displayed text goes in between the tags, and the get balue goes in the "value" part of the opening tag #}
       <!--     <option value="-date">Most Recent</option> -->
       <!--   </select> -->
       <!-- </div> -->
       <label class="text-light col-auto col-form-label" for="sort">Sort by:</label>
-      <div class="col-3 form-group">
+      <div class="col-auto form-group">
         <select class="selectpicker form-control" name="sort" id="sort" title="Sort by">
           <option value="-date">Most Recent</option>
           <option value="date">Least Recent</option>
@@ -70,22 +70,6 @@
       </div>
     </div>
     {% endfor %}
-    <!-- <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 10px !important;">
-        <div class="box" style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
-          <p> <img style="width: 320px; height: 160px;" src="https://as01.epimg.net/en/imagenes/2020/08/22/football/1598122071_034894_1598122134_noticia_normal.jpg"></p>
-          <p> Name: <a href="/instance/match/591151">{{ matches[1].home_team_name }} vs. {{ matches[1].away_team_name }}</a> </p>
-          <p> Date: {{ matches[1].date }} </p>
-          <p> Score: {{ matches[1].score }} </p>
-        </div>
-      </div>
-      <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 10px !important;">
-        <div class="box" style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
-          <p> <img style="width: 320px; height: 160px;" src="https://sportshub.cbsistatic.com/i/r/2020/08/17/7fa90228-685a-41c1-80dc-973e42a5932e/thumbnail/1200x675/fd7953d3cbb8583b308db31b8cf00198/24-ucl-cbssports-semifinal2-lyon-bayern.jpg"></p>
-          <p> <a href="/instance/match/589197">{{ matches[2].home_team_name }} vs. {{ matches[2].away_team_name }}</a> </p>
-          <p> Date: {{ matches[2].date }} </p>
-          <p> Score: {{ matches[2].score }} </p>
-        </div>
-      </div> -->
   </div>
   <div class="containter"
     style="margin-top: 30px; margin-bottom: 50px; align-items: center; align-content: center; width: 40%; margin-left: 375px;">
