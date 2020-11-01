@@ -85,6 +85,13 @@ class Teams(db.Document):
     # Twitter API
     tweets = db.ListField(db.EmbeddedDocumentField(Tweet))
 
+    meta = {'indexes': [
+        {'fields': ['$name', "$country", "$city", "$stadium", "$stadium_surface", "$stadium_address"],
+         'default_language': 'english',
+         'weights': {'name': 10, 'country': 5, 'city': 5, 'stadium': 5, 'stadium_surface': 1, 'stadium_address': 1}
+         }
+    ]}
+
 
 class Matches(db.Document):
     ''' The Matches collection from the db '''
@@ -139,14 +146,20 @@ def get_players(offset=0, per_page=12, sort_by="-goals"):
     if sort_by == None or sort_by == "None":
         sort_by = "-goals"
     players = Players.objects().order_by(sort_by)
-    return players[offset: offset + per_page]
+    return players[offset: offset + per_page], len(players)
 
 
-def get_teams(offset=0, per_page=12, sort_by="name"):
+def get_teams(offset=0, per_page=12, sort_by="name", search_query=None):
     if sort_by == None or sort_by == "None":
         sort_by = "name"
-    teams = Teams.objects().order_by(sort_by)
-    return teams[offset: offset + per_page]
+
+    teams = None
+    if search_query is None or len(search_query) == 0 or search_query == "None":
+        teams = Teams.objects().order_by(sort_by)
+    else:
+        teams = Teams.objects().search_text(search_query).order_by(sort_by)
+
+    return teams[offset: offset + per_page], len(teams)
 
 
 def get_matches(offset=0, per_page=12, sort_by="-date", search_query=None):
@@ -201,9 +214,8 @@ def model(model=None):
 
         page, per_page, offset = get_page_args(
             page_parameter='page', per_page_parameter='per_page', per_page=12)
-        pagination_teams = get_teams(
-            offset=offset, per_page=12, sort_by=sort_by)
-        total = len(pagination_teams)
+        pagination_teams, total = get_teams(
+            offset=offset, per_page=12, sort_by=sort_by, search_query=search_query)
         pagination = Pagination(
             page=page, per_page=per_page, total=total, css_framework='bootstrap4')
 
