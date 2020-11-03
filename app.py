@@ -67,6 +67,12 @@ class Players(db.Document):
     avg_rating = db.DecimalField()
     avg_pass_accuracy = db.DecimalField()
 
+    meta = {'indexes': [
+        {'fields': ['$name', '$position', '$team_name'],
+         'default_language': 'english',
+         'weights': {'name': 10, 'position': 1, 'team_name': 7}
+         }
+    ]}
 
 class Teams(db.Document):
     ''' The Teams collection from the db '''
@@ -142,10 +148,15 @@ class Events(db.Document):
 
 
 # Source used to help with pagination: https://gist.github.com/mozillazg/69fb40067ae6d80386e10e105e6803c9
-def get_players(offset=0, per_page=12, sort_by="-goals"):
+def get_players(offset=0, per_page=12, sort_by="-goals", search_query=None):
     if sort_by == None or sort_by == "None":
         sort_by = "-goals"
-    players = Players.objects().order_by(sort_by)
+
+    players = None
+    if search_query is None or len(search_query) == 0 or search_query == "None":
+        players = Players.objects().order_by(sort_by)
+    else:
+        players = Players.objects().search_text(search_query).order_by(sort_by)
     return players[offset: offset + per_page], len(players)
 
 
@@ -200,9 +211,8 @@ def model(model=None):
 
         page, per_page, offset = get_page_args(
             page_parameter='page', per_page_parameter='per_page', per_page=12)
-        total = len(players)
-        pagination_players = get_players(
-            offset=offset, per_page=12, sort_by=sort_by)
+        pagination_players, total = get_players(
+            offset=offset, per_page=12, sort_by=sort_by, search_query=search_query)
         pagination = Pagination(
             page=page, per_page=per_page, total=total, css_framework='bootstrap4')
 
