@@ -1,15 +1,15 @@
 import json
 import os
-from flask import Flask, redirect, render_template, request, url_for
-from flask_mongoengine import MongoEngine
-from pymongo import MongoClient
-from mongoengine.queryset.visitor import Q
-#from django.contrib.auth.models import User
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import re
+
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render
+from flask import Blueprint, Flask, redirect, render_template, request, url_for
+from flask_mongoengine import MongoEngine
+from flask_paginate import Pagination, get_page_args, get_page_parameter
 from flask_sqlalchemy import SQLAlchemy
-from flask import Blueprint
-from flask_paginate import Pagination, get_page_parameter, get_page_args
+from mongoengine.queryset.visitor import Q
+from pymongo import MongoClient
 
 app = Flask(__name__)
 app.config['MONGODB_SETTINGS'] = {
@@ -73,6 +73,7 @@ class Players(db.Document):
          'weights': {'name': 10, 'position': 1, 'team_name': 7}
          }
     ]}
+
 
 class Teams(db.Document):
     ''' The Teams collection from the db '''
