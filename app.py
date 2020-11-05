@@ -208,8 +208,6 @@ def model(model=None):
     search_query = str(request.args.get('q'))
 
     if model == 'player':
-        players = Players.objects()
-
         page, per_page, offset = get_page_args(
             page_parameter='page', per_page_parameter='per_page', per_page=12)
         pagination_players, total = get_players(
@@ -218,11 +216,7 @@ def model(model=None):
             page=page, per_page=per_page, total=total, css_framework='bootstrap4')
 
         return render_template('model_players.html', players=pagination_players, page=page, per_page=per_page, pagination=pagination, model=model)
-
-        # return render_template('model_players.html', model=model, players=players, playerPages=playerPages)
     elif model == 'team':
-        teams = Teams.objects()
-
         page, per_page, offset = get_page_args(
             page_parameter='page', per_page_parameter='per_page', per_page=12)
         pagination_teams, total = get_teams(
@@ -233,8 +227,6 @@ def model(model=None):
         return render_template('model_teams.html', teams=pagination_teams, page=page, per_page=per_page, pagination=pagination, model=model)
 
     elif model == 'match':
-        matches = Matches.objects()
-
         page, per_page, offset = get_page_args(
             page_parameter='page', per_page_parameter='per_page', per_page=12)
         pagination_matches, total = get_matches(
