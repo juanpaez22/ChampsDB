@@ -2,48 +2,65 @@
 
 {% block model %}
 
-<div class ="container1">
-  <h1 style="width: 100%; height: 250px; background-image: url('https://www.gamblingsites.com/wp-content/uploads/2020/10/7-Most-Likely-Winners-2020-21-UEFA-Champions-League.jpg'); background-size: 100% 100%;"></h1>
-  </div>
-    <div class="container">
-    <h1 style="color: white; font-size: 40pt; padding-top: 3%;">Teams</h1>
-    <!-- <p class="lead">
-      <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-    </p> -->
-    </div>
-  <!-- This is just an example of how to use the teams information -->
+<div class="container1">
+  <h1
+    style="width: 100%; height: 250px; background-image: url('https://www.gamblingsites.com/wp-content/uploads/2020/10/7-Most-Likely-Winners-2020-21-UEFA-Champions-League.jpg'); background-size: 100% 100%;">
+  </h1>
+</div>
+<div class="container">
+  <h1 style="color: white; font-size: 40pt; padding-top: 3%;">Teams</h1>
+</div>
 
-  <div class="container">
-    <div class="dropdown">
-      <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Sort By
-      </button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="/model/team?sort=name">Team Name</a>
-        <a class="dropdown-item" href="/model/team?sort=founded">Year Founded- Oldest</a>
-        <a class="dropdown-item" href="/model/team?sort=-founded">Year Founded- Newest</a>
-        <a class="dropdown-item" href="/model/team?sort=-stadium_capacity">Stadium Capacity- Largest</a>
-        <a class="dropdown-item" href="/model/team?sort=stadium_capacity">Stadium Capacity- Smallest</a>
+<div class="container">
+
+  {# Sort/filter/search fields #}
+  <form action="team" method="get">
+    <div class="form-row justify-content-center mt-2 mg-auto py-auto">
+      <label class="text-light col-auto col-form-label" for="q">Query</label>
+      <div class="col-xl form-group">
+        <input type="text" class="form-control" name="q" id="q" placeholder="Query">
+      </div>
+      {# TODO: Add filtering here #}
+      <!-- <label class="text-light col-auto col-form-label" for="filter">Filter</label> -->
+      <!-- <div class="col-auto form-group"> -->
+      <!--   <select class="selectpicker form-control multiple" name="filter" id="filter" title="filter"> -->
+      {# TODO: This is just an example of how to create the options. Displayed text goes in between the tags, and the get balue goes in the "value" part of the opening tag #}
+      <!--     <option value="-date">Most Recent</option> -->
+      <!--   </select> -->
+      <!-- </div> -->
+      <label class="text-light col-auto col-form-label" for="sort">Sort by:</label>
+      <div class="col-auto form-group">
+        <select class="selectpicker form-control" name="sort" id="sort" title="Sort by">
+          <option value="name">Team Name</option>
+          <option value="founded">Year Founded - Oldest</option>
+          <option value="-founded">Year Founded - Youngest</option>
+          <option value="-stadium_capacity">Stadium Capacity - Largest</option>
+          <option value="stadium_capacity">Stadium Capacity - Smallest</option>
+        </select>
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </div>
-  </div>
+  </form>
 
-  <div class="container">
-    <div class="row">
-      {% for team in teams %}
-      <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 10px !important;">
-        <div class="box" style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
-          <p> <img src={{ team.media_link }} alt={{ team.name }} crest></p>
-          <p> <a href="/instance/team/{{ team._id }}">{{ team.name }}</a> </p>
-          <p> Country: {{ team.country }} </p>
-          <p> City: {{ team.city }} </p>
-          <p> Stadium: {{ team.stadium }} </p>
-        </div>
+  <div class="row">
+    {% for team in teams %}
+    <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 10px !important;">
+      <div class="box"
+        style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
+        <p> <img src={{ team.media_link }} alt={{ team.name }} crest></p>
+        <p> <a href="/instance/team/{{ team._id }}">{{ team.name }}</a> </p>
+        <p> Country: {{ team.country }} </p>
+        <p> City: {{ team.city }} </p>
+        <p> Stadium: {{ team.stadium }} </p>
       </div>
-      {% endfor %}
     </div>
-    <div class="containter" style="margin-top: 30px; margin-bottom: 50px; align-items: center; align-content: center; width: 40%; margin-left: 475px;">
-      {{ pagination.links }}
-    </div>
+    {% endfor %}
   </div>
+  <div class="containter"
+    style="margin-top: 30px; margin-bottom: 50px; align-items: center; align-content: center; width: 40%; margin-left: 475px;">
+    {{ pagination.links }}
+  </div>
+</div>
 {% endblock %}

@@ -2,65 +2,70 @@
 
 {% block model %}
 
-<div class ="container1">
-  <h1 style="width: 100%; height: 280px; background-image: url('https://i.ibb.co/q5Lwwyc/fcbarca-crop.png'); background-size: 100% 100%;"></h1>
-  </div>
-    <div class="container">
-    <h1 style="color: white; font-size: 40pt; padding-top: 3%;">Players</h1>
-    <!-- <p class="lead">
-      <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-    </p> -->
-    </div>
-  <!-- This is just an example of how to use the teams information -->
+<div class="container1">
+  <h1
+    style="width: 100%; height: 280px; background-image: url('https://i.ibb.co/q5Lwwyc/fcbarca-crop.png'); background-size: 100% 100%;">
+  </h1>
+</div>
+<div class="container">
+  <h1 style="color: white; font-size: 40pt; padding-top: 3%;">Players</h1>
+</div>
 
-  <div class="container">
-    <div class="dropdown">
-      <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Sort By
-      </button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="/model/player?sort=name">Player Name</a>
-        <a class="dropdown-item" href="/model/player?sort=-goals">Most Goals</a>
-        <a class="dropdown-item" href="/model/player?sort=-assists">Most Assists</a>
-        <a class="dropdown-item" href="/model/player?sort=-passes">Most Passes</a>
-        <a class="dropdown-item" href="/model/player?sort=-avg_rating">Average Match Rating</a>
-        <a class="dropdown-item" href="/model/player?sort=-avg_pass_accuracy">Pass Accuracy</a>
+<div class="container">
+
+  {# Sort/filter/search fields #}
+  <form action="player" method="get">
+    <div class="form-row justify-content-center mt-2 mg-auto py-auto">
+      <label class="text-light col-auto col-form-label" for="q">Query</label>
+      <div class="col-xl form-group">
+        <input type="text" class="form-control" name="q" id="q" placeholder="Query">
+      </div>
+      {# TODO: Add filtering here #}
+      <!-- <label class="text-light col-auto col-form-label" for="filter">Filter</label> -->
+      <!-- <div class="col-auto form-group"> -->
+      <!--   <select class="selectpicker form-control multiple" name="filter" id="filter" title="filter"> -->
+      {# TODO: This is just an example of how to create the options. Displayed text goes in between the tags, and the get balue goes in the "value" part of the opening tag #}
+      <!--     <option value="-date">Most Recent</option> -->
+      <!--   </select> -->
+      <!-- </div> -->
+      <label class="text-light col-auto col-form-label" for="sort">Sort by:</label>
+      <div class="col-auto form-group">
+        <select class="selectpicker form-control" name="sort" id="sort" title="Sort by">
+          <option value="name">Player Name</option>
+          <option value="-goals">Most Goals</option>
+          <option value="goals">Least Goals</option>
+          <option value="-assists">Most Assists</option>
+          <option value="assists">Least Assists</option>
+          <option value="-passes">Most Passes</option>
+          <option value="passes">Least Passes</option>
+          <option value="-avg_rating">Highest Average Match Rating</option>
+          <option value="avg_rating">Lowest Average Match Rating</option>
+          <option value="-avg_pass_accuracy">Highest Pass Accuracy</option>
+          <option value="avg_pass_accuracy">Lowest Pass Accuracy</option>
+        </select>
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </div>
-  </div>
+  </form>
 
-  <div class="container">
-    <div class="row">
-        {% for player in players %}
-          <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 20px !important;">
-            <div class="box" style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
-              <p> <img style="max-height: 220px; max-width: 200px;" src= {{ player.media_link }}></p>
-              <p> <a href="/instance/player/{{ player._id }}">{{ player.name }}</a> </p>
-              <p> Team: <a href="/instance/team/{{ player.team_id }}">{{ player.team_name }}</a> </p>
-              <p> Average Rating: {{ player.avg_rating }} </p>
-            </div>
-          </div>
-        {% endfor %}
+  <div class="row">
+    {% for player in players %}
+    <div class="col-lg-4" style="margin-top: 20px !important; margin-bottom: 20px !important;">
+      <div class="box"
+        style="background: #fff; border-radius: 4px; padding-bottom: 10%; padding-top: 10%; text-align: center; height: 400px; font-weight: bold;">
+        <p> <img style="max-height: 220px; max-width: 200px;" src={{ player.media_link }}></p>
+        <p> <a href="/instance/player/{{ player._id }}">{{ player.name }}</a> </p>
+        <p> Team: <a href="/instance/team/{{ player.team_id }}">{{ player.team_name }}</a> </p>
+        <p> Average Rating: {{ player.avg_rating }} </p>
+      </div>
     </div>
-    <div class="containter" style="margin-top: 30px; margin-bottom: 50px; align-items: center; align-content: center; width: 40%; margin-left: 375px;">
-      {{ pagination.links }}
-    </div>
+    {% endfor %}
   </div>
+  <div class="containter"
+    style="margin-top: 30px; margin-bottom: 50px; align-items: center; align-content: center; width: 40%; margin-left: 375px;">
+    {{ pagination.links }}
+  </div>
+</div>
 {% endblock %}
-
-
-  <!-- This is just an example of how to use the player data -->
-  <!-- {% for player in players %}
-    <p> This is a player </p>
-    <p> id: {{ player._id }} </p>
-    <p> name: {{ player.name }} </p>
-    <p> position: {{ player.position }} </p>
-    <p> dob: {{ player.dob }} </p>
-    <p> nationality: {{ player.nationality }} </p>
-    <p> height: {{ player.height }} </p>
-    <p> weight: {{ player.weight }} </p>
-    <p> team_id: {{ player.team_id }} </p>
-    <p> team_name: {{ player.team_name }} </p>
-    <p> media_link: {{ player.media_link }} </p>
-    <p> This is the end of a player </p>
-  {% endfor %} -->

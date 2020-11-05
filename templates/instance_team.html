@@ -56,7 +56,7 @@
           var linked = link.concat(linkid) -->
           <div class="container" style="margin-bottom: 20px;"></div>
           <p> Name: <a href= "/instance/match/{{ match._id }}">{{ match.home_team_name }} vs. {{ match.away_team_name }}</a> </p>
-          <p> Date: {{ match.date }} </p>
+          <p> Date: {{ match.date[:10] }} </p>
           <p> Score: {{ match.score }} </p>
         </div>
       </div>
