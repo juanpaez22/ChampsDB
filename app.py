@@ -2,8 +2,6 @@ import json
 import os
 import re
 
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.shortcuts import render
 from flask import Blueprint, Flask, redirect, render_template, request, url_for
 from flask_mongoengine import MongoEngine
 from flask_paginate import Pagination, get_page_args, get_page_parameter

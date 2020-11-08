@@ -1,7 +1,7 @@
 import unittest
 
 from app import app
-
+from app import get_players, get_matches, get_teams
 
 class TestApp(unittest.TestCase):
     '''
@@ -88,3 +88,57 @@ class TestApp(unittest.TestCase):
             for id in [123412341234, 'asdf', 0, 'model', 'player']:
                 response = self.app.get(f'/instance/{model}/{id}', follow_redirects=True)
                 self.assertEqual(response.status_code, 404)
+
+    def test_sort_players(self):
+        '''
+        Test sorting of players by a numeric key.
+        '''
+        # Forward sort
+        players = get_players(offset=0, per_page=1000, sort_by='goals', search_query=None)[0]
+        goals = -1
+        for player in players:
+            self.assertTrue(player.goals >= goals)
+            goals = player.goals
+
+        # Backward sort
+        players = get_players(offset=0, per_page=1000, sort_by='-goals', search_query=None)[0]
+        goals = 10000
+        for player in players:
+            self.assertTrue(player.goals <= goals)
+            goals = player.goals
+
+    def test_sort_teams(self):
+        '''
+        Test sorting of teams by a string key.
+        '''
+        # Forward sort
+        teams = get_teams(offset=0, per_page=1000, sort_by='name', search_query=None)[0]
+        name = "A"
+        for team in teams:
+            self.assertTrue(team.name >= name)
+            name = team.name
+
+        # Backward sort
+        teams = get_teams(offset=0, per_page=1000, sort_by='-name', search_query=None)[0]
+        name = "z"
+        for team in teams:
+            self.assertTrue(team.name <= name)
+            name = team.name
+
+    def test_sort_matches(self):
+        '''
+        Test sorting of matches by a date key.
+        '''
+        # Forward sort
+        matches = get_matches(offset=0, per_page=1000, sort_by='date', search_query=None)[0]
+        date = matches[0].date
+        for match in matches:
+            self.assertTrue(match.date >= date)
+            date = match.date
+
+        # Backward sort
+        matches = get_matches(offset=0, per_page=1000, sort_by='-date', search_query=None)[0]
+        date = matches[0].date
+        for match in matches:
+            self.assertTrue(match.date <= date)
+            date = match.date
