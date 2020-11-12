@@ -1,5 +1,7 @@
 # TeamA6: ChampionsDB 2019-2020
 
+![Tests](https://github.com/UT-SWLab/TeamA6/workflows/Python%20application/badge.svg)
+
 ## To build and run the web server on your local machine:
 1. Clone this repository
 2. Install dependencies with "pip install -r requirements.txt"
