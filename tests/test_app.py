@@ -3,6 +3,7 @@ import unittest
 from app import app
 from app import get_players, get_matches, get_teams
 
+
 class TestApp(unittest.TestCase):
     '''
     Unit testing class for app.py
@@ -67,13 +68,15 @@ class TestApp(unittest.TestCase):
         # These are combinations of valid models and ids
         for model, ids in self.ids.items():
             for id in ids:
-                response = self.app.get(f'/instance/{model}/{id}', follow_redirects=True)
+                response = self.app.get(
+                    f'/instance/{model}/{id}', follow_redirects=True)
                 self.assertEqual(response.status_code, 200)
 
         # These are examples of valid models but invalid ids
         for model in self.ids:
             for id in [123412341234, 'asdf', 0, 'model', 'player']:
-                response = self.app.get(f'/instance/{model}/{id}', follow_redirects=True)
+                response = self.app.get(
+                    f'/instance/{model}/{id}', follow_redirects=True)
                 self.assertEqual(response.status_code, 404)
 
         # These are examples of invalid models
@@ -81,12 +84,14 @@ class TestApp(unittest.TestCase):
             # Valid IDs but they should still 404 since these aren't real models
             for ids in self.ids.values():
                 for id in ids:
-                    response = self.app.get(f'/instance/{model}/{id}', follow_redirects=True)
+                    response = self.app.get(
+                        f'/instance/{model}/{id}', follow_redirects=True)
                     self.assertEqual(response.status_code, 404)
 
             # Invalid IDs
             for id in [123412341234, 'asdf', 0, 'model', 'player']:
-                response = self.app.get(f'/instance/{model}/{id}', follow_redirects=True)
+                response = self.app.get(
+                    f'/instance/{model}/{id}', follow_redirects=True)
                 self.assertEqual(response.status_code, 404)
 
     def test_sort_players(self):
@@ -94,14 +99,16 @@ class TestApp(unittest.TestCase):
         Test sorting of players by a numeric key.
         '''
         # Forward sort
-        players = get_players(offset=0, per_page=1000, sort_by='goals', search_query=None)[0]
+        players = get_players(offset=0, per_page=1000,
+                              sort_by='goals', search_query=None)[0]
         goals = -1
         for player in players:
             self.assertTrue(player.goals >= goals)
             goals = player.goals
 
         # Backward sort
-        players = get_players(offset=0, per_page=1000, sort_by='-goals', search_query=None)[0]
+        players = get_players(offset=0, per_page=1000,
+                              sort_by='-goals', search_query=None)[0]
         goals = 10000
         for player in players:
             self.assertTrue(player.goals <= goals)
@@ -112,14 +119,16 @@ class TestApp(unittest.TestCase):
         Test sorting of teams by a string key.
         '''
         # Forward sort
-        teams = get_teams(offset=0, per_page=1000, sort_by='name', search_query=None)[0]
+        teams = get_teams(offset=0, per_page=1000,
+                          sort_by='name', search_query=None)[0]
         name = "A"
         for team in teams:
             self.assertTrue(team.name >= name)
             name = team.name
 
         # Backward sort
-        teams = get_teams(offset=0, per_page=1000, sort_by='-name', search_query=None)[0]
+        teams = get_teams(offset=0, per_page=1000,
+                          sort_by='-name', search_query=None)[0]
         name = "z"
         for team in teams:
             self.assertTrue(team.name <= name)
@@ -130,15 +139,500 @@ class TestApp(unittest.TestCase):
         Test sorting of matches by a date key.
         '''
         # Forward sort
-        matches = get_matches(offset=0, per_page=1000, sort_by='date', search_query=None)[0]
+        matches = get_matches(offset=0, per_page=1000,
+                              sort_by='date', search_query=None)[0]
         date = matches[0].date
         for match in matches:
             self.assertTrue(match.date >= date)
             date = match.date
 
         # Backward sort
-        matches = get_matches(offset=0, per_page=1000, sort_by='-date', search_query=None)[0]
+        matches = get_matches(offset=0, per_page=1000,
+                              sort_by='-date', search_query=None)[0]
         date = matches[0].date
         for match in matches:
             self.assertTrue(match.date <= date)
+            date = match.date
+
+    def test_search_player_name(self):
+        '''
+        Test searching of players by name
+
+        We need to make sure that searching works AND that it still works with sorting
+        '''
+        # TODO: Make sure that it works with filtering as well
+
+        # Searching for a part of a player name with forward sort
+        query = 'Diego'
+        players = get_players(offset=0, per_page=1000,
+                              sort_by='goals', search_query=query)[0]
+
+        goals = -1
+        for player in players:
+            self.assertTrue(player.goals >= goals)
+            self.assertTrue(query in player.name
+                            or query in player.position
+                            or query in player.team_name)
+            goals = player.goals
+
+        # Searching for a part of a player name with backward sort
+        players = get_players(offset=0, per_page=1000,
+                              sort_by='-goals', search_query=query)[0]
+
+        goals = 10000
+        for player in players:
+            self.assertTrue(player.goals <= goals)
+            self.assertTrue(query in player.name
+                            or query in player.position
+                            or query in player.team_name)
+            goals = player.goals
+
+    def test_search_player_position(self):
+        '''
+        Test searching of players by position
+
+        We need to make sure that searching works AND that it still works with sorting
+        '''
+        # TODO: Make sure that it works with filtering as well
+
+        # Searching for a part of a player position with forward sort
+        query = 'M'
+        players = get_players(offset=0, per_page=1000,
+                              sort_by='goals', search_query=query)[0]
+
+        goals = -1
+        for player in players:
+            self.assertTrue(player.goals >= goals)
+            self.assertTrue(query in player.name
+                            or query in player.position
+                            or query in player.team_name)
+            goals = player.goals
+
+        # Searching for a part of a player position with backward sort
+        players = get_players(offset=0, per_page=1000,
+                              sort_by='-goals', search_query=query)[0]
+
+        goals = 10000
+        for player in players:
+            self.assertTrue(player.goals <= goals)
+            self.assertTrue(query in player.name
+                            or query in player.position
+                            or query in player.team_name)
+            goals = player.goals
+
+    def test_search_player_team_name(self):
+        '''
+        Test searching of players by team name
+
+        We need to make sure that searching works AND that it still works with sorting
+        '''
+        # TODO: Make sure that it works with filtering as well
+
+        # Searching for a part of a player team name with forward sort
+        query = 'Bayern'
+        players = get_players(offset=0, per_page=1000,
+                              sort_by='goals', search_query=query)[0]
+
+        goals = -1
+        for player in players:
+            self.assertTrue(player.goals >= goals)
+            self.assertTrue(query in player.name
+                            or query in player.position
+                            or query in player.team_name)
+            goals = player.goals
+
+        # Searching for a part of a player team name with backward sort
+        players = get_players(offset=0, per_page=1000,
+                              sort_by='-goals', search_query=query)[0]
+
+        goals = 10000
+        for player in players:
+            self.assertTrue(player.goals <= goals)
+            self.assertTrue(query in player.name
+                            or query in player.position
+                            or query in player.team_name)
+            goals = player.goals
+
+    def test_search_team_name(self):
+        '''
+        Test searching of teams by name
+
+        We need to make sure that searching works AND that it still works with sorting
+        '''
+        # TODO: Make sure that it works with filtering as well
+
+        # Forward sort
+        query = 'Bayern'
+        teams = get_teams(offset=0, per_page=1000,
+                          sort_by='name', search_query=query)[0]
+        name = "0"
+        for team in teams:
+            self.assertTrue(team.name >= name)
+            self.assertTrue(query in team.name
+                            or query in team.country
+                            or query in team.city
+                            or query in team.stadium
+                            or query in team.stadium_surface
+                            or query in team.stadium_address)
+            name = team.name
+
+        # Backward sort
+        teams = get_teams(offset=0, per_page=1000,
+                          sort_by='-name', search_query=query)[0]
+        name = "z"
+        for team in teams:
+            self.assertTrue(team.name <= name)
+            self.assertTrue(query in team.name
+                            or query in team.country
+                            or query in team.city
+                            or query in team.stadium
+                            or query in team.stadium_surface
+                            or query in team.stadium_address)
+            name = team.name
+
+    def test_search_team_country(self):
+        '''
+        Test searching of teams by country
+
+        We need to make sure that searching works AND that it still works with sorting
+        '''
+        # TODO: Make sure that it works with filtering as well
+
+        # Forward sort
+        query = 'France'
+        teams = get_teams(offset=0, per_page=1000,
+                          sort_by='name', search_query=query)[0]
+        name = "0"
+        for team in teams:
+            self.assertTrue(team.name >= name)
+            self.assertTrue(query in team.name
+                            or query in team.country
+                            or query in team.city
+                            or query in team.stadium
+                            or query in team.stadium_surface
+                            or query in team.stadium_address)
+            name = team.name
+
+        # Backward sort
+        teams = get_teams(offset=0, per_page=1000,
+                          sort_by='-name', search_query=query)[0]
+        name = "z"
+        for team in teams:
+            self.assertTrue(team.name <= name)
+            self.assertTrue(query in team.name
+                            or query in team.country
+                            or query in team.city
+                            or query in team.stadium
+                            or query in team.stadium_surface
+                            or query in team.stadium_address)
+            name = team.name
+
+    def test_search_team_city(self):
+        '''
+        Test searching of teams by city
+
+        We need to make sure that searching works AND that it still works with sorting
+        '''
+        # TODO: Make sure that it works with filtering as well
+
+        # Forward sort
+        query = 'London'
+        teams = get_teams(offset=0, per_page=1000,
+                          sort_by='name', search_query=query)[0]
+        name = "0"
+        for team in teams:
+            self.assertTrue(team.name >= name)
+            self.assertTrue(query in team.name
+                            or query in team.country
+                            or query in team.city
+                            or query in team.stadium
+                            or query in team.stadium_surface
+                            or query in team.stadium_address)
+            name = team.name
+
+        # Backward sort
+        teams = get_teams(offset=0, per_page=1000,
+                          sort_by='-name', search_query=query)[0]
+        name = "z"
+        for team in teams:
+            self.assertTrue(team.name <= name)
+            self.assertTrue(query in team.name
+                            or query in team.country
+                            or query in team.city
+                            or query in team.stadium
+                            or query in team.stadium_surface
+                            or query in team.stadium_address)
+            name = team.name
+
+    def test_search_team_stadium_name(self):
+        '''
+        Test searching of teams by stadium name
+
+        We need to make sure that searching works AND that it still works with sorting
+        '''
+        # TODO: Make sure that it works with filtering as well
+
+        # Forward sort
+        query = 'Stadium'
+        teams = get_teams(offset=0, per_page=1000,
+                          sort_by='name', search_query=query)[0]
+        name = "0"
+        for team in teams:
+            self.assertTrue(team.name >= name)
+            self.assertTrue(query in team.name
+                            or query in team.country
+                            or query in team.city
+                            or query in team.stadium
+                            or query in team.stadium_surface
+                            or query in team.stadium_address)
+            name = team.name
+
+        # Backward sort
+        teams = get_teams(offset=0, per_page=1000,
+                          sort_by='-name', search_query=query)[0]
+        name = "z"
+        for team in teams:
+            self.assertTrue(team.name <= name)
+            self.assertTrue(query in team.name
+                            or query in team.country
+                            or query in team.city
+                            or query in team.stadium
+                            or query in team.stadium_surface
+                            or query in team.stadium_address)
+            name = team.name
+
+    def test_search_team_stadium_surface(self):
+        '''
+        Test searching of teams by stadium surface
+
+        We need to make sure that searching works AND that it still works with sorting
+        '''
+        # TODO: Make sure that it works with filtering as well
+
+        # Forward sort
+        query = 'grass'
+        teams = get_teams(offset=0, per_page=1000,
+                          sort_by='name', search_query=query)[0]
+        name = "0"
+        for team in teams:
+            self.assertTrue(team.name >= name)
+            self.assertTrue(query in team.name
+                            or query in team.country
+                            or query in team.city
+                            or query in team.stadium
+                            or query in team.stadium_surface
+                            or query in team.stadium_address)
+            name = team.name
+
+        # Backward sort
+        teams = get_teams(offset=0, per_page=1000,
+                          sort_by='-name', search_query=query)[0]
+        name = "z"
+        for team in teams:
+            self.assertTrue(team.name <= name)
+            self.assertTrue(query in team.name
+                            or query in team.country
+                            or query in team.city
+                            or query in team.stadium
+                            or query in team.stadium_surface
+                            or query in team.stadium_address)
+            name = team.name
+
+    def test_search_team_stadium_address(self):
+        '''
+        Test searching of teams by stadium address
+
+        We need to make sure that searching works AND that it still works with sorting
+        '''
+        # TODO: Make sure that it works with filtering as well
+
+        # Forward sort
+        query = 'Ljutice Bogdana'
+        teams = get_teams(offset=0, per_page=1000,
+                          sort_by='name', search_query=query)[0]
+        name = "0"
+        for team in teams:
+            self.assertTrue(team.name >= name)
+            self.assertTrue(query in team.name
+                            or query in team.country
+                            or query in team.city
+                            or query in team.stadium
+                            or query in team.stadium_surface
+                            or query in team.stadium_address)
+            name = team.name
+
+        # Backward sort
+        teams = get_teams(offset=0, per_page=1000,
+                          sort_by='-name', search_query=query)[0]
+        name = "z"
+        for team in teams:
+            self.assertTrue(team.name <= name)
+            self.assertTrue(query in team.name
+                            or query in team.country
+                            or query in team.city
+                            or query in team.stadium
+                            or query in team.stadium_surface
+                            or query in team.stadium_address)
+            name = team.name
+
+    def test_search_match_team_names(self):
+        '''
+        Test searching of matches by team names
+
+        We need to make sure that searching works AND that it still works with sorting
+        '''
+        # TODO: Make sure that it works with filtering as well
+
+        # Forward sort
+        query = 'Bayern'
+        matches = get_matches(offset=0, per_page=1000,
+                              sort_by='date', search_query=query)[0]
+        date = matches[0].date
+        for match in matches:
+            self.assertTrue(match.date >= date)
+            self.assertTrue(query in match.home_team_name
+                            or query in match.away_team_name
+                            or query in match.stadium
+                            or query in match.score
+                            or query in match.round
+                            or query in match.referee)
+            date = match.date
+
+        # Backward sort
+        matches = get_matches(offset=0, per_page=1000,
+                              sort_by='-date', search_query=query)[0]
+        date = matches[0].date
+        for match in matches:
+            self.assertTrue(match.date <= date)
+            self.assertTrue(query in match.home_team_name
+                            or query in match.away_team_name
+                            or query in match.stadium
+                            or query in match.score
+                            or query in match.round
+                            or query in match.referee)
+            date = match.date
+
+    def test_search_match_stadium(self):
+        '''
+        Test searching of matches by stadium name
+
+        We need to make sure that searching works AND that it still works with sorting
+        '''
+        # TODO: Make sure that it works with filtering as well
+
+        # Forward sort
+        query = 'Stadium'
+        matches = get_matches(offset=0, per_page=1000,
+                              sort_by='date', search_query=query)[0]
+        date = matches[0].date
+        for match in matches:
+            self.assertTrue(match.date >= date)
+            date = match.date
+
+        # Backward sort
+        matches = get_matches(offset=0, per_page=1000,
+                              sort_by='-date', search_query=query)[0]
+        date = matches[0].date
+        for match in matches:
+            self.assertTrue(match.date <= date)
+            self.assertTrue(query in match.home_team_name
+                            or query in match.away_team_name
+                            or query in match.stadium
+                            or query in match.score
+                            or query in match.round
+                            or query in match.referee)
+            date = match.date
+
+    def test_search_match_score(self):
+        '''
+        Test searching of matches by score
+
+        We need to make sure that searching works AND that it still works with sorting
+        '''
+        # TODO: Make sure that it works with filtering as well
+
+        # Forward sort
+        query = '1'
+        matches = get_matches(offset=0, per_page=1000,
+                              sort_by='date', search_query=query)[0]
+        date = matches[0].date
+        for match in matches:
+            self.assertTrue(match.date >= date)
+            date = match.date
+
+        # Backward sort
+        matches = get_matches(offset=0, per_page=1000,
+                              sort_by='-date', search_query=query)[0]
+        date = matches[0].date
+        for match in matches:
+            self.assertTrue(match.date <= date)
+            self.assertTrue(query in match.home_team_name
+                            or query in match.away_team_name
+                            or query in match.stadium
+                            or query in match.score
+                            or query in match.round
+                            or query in match.referee)
+            date = match.date
+
+    def test_search_match_round(self):
+        '''
+        Test searching of matches by round
+
+        We need to make sure that searching works AND that it still works with sorting
+        '''
+        # TODO: Make sure that it works with filtering as well
+
+        # Forward sort
+        query = 'Final'
+        matches = get_matches(offset=0, per_page=1000,
+                              sort_by='date', search_query=query)[0]
+        date = matches[0].date
+        for match in matches:
+            self.assertTrue(match.date >= date)
+            date = match.date
+
+        # Backward sort
+        matches = get_matches(offset=0, per_page=1000,
+                              sort_by='-date', search_query=query)[0]
+        date = matches[0].date
+        for match in matches:
+            self.assertTrue(match.date <= date)
+            self.assertTrue(query in match.home_team_name
+                            or query in match.away_team_name
+                            or query in match.stadium
+                            or query in match.score
+                            or query in match.round
+                            or query.lower() in match.round
+                            or query in match.referee)
+            date = match.date
+
+    def test_search_match_referee(self):
+        '''
+        Test searching of matches by referee
+
+        We need to make sure that searching works AND that it still works with sorting
+        '''
+        # TODO: Make sure that it works with filtering as well
+
+        # Forward sort
+        query = 'Brych'
+        matches = get_matches(offset=0, per_page=1000,
+                              sort_by='date', search_query=query)[0]
+        date = matches[0].date
+        for match in matches:
+            self.assertTrue(match.date >= date)
+            date = match.date
+
+        # Backward sort
+        matches = get_matches(offset=0, per_page=1000,
+                              sort_by='-date', search_query=query)[0]
+        date = matches[0].date
+        for match in matches:
+            self.assertTrue(match.date <= date)
+            self.assertTrue(query in match.home_team_name
+                            or query in match.away_team_name
+                            or query in match.stadium
+                            or query in match.score
+                            or query in match.round
+                            or query in match.referee)
             date = match.date
