@@ -18,7 +18,11 @@
     <div class="form-row justify-content-center mt-2 mg-auto py-auto">
       <label class="text-light col-auto col-form-label" for="q">Query</label>
       <div class="col-xl form-group">
+        {% if query != "None" %}
+        <input type="text" class="form-control" name="q" id="q" value={{ query }}>
+        {% else %}
         <input type="text" class="form-control" name="q" id="q" placeholder="Query">
+        {% endif %}
       </div>
       {# TODO: Add filtering here #}
       <!-- <label class="text-light col-auto col-form-label" for="filter">Filter</label> -->
@@ -31,17 +35,17 @@
       <label class="text-light col-auto col-form-label" for="sort">Sort by:</label>
       <div class="col-auto form-group">
         <select class="selectpicker form-control" name="sort" id="sort" title="Sort by">
-          <option value="name">Player Name</option>
-          <option value="-goals">Most Goals</option>
-          <option value="goals">Least Goals</option>
-          <option value="-assists">Most Assists</option>
-          <option value="assists">Least Assists</option>
-          <option value="-passes">Most Passes</option>
-          <option value="passes">Least Passes</option>
-          <option value="-avg_rating">Highest Average Match Rating</option>
-          <option value="avg_rating">Lowest Average Match Rating</option>
-          <option value="-avg_pass_accuracy">Highest Pass Accuracy</option>
-          <option value="avg_pass_accuracy">Lowest Pass Accuracy</option>
+          <option value="name" {% if sort == "name" %} selected {% endif %}>Player Name</option>
+          <option value="-goals" {% if sort == "-goals" %} selected {% endif %}>Most Goals</option>
+          <option value="goals" {% if sort == "goals" %} selected {% endif %}>Least Goals</option>
+          <option value="-assists" {% if sort == "-assists" %} selected {% endif %}>Most Assists</option>
+          <option value="assists" {% if sort == "assists" %} selected {% endif %}>Least Assists</option>
+          <option value="-passes" {% if sort == "-passes" %} selected {% endif %}>Most Passes</option>
+          <option value="passes" {% if sort == "passes" %} selected {% endif %}>Least Passes</option>
+          <option value="-avg_rating" {% if sort == "-avg_rating" %} selected {% endif %}>Highest Average Match Rating</option>
+          <option value="avg_rating" {% if sort == "avg_rating" %} selected {% endif %}>Lowest Average Match Rating</option>
+          <option value="-avg_pass_accuracy" {% if sort == "-avg_pass_accuracy" %} selected {% endif %}>Highest Pass Accuracy</option>
+          <option value="avg_pass_accuracy" {% if sort == "avg_pass_accuracy" %} selected {% endif %}>Lowest Pass Accuracy</option>
         </select>
       </div>
       <div class="col-auto">

@@ -21,7 +21,11 @@
     <div class="form-row justify-content-center mt-2 mg-auto py-auto">
       <label class="text-light col-auto col-form-label" for="q">Query</label>
       <div class="col-xl form-group">
+        {% if query != "None" %}
+        <input type="text" class="form-control" name="q" id="q" value={{ query }}>
+        {% else %}
         <input type="text" class="form-control" name="q" id="q" placeholder="Query">
+        {% endif %}
       </div>
       {# TODO: Add filtering here #}
       <!-- <label class="text-light col-auto col-form-label" for="filter">Filter</label> -->
@@ -34,15 +38,33 @@
       <label class="text-light col-auto col-form-label" for="sort">Sort by:</label>
       <div class="col-auto form-group">
         <select class="selectpicker form-control" name="sort" id="sort" title="Sort by">
+          {# These if-elses are to keep sorting consistent between queries #}
+          {% if sort == "-date" %}
+          <option value="-date" selected>Most Recent</option>
+          {% else %}
           <option value="-date">Most Recent</option>
+          {% endif %}
+          {% if sort == "date" %}
+          <option value="date" selected>Least Recent</option>
+          {% else %}
           <option value="date">Least Recent</option>
+          {% endif %}
+          {% if sort == "home_team_name" %}
+          <option value="home_team_name" selected>Home Team Name</option>
+          {% else %}
           <option value="home_team_name">Home Team Name</option>
+          {% endif %}
+          {% if sort == "away_team_name" %}
+          <option value="away_team_name" selected>Away Team Name</option>
+          {% else %}
           <option value="away_team_name">Away Team Name</option>
+          {% endif %}
         </select>
       </div>
       <div class="col-auto">
         <button type="submit" class="btn btn-primary">Submit</button>
       </div>
+    </div>
   </form>
 
   <div class="row">
