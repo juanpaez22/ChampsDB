@@ -69,7 +69,7 @@ User Story | Assigned Member(s) | Estimated Completion Time (Hrs) | Actual Compl
 #1 | All | 3 | 5
 #2 | | | 
 #3 | Juan | 6 | 4
-#4 | | | 
+#4 | Ben | 6 | 10
 #5 | | | 
 
 
