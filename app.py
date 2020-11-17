@@ -114,7 +114,7 @@ class Matches(db.Document):
     referee = db.StringField()
     goals_home_team = db.IntField()
     goals_away_team = db.IntField()
-    video = db.URLField()
+    video = db.StringField()
 
     meta = {'indexes': [
         {'fields': ['$home_team_name', "$away_team_name", "$stadium", "$score", "$round", "$referee"],

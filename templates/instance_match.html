@@ -48,6 +48,16 @@
     </div>
   </div>
 
+  <!-- Highlights -->
+  <div style="padding-top: 20px;" class="row justify-content-start mt-2 mg-auto mx-auto p-auto text-center">
+    <h3>Video Highlights</h3>
+  </div>
+  {% if match.video | length > 0 %}
+  {{match.video | safe}}
+  {% else %}
+  <p> No highlights available for this match :( </p>
+  {% endif %}
+
   <!-- Featured players -->
   <div style="padding-top: 20px;" class="row justify-content-start mt-2 mg-auto mx-auto p-auto text-center">
     <h3>Featured Player Match Stats</h3>
