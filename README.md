@@ -64,4 +64,12 @@ User Story | Assigned Member(s) | Estimated Completion Time (Hrs) | Actual Compl
 #6 | Ben | 2 | 2
 
 ## Phase III Completion Time
+User Story | Assigned Member(s) | Estimated Completion Time (Hrs) | Actual Completion Time (Hrs)
+--- | --- | --- | ---
+#1 | All | 3 | 5
+#2 | | | 
+#3 | Juan | 6 | 4
+#4 | | | 
+#5 | | | 
+
 
