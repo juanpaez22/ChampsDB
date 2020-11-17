@@ -21,7 +21,11 @@
     <div class="form-row justify-content-center mt-2 mg-auto py-auto">
       <label class="text-light col-auto col-form-label" for="q">Query</label>
       <div class="col-xl form-group">
+        {% if query != "None" %}
+        <input type="text" class="form-control" name="q" id="q" value={{ query }}>
+        {% else %}
         <input type="text" class="form-control" name="q" id="q" placeholder="Query">
+        {% endif %}
       </div>
       {# TODO: Add filtering here #}
       <!-- <label class="text-light col-auto col-form-label" for="filter">Filter</label> -->
