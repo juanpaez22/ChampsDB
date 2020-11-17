@@ -38,10 +38,27 @@
       <label class="text-light col-auto col-form-label" for="sort">Sort by:</label>
       <div class="col-auto form-group">
         <select class="selectpicker form-control" name="sort" id="sort" title="Sort by">
+          {# These if-elses are to keep sorting consistent between queries #}
+          {% if sort == "-date" %}
+          <option value="-date" selected>Most Recent</option>
+          {% else %}
           <option value="-date">Most Recent</option>
+          {% endif %}
+          {% if sort == "date" %}
+          <option value="date" selected>Least Recent</option>
+          {% else %}
           <option value="date">Least Recent</option>
+          {% endif %}
+          {% if sort == "home_team_name" %}
+          <option value="home_team_name" selected>Home Team Name</option>
+          {% else %}
           <option value="home_team_name">Home Team Name</option>
+          {% endif %}
+          {% if sort == "away_team_name" %}
+          <option value="away_team_name" selected>Away Team Name</option>
+          {% else %}
           <option value="away_team_name">Away Team Name</option>
+          {% endif %}
         </select>
       </div>
       <div class="col-auto">

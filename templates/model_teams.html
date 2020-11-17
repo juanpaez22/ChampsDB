@@ -35,11 +35,11 @@
       <label class="text-light col-auto col-form-label" for="sort">Sort by:</label>
       <div class="col-auto form-group">
         <select class="selectpicker form-control" name="sort" id="sort" title="Sort by">
-          <option value="name">Team Name</option>
-          <option value="founded">Year Founded - Oldest</option>
-          <option value="-founded">Year Founded - Youngest</option>
-          <option value="-stadium_capacity">Stadium Capacity - Largest</option>
-          <option value="stadium_capacity">Stadium Capacity - Smallest</option>
+          <option value="name" {% if sort == "name" %} selected {% endif %}>Team Name</option>
+          <option value="founded" {% if sort == "founded" %} selected {% endif %}>Year Founded - Oldest</option>
+          <option value="-founded" {% if sort == "-founded" %} selected {% endif %}>Year Founded - Youngest</option>
+          <option value="-stadium_capacity" {% if sort == "-stadium_capacity" %} selected {% endif %}>Stadium Capacity - Largest</option>
+          <option value="stadium_capacity" {% if sort == "stadium_capacity" %} selected {% endif %}>Stadium Capacity - Smallest</option>
         </select>
       </div>
       <div class="col-auto">
