@@ -214,7 +214,12 @@ def model(model=None):
         pagination = Pagination(
             page=page, per_page=per_page, total=total, css_framework='bootstrap4')
 
-        return render_template('model_players.html', players=pagination_players, page=page, per_page=per_page, pagination=pagination, model=model, sort=sort_by, query=search_query)
+        filter_options = {
+            'Position': ['Goalkeeper', 'Defender', 'Midfielder', 'Forward'],
+            'Club': sorted(list(set([player.team_name for player in Players.objects()])))
+        }
+
+        return render_template('model_players.html', players=pagination_players, page=page, per_page=per_page, pagination=pagination, model=model, sort=sort_by, query=search_query, filter_options=filter_options)
     elif model == 'team':
         page, per_page, offset = get_page_args(
             page_parameter='page', per_page_parameter='per_page', per_page=12)
@@ -223,7 +228,12 @@ def model(model=None):
         pagination = Pagination(
             page=page, per_page=per_page, total=total, css_framework='bootstrap4')
 
-        return render_template('model_teams.html', teams=pagination_teams, page=page, per_page=per_page, pagination=pagination, model=model, sort=sort_by, query=search_query)
+        filter_options = {
+            'Country': sorted(list(set([team.country for team in Teams.objects()]))),
+            'City': sorted(list(set([team.city for team in Teams.objects()])))
+        }
+
+        return render_template('model_teams.html', teams=pagination_teams, page=page, per_page=per_page, pagination=pagination, model=model, sort=sort_by, query=search_query, filter_options=filter_options)
 
     elif model == 'match':
         page, per_page, offset = get_page_args(
@@ -233,7 +243,13 @@ def model(model=None):
         pagination = Pagination(
             page=page, per_page=per_page, total=total, css_framework='bootstrap4')
 
-        return render_template('model_matches.html', matches=pagination_matches, page=page, per_page=per_page, pagination=pagination, model=model, sort=sort_by, query=search_query)
+        filter_options = {
+            'Round': sorted(list(set([match.round for match in Matches.objects()]))),
+            'Team': sorted(list(set([match.home_team_name for match in Matches.objects()]) | set([match.away_team_name for match in Matches.objects()]))),
+            'Stadium': sorted(list(set([match.stadium for match in Matches.objects()]))),
+        }
+
+        return render_template('model_matches.html', matches=pagination_matches, page=page, per_page=per_page, pagination=pagination, model=model, sort=sort_by, query=search_query, filter_options=filter_options)
 
     return not_found(404)
 

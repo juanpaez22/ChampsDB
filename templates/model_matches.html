@@ -22,7 +22,7 @@
       <label class="text-light col-auto col-form-label" for="q">Query</label>
       <div class="col-xl form-group">
         {% if query != "None" %}
-        <input type="text" class="form-control" name="q" id="q" value={{ query }}>
+        <input type="text" class="form-control" name="q" id="q" value="{{ query }}">
         {% else %}
         <input type="text" class="form-control" name="q" id="q" placeholder="Query">
         {% endif %}
@@ -59,6 +59,15 @@
           {% else %}
           <option value="away_team_name">Away Team Name</option>
           {% endif %}
+        </select>
+      </div>
+      <div class="col-auto form-group">
+        <select class="selectpicker form-control" name="filter" id="filter" title="Filter by">
+          {% for key, value in filter_options.items() %}
+          {% for item in value %}
+          <option value="{{key}}_{{item}}">{{key}}: {{item}}</option>
+          {% endfor %}
+          {% endfor %}
         </select>
       </div>
       <div class="col-auto">
