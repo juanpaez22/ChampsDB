@@ -160,7 +160,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Searching for a part of a player name with forward sort
         query = 'Diego'
@@ -193,7 +192,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Searching for a part of a player position with forward sort
         query = 'M'
@@ -226,7 +224,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Searching for a part of a player team name with forward sort
         query = 'Bayern'
@@ -259,7 +256,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Forward sort
         query = 'Bayern'
@@ -296,7 +292,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Forward sort
         query = 'France'
@@ -333,7 +328,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Forward sort
         query = 'London'
@@ -370,7 +364,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Forward sort
         query = 'Stadium'
@@ -407,7 +400,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Forward sort
         query = 'grass'
@@ -444,7 +436,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Forward sort
         query = 'Ljutice Bogdana'
@@ -481,7 +472,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Forward sort
         query = 'Bayern'
@@ -518,7 +508,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Forward sort
         query = 'Stadium'
@@ -549,7 +538,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Forward sort
         query = '1'
@@ -580,7 +568,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Forward sort
         query = 'Final'
@@ -612,7 +599,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Forward sort
         query = 'Brych'
