@@ -46,7 +46,7 @@
         <select class="selectpicker form-control" name="filter" id="filter" title="Filter by">
           {% for key, value in filter_options.items() %}
           {% for item in value %}
-          <option value="{{key}}_{{item}}">{{key}}: {{item}}</option>
+          <option value="{{key}}_{{item}}" {% if filter == key + "_" + item %} selected {% endif %}>{{key}}: {{item}}</option>
           {% endfor %}
           {% endfor %}
         </select>

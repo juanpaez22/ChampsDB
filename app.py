@@ -148,7 +148,7 @@ class Events(db.Document):
 
 
 # Source used to help with pagination: https://gist.github.com/mozillazg/69fb40067ae6d80386e10e105e6803c9
-def get_players(offset=0, per_page=12, sort_by="-goals", search_query=None):
+def get_players(offset=0, per_page=12, sort_by="-goals", search_query=None, filter_by=None):
     if sort_by == None or sort_by == "None":
         sort_by = "-goals"
 
@@ -157,10 +157,19 @@ def get_players(offset=0, per_page=12, sort_by="-goals", search_query=None):
         players = Players.objects().order_by(sort_by)
     else:
         players = Players.objects().search_text(search_query).order_by(sort_by)
+
+    if filter_by is not None and len(filter_by) > 0 and filter_by != "None":
+        key = filter_by.split('_')[0]
+        val = filter_by.split('_')[1]
+        if key == 'Club':
+            players = [player for player in players if player.team_name == val]
+        if key == 'Position':
+            players = [player for player in players if player.position == val[0]]
+
     return players[offset: offset + per_page], len(players)
 
 
-def get_teams(offset=0, per_page=12, sort_by="name", search_query=None):
+def get_teams(offset=0, per_page=12, sort_by="name", search_query=None, filter_by=None):
     if sort_by == None or sort_by == "None":
         sort_by = "name"
 
@@ -170,10 +179,18 @@ def get_teams(offset=0, per_page=12, sort_by="name", search_query=None):
     else:
         teams = Teams.objects().search_text(search_query).order_by(sort_by)
 
+    if filter_by is not None and len(filter_by) > 0 and filter_by != "None":
+        key = filter_by.split('_')[0]
+        val = filter_by.split('_')[1]
+        if key == 'Country':
+            teams = [team for team in teams if team.country == val]
+        if key == 'City':
+            teams = [team for team in teams if team.city == val]
+
     return teams[offset: offset + per_page], len(teams)
 
 
-def get_matches(offset=0, per_page=12, sort_by="-date", search_query=None):
+def get_matches(offset=0, per_page=12, sort_by="-date", search_query=None, filter_by=None):
     if sort_by is None or sort_by == "None":
         sort_by = "-date"
 
@@ -182,6 +199,17 @@ def get_matches(offset=0, per_page=12, sort_by="-date", search_query=None):
         matches = Matches.objects().order_by(sort_by)
     else:
         matches = Matches.objects().search_text(search_query).order_by(sort_by)
+
+    if filter_by is not None and len(filter_by) > 0 and filter_by != "None":
+        key = filter_by.split('_')[0]
+        val = filter_by.split('_')[1]
+        if key == 'Round':
+            matches = [match for match in matches if match.round == val]
+        if key == 'Team':
+            matches = [match for match in matches if match.home_team_name == val] + [match for match in matches if match.away_team_name == val]
+        if key == 'Stadium':
+            matches = [match for match in matches if match.stadium == stadium]
+
 
     return matches[offset: offset + per_page], len(matches)
 
@@ -205,12 +233,13 @@ def model(model=None):
     '''
     sort_by = str(request.args.get('sort'))
     search_query = str(request.args.get('q'))
+    filter_by = str(request.args.get('filter'))
 
     if model == 'player':
         page, per_page, offset = get_page_args(
             page_parameter='page', per_page_parameter='per_page', per_page=12)
         pagination_players, total = get_players(
-            offset=offset, per_page=12, sort_by=sort_by, search_query=search_query)
+            offset=offset, per_page=12, sort_by=sort_by, search_query=search_query, filter_by=filter_by)
         pagination = Pagination(
             page=page, per_page=per_page, total=total, css_framework='bootstrap4')
 
@@ -219,12 +248,13 @@ def model(model=None):
             'Club': sorted(list(set([player.team_name for player in Players.objects()])))
         }
 
-        return render_template('model_players.html', players=pagination_players, page=page, per_page=per_page, pagination=pagination, model=model, sort=sort_by, query=search_query, filter_options=filter_options)
+        print(filter_by)
+        return render_template('model_players.html', players=pagination_players, page=page, per_page=per_page, pagination=pagination, model=model, sort=sort_by, query=search_query, filter_options=filter_options, filter=filter_by)
     elif model == 'team':
         page, per_page, offset = get_page_args(
             page_parameter='page', per_page_parameter='per_page', per_page=12)
         pagination_teams, total = get_teams(
-            offset=offset, per_page=12, sort_by=sort_by, search_query=search_query)
+            offset=offset, per_page=12, sort_by=sort_by, search_query=search_query, filter_by=filter_by)
         pagination = Pagination(
             page=page, per_page=per_page, total=total, css_framework='bootstrap4')
 
@@ -233,13 +263,13 @@ def model(model=None):
             'City': sorted(list(set([team.city for team in Teams.objects()])))
         }
 
-        return render_template('model_teams.html', teams=pagination_teams, page=page, per_page=per_page, pagination=pagination, model=model, sort=sort_by, query=search_query, filter_options=filter_options)
+        return render_template('model_teams.html', teams=pagination_teams, page=page, per_page=per_page, pagination=pagination, model=model, sort=sort_by, query=search_query, filter_options=filter_options, filter=filter_by)
 
     elif model == 'match':
         page, per_page, offset = get_page_args(
             page_parameter='page', per_page_parameter='per_page', per_page=12)
         pagination_matches, total = get_matches(
-            offset=offset, per_page=12, sort_by=sort_by, search_query=search_query)
+            offset=offset, per_page=12, sort_by=sort_by, search_query=search_query, filter_by=filter_by)
         pagination = Pagination(
             page=page, per_page=per_page, total=total, css_framework='bootstrap4')
 
@@ -249,7 +279,7 @@ def model(model=None):
             'Stadium': sorted(list(set([match.stadium for match in Matches.objects()]))),
         }
 
-        return render_template('model_matches.html', matches=pagination_matches, page=page, per_page=per_page, pagination=pagination, model=model, sort=sort_by, query=search_query, filter_options=filter_options)
+        return render_template('model_matches.html', matches=pagination_matches, page=page, per_page=per_page, pagination=pagination, model=model, sort=sort_by, query=search_query, filter_options=filter_options, filter=filter_by)
 
     return not_found(404)
 
