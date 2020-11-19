@@ -208,7 +208,7 @@ def get_matches(offset=0, per_page=12, sort_by="-date", search_query=None, filte
         if key == 'Team':
             matches = [match for match in matches if match.home_team_name == val] + [match for match in matches if match.away_team_name == val]
         if key == 'Stadium':
-            matches = [match for match in matches if match.stadium == stadium]
+            matches = [match for match in matches if match.stadium == val]
 
 
     return matches[offset: offset + per_page], len(matches)
