@@ -67,9 +67,9 @@ User Story | Assigned Member(s) | Estimated Completion Time (Hrs) | Actual Compl
 User Story | Assigned Member(s) | Estimated Completion Time (Hrs) | Actual Completion Time (Hrs)
 --- | --- | --- | ---
 #1 | All | 3 | 5
-#2 | | | 
+#2 | All | 6 | 15
 #3 | Juan | 6 | 4
 #4 | Ben | 6 | 10
-#5 | | | 
+#5 | Juan, Pearse| 1 | 1
 
 
