@@ -248,7 +248,6 @@ def model(model=None):
             'Club': sorted(list(set([player.team_name for player in Players.objects()])))
         }
 
-        print(filter_by)
         return render_template('model_players.html', players=pagination_players, page=page, per_page=per_page, pagination=pagination, model=model, sort=sort_by, query=search_query, filter_options=filter_options, filter=filter_by)
     elif model == 'team':
         page, per_page, offset = get_page_args(

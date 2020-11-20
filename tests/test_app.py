@@ -160,7 +160,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Searching for a part of a player name with forward sort
         query = 'Diego'
@@ -193,7 +192,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Searching for a part of a player position with forward sort
         query = 'M'
@@ -226,7 +224,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Searching for a part of a player team name with forward sort
         query = 'Bayern'
@@ -259,7 +256,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Forward sort
         query = 'Bayern'
@@ -296,7 +292,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Forward sort
         query = 'France'
@@ -333,7 +328,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Forward sort
         query = 'London'
@@ -370,7 +364,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Forward sort
         query = 'Stadium'
@@ -407,7 +400,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Forward sort
         query = 'grass'
@@ -444,7 +436,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Forward sort
         query = 'Ljutice Bogdana'
@@ -481,7 +472,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Forward sort
         query = 'Bayern'
@@ -518,7 +508,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Forward sort
         query = 'Stadium'
@@ -549,7 +538,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Forward sort
         query = '1'
@@ -580,7 +568,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Forward sort
         query = 'Final'
@@ -612,7 +599,6 @@ class TestApp(unittest.TestCase):
 
         We need to make sure that searching works AND that it still works with sorting
         '''
-        # TODO: Make sure that it works with filtering as well
 
         # Forward sort
         query = 'Brych'
@@ -636,3 +622,274 @@ class TestApp(unittest.TestCase):
                             or query in match.round
                             or query in match.referee)
             date = match.date
+
+    def test_filter_players_club(self):
+        '''
+        Test filtering on the players model page by club
+        '''
+        filter_by = 'Club_BSC Young Boys'
+
+        # Forward sort
+        players = get_players(offset=0, per_page=1000,
+                              sort_by='goals', filter_by=filter_by)[0]
+
+        goals = -1
+        for player in players:
+            self.assertTrue(player.goals >= goals)
+            self.assertTrue(filter_by.split('_')[1] in player.team_name)
+            goals = player.goals
+
+        # Searching for a part of a player team name with backward sort
+        players = get_players(offset=0, per_page=1000,
+                              sort_by='-goals', filter_by=filter_by)[0]
+
+        goals = 10000
+        for player in players:
+            self.assertTrue(player.goals <= goals)
+            self.assertTrue(filter_by.split('_')[1] in player.team_name)
+            goals = player.goals
+
+    def test_filter_players_position(self):
+        '''
+        Test filtering on the players model page by position
+        '''
+        filter_by = 'Position_Defender'
+
+        # Forward sort
+        players = get_players(offset=0, per_page=1000,
+                              sort_by='goals', filter_by=filter_by)[0]
+
+        goals = -1
+        for player in players:
+            self.assertTrue(player.goals >= goals)
+            self.assertTrue(filter_by.split('_')[1][0] in player.position)
+            goals = player.goals
+
+        # Searching for a part of a player team name with backward sort
+        players = get_players(offset=0, per_page=1000,
+                              sort_by='-goals', filter_by=filter_by)[0]
+
+        goals = 10000
+        for player in players:
+            self.assertTrue(player.goals <= goals)
+            self.assertTrue(filter_by.split('_')[1][0] in player.position)
+            goals = player.goals
+
+    def test_filter_teams_country(self):
+        '''
+        Test filtering on the teams model page by country
+        '''
+        filter_by = 'Country_Germany'
+
+        # Forward sort
+        teams = get_teams(offset=0, per_page=1000,
+                          sort_by='name', filter_by=filter_by)[0]
+        name = "0"
+        for team in teams:
+            self.assertTrue(team.name >= name)
+            self.assertTrue(filter_by.split('_')[1] == team.country)
+            name = team.name
+
+        # Backward sort
+        teams = get_teams(offset=0, per_page=1000,
+                          sort_by='-name', filter_by=filter_by)[0]
+        name = "z"
+        for team in teams:
+            self.assertTrue(team.name <= name)
+            self.assertTrue(filter_by.split('_')[1] == team.country)
+            name = team.name
+
+    def test_filter_teams_city(self):
+        '''
+        Test filtering on the teams model page by city
+        '''
+        filter_by = 'City_Madrid'
+
+        # Forward sort
+        teams = get_teams(offset=0, per_page=1000,
+                          sort_by='name', filter_by=filter_by)[0]
+        name = "0"
+
+        for team in teams:
+            self.assertTrue(team.name >= name)
+            self.assertTrue(filter_by.split('_')[1] == team.city)
+            name = team.name
+
+        # Backward sort
+        teams = get_teams(offset=0, per_page=1000,
+                          sort_by='-name', filter_by=filter_by)[0]
+        name = "z"
+        for team in teams:
+            self.assertTrue(team.name <= name)
+            self.assertTrue(filter_by.split('_')[1] == team.city)
+            name = team.name
+
+    def test_filter_matches_round(self):
+        '''
+        Test filtering on the matches model page by round
+        '''
+        filter_by = 'Round_Final'
+
+        # Forward sort
+        matches = get_matches(offset=0, per_page=1000,
+                              sort_by='date', filter_by=filter_by)[0]
+        for match in matches:
+            self.assertEqual(filter_by.split('_')[1], match.round)
+
+        # Backward sort
+        matches = get_matches(offset=0, per_page=1000,
+                              sort_by='-date', filter_by=filter_by)[0]
+        for match in matches:
+            self.assertEqual(filter_by.split('_')[1], match.round)
+
+    def test_filter_matches_team(self):
+        '''
+        Test filtering on the matches model page by team
+        '''
+        filter_by = 'Team_Ajax'
+
+        # Forward sort
+        matches = get_matches(offset=0, per_page=1000,
+                              sort_by='date', filter_by=filter_by)[0]
+        for match in matches:
+            self.assertTrue(filter_by.split('_')[1] == match.away_team_name
+                            or filter_by.split('_')[1] == match.home_team_name)
+
+        # Backward sort
+        matches = get_matches(offset=0, per_page=1000,
+                              sort_by='-date', filter_by=filter_by)[0]
+        for match in matches:
+            self.assertTrue(filter_by.split('_')[1] == match.away_team_name
+                            or filter_by.split('_')[1] == match.home_team_name)
+
+    def test_filter_matches_stadium(self):
+        '''
+        Test filtering on the matches model page by stadium
+        '''
+        filter_by = 'Stadium_Neo GSP'
+
+        # Forward sort
+        matches = get_matches(offset=0, per_page=1000,
+                              sort_by='date', filter_by=filter_by)[0]
+        for match in matches:
+            self.assertEqual(filter_by.split('_')[1], match.stadium)
+
+        # Backward sort
+        matches = get_matches(offset=0, per_page=1000,
+                              sort_by='-date', filter_by=filter_by)[0]
+        for match in matches:
+            self.assertEqual(filter_by.split('_')[1], match.stadium)
+
+    def test_players_search_sort_filter(self):
+        '''
+        Test that searching, sorting, and filtering all work together on
+        the players model page
+        '''
+        query = "Bayern"
+        filter_by = 'Position_Midfielder'
+
+        # Forward sort
+        players = get_players(offset=0, per_page=1000, filter_by=filter_by,
+                              sort_by='goals', search_query=query)[0]
+
+        goals = -1
+        for player in players:
+            self.assertTrue(player.goals >= goals)
+            self.assertEqual(filter_by.split('_')[1][0], player.position)
+            self.assertTrue(query in player.name
+                            or query in player.position
+                            or query in player.team_name)
+            goals = player.goals
+
+        # Backward sort
+        players = get_players(offset=0, per_page=1000, filter_by=filter_by,
+                              sort_by='-goals', search_query=query)[0]
+
+        goals = 1000
+        for player in players:
+            self.assertTrue(player.goals <= goals)
+            self.assertEqual(filter_by.split('_')[1][0], player.position)
+            self.assertTrue(query in player.name
+                            or query in player.position
+                            or query in player.team_name)
+            goals = player.goals
+            goals = player.goals
+
+    def test_teams_search_sort_filter(self):
+        '''
+        Test that searching, sorting, and filtering all work together on
+        the teams model page
+        '''
+        # team?q=Madrid&sort=founded&filter=Country_Spain
+        query = "Madrid"
+        filter_by = 'Country_Spain'
+
+        # Forward sort
+        teams = get_teams(offset=0, per_page=1000, filter_by=filter_by,
+                          sort_by="founded", search_query=query)[0]
+
+        founded = 1
+        for team in teams:
+            self.assertTrue(team.founded >= founded)
+            self.assertEqual(filter_by.split('_')[1], team.country)
+            self.assertTrue(query in team.name
+                            or query in team.country
+                            or query in team.city
+                            or query in team.stadium
+                            or query in team.stadium_surface
+                            or query in team.stadium_address)
+            founded = team.founded
+
+        # Backward sort
+        teams = get_teams(offset=0, per_page=1000, filter_by=filter_by,
+                          sort_by="-founded", search_query=query)[0]
+
+        founded = 10000
+        for team in teams:
+            self.assertTrue(team.founded <= founded)
+            self.assertEqual(filter_by.split('_')[1], team.country)
+            self.assertTrue(query in team.name
+                            or query in team.country
+                            or query in team.city
+                            or query in team.stadium
+                            or query in team.stadium_surface
+                            or query in team.stadium_address)
+            founded = team.founded
+
+    def test_matches_search_sort_filter(self):
+        '''
+        Test that searching, sorting, and filtering all work together on
+        the matches model page
+        '''
+        query = "PAOK"
+        filter_by = 'Round_3rd Qualifying Round'
+
+        # Forward sort
+        matches = get_matches(offset=0, per_page=1000, search_query=query,
+                              sort_by='home_team_name', filter_by=filter_by)[0]
+        name = matches[0].home_team_name
+        for match in matches:
+            self.assertTrue(match.home_team_name >= name)
+            self.assertEqual(filter_by.split('_')[1], match.round)
+            self.assertTrue(query in match.home_team_name
+                            or query in match.away_team_name
+                            or query in match.stadium
+                            or query in match.score
+                            or query in match.round
+                            or query in match.referee)
+            name = match.home_team_name
+
+        # Backward sort
+        matches = get_matches(offset=0, per_page=1000, search_query=query,
+                              sort_by='away_team_name', filter_by=filter_by)[0]
+        name = matches[0].away_team_name
+        for match in matches:
+            self.assertTrue(match.away_team_name >= name)
+            self.assertEqual(filter_by.split('_')[1], match.round)
+            self.assertTrue(query in match.home_team_name
+                            or query in match.away_team_name
+                            or query in match.stadium
+                            or query in match.score
+                            or query in match.round
+                            or query in match.referee)
+            name = match.away_team_name
