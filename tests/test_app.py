@@ -1,8 +1,9 @@
 import unittest
 
 from app import app
-from app import get_players, get_matches, get_teams
-
+from players import *
+from teams import *
+from matches import *
 
 class TestApp(unittest.TestCase):
     '''
@@ -99,7 +100,7 @@ class TestApp(unittest.TestCase):
         Test sorting of players by a numeric key.
         '''
         # Forward sort
-        players = get_players(offset=0, per_page=1000,
+        players = Players.get_instances(offset=0, per_page=1000,
                               sort_by='goals', search_query=None)[0]
         goals = -1
         for player in players:
@@ -107,7 +108,7 @@ class TestApp(unittest.TestCase):
             goals = player.goals
 
         # Backward sort
-        players = get_players(offset=0, per_page=1000,
+        players = Players.get_instances(offset=0, per_page=1000,
                               sort_by='-goals', search_query=None)[0]
         goals = 10000
         for player in players:
@@ -119,7 +120,7 @@ class TestApp(unittest.TestCase):
         Test sorting of teams by a string key.
         '''
         # Forward sort
-        teams = get_teams(offset=0, per_page=1000,
+        teams = Teams.get_instances(offset=0, per_page=1000,
                           sort_by='name', search_query=None)[0]
         name = "A"
         for team in teams:
@@ -127,7 +128,7 @@ class TestApp(unittest.TestCase):
             name = team.name
 
         # Backward sort
-        teams = get_teams(offset=0, per_page=1000,
+        teams = Teams.get_instances(offset=0, per_page=1000,
                           sort_by='-name', search_query=None)[0]
         name = "z"
         for team in teams:
@@ -139,7 +140,7 @@ class TestApp(unittest.TestCase):
         Test sorting of matches by a date key.
         '''
         # Forward sort
-        matches = get_matches(offset=0, per_page=1000,
+        matches = Matches.get_instances(offset=0, per_page=1000,
                               sort_by='date', search_query=None)[0]
         date = matches[0].date
         for match in matches:
@@ -147,7 +148,7 @@ class TestApp(unittest.TestCase):
             date = match.date
 
         # Backward sort
-        matches = get_matches(offset=0, per_page=1000,
+        matches = Matches.get_instances(offset=0, per_page=1000,
                               sort_by='-date', search_query=None)[0]
         date = matches[0].date
         for match in matches:
@@ -163,7 +164,7 @@ class TestApp(unittest.TestCase):
 
         # Searching for a part of a player name with forward sort
         query = 'Diego'
-        players = get_players(offset=0, per_page=1000,
+        players = Players.get_instances(offset=0, per_page=1000,
                               sort_by='goals', search_query=query)[0]
 
         goals = -1
@@ -175,7 +176,7 @@ class TestApp(unittest.TestCase):
             goals = player.goals
 
         # Searching for a part of a player name with backward sort
-        players = get_players(offset=0, per_page=1000,
+        players = Players.get_instances(offset=0, per_page=1000,
                               sort_by='-goals', search_query=query)[0]
 
         goals = 10000
@@ -195,7 +196,7 @@ class TestApp(unittest.TestCase):
 
         # Searching for a part of a player position with forward sort
         query = 'M'
-        players = get_players(offset=0, per_page=1000,
+        players = Players.get_instances(offset=0, per_page=1000,
                               sort_by='goals', search_query=query)[0]
 
         goals = -1
@@ -207,7 +208,7 @@ class TestApp(unittest.TestCase):
             goals = player.goals
 
         # Searching for a part of a player position with backward sort
-        players = get_players(offset=0, per_page=1000,
+        players = Players.get_instances(offset=0, per_page=1000,
                               sort_by='-goals', search_query=query)[0]
 
         goals = 10000
@@ -227,7 +228,7 @@ class TestApp(unittest.TestCase):
 
         # Searching for a part of a player team name with forward sort
         query = 'Bayern'
-        players = get_players(offset=0, per_page=1000,
+        players = Players.get_instances(offset=0, per_page=1000,
                               sort_by='goals', search_query=query)[0]
 
         goals = -1
@@ -239,7 +240,7 @@ class TestApp(unittest.TestCase):
             goals = player.goals
 
         # Searching for a part of a player team name with backward sort
-        players = get_players(offset=0, per_page=1000,
+        players = Players.get_instances(offset=0, per_page=1000,
                               sort_by='-goals', search_query=query)[0]
 
         goals = 10000
@@ -259,7 +260,7 @@ class TestApp(unittest.TestCase):
 
         # Forward sort
         query = 'Bayern'
-        teams = get_teams(offset=0, per_page=1000,
+        teams = Teams.get_instances(offset=0, per_page=1000,
                           sort_by='name', search_query=query)[0]
         name = "0"
         for team in teams:
@@ -273,7 +274,7 @@ class TestApp(unittest.TestCase):
             name = team.name
 
         # Backward sort
-        teams = get_teams(offset=0, per_page=1000,
+        teams = Teams.get_instances(offset=0, per_page=1000,
                           sort_by='-name', search_query=query)[0]
         name = "z"
         for team in teams:
@@ -295,7 +296,7 @@ class TestApp(unittest.TestCase):
 
         # Forward sort
         query = 'France'
-        teams = get_teams(offset=0, per_page=1000,
+        teams = Teams.get_instances(offset=0, per_page=1000,
                           sort_by='name', search_query=query)[0]
         name = "0"
         for team in teams:
@@ -309,7 +310,7 @@ class TestApp(unittest.TestCase):
             name = team.name
 
         # Backward sort
-        teams = get_teams(offset=0, per_page=1000,
+        teams = Teams.get_instances(offset=0, per_page=1000,
                           sort_by='-name', search_query=query)[0]
         name = "z"
         for team in teams:
@@ -331,7 +332,7 @@ class TestApp(unittest.TestCase):
 
         # Forward sort
         query = 'London'
-        teams = get_teams(offset=0, per_page=1000,
+        teams = Teams.get_instances(offset=0, per_page=1000,
                           sort_by='name', search_query=query)[0]
         name = "0"
         for team in teams:
@@ -345,7 +346,7 @@ class TestApp(unittest.TestCase):
             name = team.name
 
         # Backward sort
-        teams = get_teams(offset=0, per_page=1000,
+        teams = Teams.get_instances(offset=0, per_page=1000,
                           sort_by='-name', search_query=query)[0]
         name = "z"
         for team in teams:
@@ -367,7 +368,7 @@ class TestApp(unittest.TestCase):
 
         # Forward sort
         query = 'Stadium'
-        teams = get_teams(offset=0, per_page=1000,
+        teams = Teams.get_instances(offset=0, per_page=1000,
                           sort_by='name', search_query=query)[0]
         name = "0"
         for team in teams:
@@ -381,7 +382,7 @@ class TestApp(unittest.TestCase):
             name = team.name
 
         # Backward sort
-        teams = get_teams(offset=0, per_page=1000,
+        teams = Teams.get_instances(offset=0, per_page=1000,
                           sort_by='-name', search_query=query)[0]
         name = "z"
         for team in teams:
@@ -403,7 +404,7 @@ class TestApp(unittest.TestCase):
 
         # Forward sort
         query = 'grass'
-        teams = get_teams(offset=0, per_page=1000,
+        teams = Teams.get_instances(offset=0, per_page=1000,
                           sort_by='name', search_query=query)[0]
         name = "0"
         for team in teams:
@@ -417,7 +418,7 @@ class TestApp(unittest.TestCase):
             name = team.name
 
         # Backward sort
-        teams = get_teams(offset=0, per_page=1000,
+        teams = Teams.get_instances(offset=0, per_page=1000,
                           sort_by='-name', search_query=query)[0]
         name = "z"
         for team in teams:
@@ -439,7 +440,7 @@ class TestApp(unittest.TestCase):
 
         # Forward sort
         query = 'Ljutice Bogdana'
-        teams = get_teams(offset=0, per_page=1000,
+        teams = Teams.get_instances(offset=0, per_page=1000,
                           sort_by='name', search_query=query)[0]
         name = "0"
         for team in teams:
@@ -453,7 +454,7 @@ class TestApp(unittest.TestCase):
             name = team.name
 
         # Backward sort
-        teams = get_teams(offset=0, per_page=1000,
+        teams = Teams.get_instances(offset=0, per_page=1000,
                           sort_by='-name', search_query=query)[0]
         name = "z"
         for team in teams:
@@ -475,7 +476,7 @@ class TestApp(unittest.TestCase):
 
         # Forward sort
         query = 'Bayern'
-        matches = get_matches(offset=0, per_page=1000,
+        matches = Matches.get_instances(offset=0, per_page=1000,
                               sort_by='date', search_query=query)[0]
         date = matches[0].date
         for match in matches:
@@ -489,7 +490,7 @@ class TestApp(unittest.TestCase):
             date = match.date
 
         # Backward sort
-        matches = get_matches(offset=0, per_page=1000,
+        matches = Matches.get_instances(offset=0, per_page=1000,
                               sort_by='-date', search_query=query)[0]
         date = matches[0].date
         for match in matches:
@@ -511,7 +512,7 @@ class TestApp(unittest.TestCase):
 
         # Forward sort
         query = 'Stadium'
-        matches = get_matches(offset=0, per_page=1000,
+        matches = Matches.get_instances(offset=0, per_page=1000,
                               sort_by='date', search_query=query)[0]
         date = matches[0].date
         for match in matches:
@@ -519,7 +520,7 @@ class TestApp(unittest.TestCase):
             date = match.date
 
         # Backward sort
-        matches = get_matches(offset=0, per_page=1000,
+        matches = Matches.get_instances(offset=0, per_page=1000,
                               sort_by='-date', search_query=query)[0]
         date = matches[0].date
         for match in matches:
@@ -541,7 +542,7 @@ class TestApp(unittest.TestCase):
 
         # Forward sort
         query = '1'
-        matches = get_matches(offset=0, per_page=1000,
+        matches = Matches.get_instances(offset=0, per_page=1000,
                               sort_by='date', search_query=query)[0]
         date = matches[0].date
         for match in matches:
@@ -549,7 +550,7 @@ class TestApp(unittest.TestCase):
             date = match.date
 
         # Backward sort
-        matches = get_matches(offset=0, per_page=1000,
+        matches = Matches.get_instances(offset=0, per_page=1000,
                               sort_by='-date', search_query=query)[0]
         date = matches[0].date
         for match in matches:
@@ -571,7 +572,7 @@ class TestApp(unittest.TestCase):
 
         # Forward sort
         query = 'Final'
-        matches = get_matches(offset=0, per_page=1000,
+        matches = Matches.get_instances(offset=0, per_page=1000,
                               sort_by='date', search_query=query)[0]
         date = matches[0].date
         for match in matches:
@@ -579,7 +580,7 @@ class TestApp(unittest.TestCase):
             date = match.date
 
         # Backward sort
-        matches = get_matches(offset=0, per_page=1000,
+        matches = Matches.get_instances(offset=0, per_page=1000,
                               sort_by='-date', search_query=query)[0]
         date = matches[0].date
         for match in matches:
@@ -602,7 +603,7 @@ class TestApp(unittest.TestCase):
 
         # Forward sort
         query = 'Brych'
-        matches = get_matches(offset=0, per_page=1000,
+        matches = Matches.get_instances(offset=0, per_page=1000,
                               sort_by='date', search_query=query)[0]
         date = matches[0].date
         for match in matches:
@@ -610,7 +611,7 @@ class TestApp(unittest.TestCase):
             date = match.date
 
         # Backward sort
-        matches = get_matches(offset=0, per_page=1000,
+        matches = Matches.get_instances(offset=0, per_page=1000,
                               sort_by='-date', search_query=query)[0]
         date = matches[0].date
         for match in matches:
@@ -630,7 +631,7 @@ class TestApp(unittest.TestCase):
         filter_by = 'Club_BSC Young Boys'
 
         # Forward sort
-        players = get_players(offset=0, per_page=1000,
+        players = Players.get_instances(offset=0, per_page=1000,
                               sort_by='goals', filter_by=filter_by)[0]
 
         goals = -1
@@ -640,7 +641,7 @@ class TestApp(unittest.TestCase):
             goals = player.goals
 
         # Searching for a part of a player team name with backward sort
-        players = get_players(offset=0, per_page=1000,
+        players = Players.get_instances(offset=0, per_page=1000,
                               sort_by='-goals', filter_by=filter_by)[0]
 
         goals = 10000
@@ -656,7 +657,7 @@ class TestApp(unittest.TestCase):
         filter_by = 'Position_Defender'
 
         # Forward sort
-        players = get_players(offset=0, per_page=1000,
+        players = Players.get_instances(offset=0, per_page=1000,
                               sort_by='goals', filter_by=filter_by)[0]
 
         goals = -1
@@ -666,7 +667,7 @@ class TestApp(unittest.TestCase):
             goals = player.goals
 
         # Searching for a part of a player team name with backward sort
-        players = get_players(offset=0, per_page=1000,
+        players = Players.get_instances(offset=0, per_page=1000,
                               sort_by='-goals', filter_by=filter_by)[0]
 
         goals = 10000
@@ -682,7 +683,7 @@ class TestApp(unittest.TestCase):
         filter_by = 'Country_Germany'
 
         # Forward sort
-        teams = get_teams(offset=0, per_page=1000,
+        teams = Teams.get_instances(offset=0, per_page=1000,
                           sort_by='name', filter_by=filter_by)[0]
         name = "0"
         for team in teams:
@@ -691,7 +692,7 @@ class TestApp(unittest.TestCase):
             name = team.name
 
         # Backward sort
-        teams = get_teams(offset=0, per_page=1000,
+        teams = Teams.get_instances(offset=0, per_page=1000,
                           sort_by='-name', filter_by=filter_by)[0]
         name = "z"
         for team in teams:
@@ -706,7 +707,7 @@ class TestApp(unittest.TestCase):
         filter_by = 'City_Madrid'
 
         # Forward sort
-        teams = get_teams(offset=0, per_page=1000,
+        teams = Teams.get_instances(offset=0, per_page=1000,
                           sort_by='name', filter_by=filter_by)[0]
         name = "0"
 
@@ -716,7 +717,7 @@ class TestApp(unittest.TestCase):
             name = team.name
 
         # Backward sort
-        teams = get_teams(offset=0, per_page=1000,
+        teams = Teams.get_instances(offset=0, per_page=1000,
                           sort_by='-name', filter_by=filter_by)[0]
         name = "z"
         for team in teams:
@@ -731,13 +732,13 @@ class TestApp(unittest.TestCase):
         filter_by = 'Round_Final'
 
         # Forward sort
-        matches = get_matches(offset=0, per_page=1000,
+        matches = Matches.get_instances(offset=0, per_page=1000,
                               sort_by='date', filter_by=filter_by)[0]
         for match in matches:
             self.assertEqual(filter_by.split('_')[1], match.round)
 
         # Backward sort
-        matches = get_matches(offset=0, per_page=1000,
+        matches = Matches.get_instances(offset=0, per_page=1000,
                               sort_by='-date', filter_by=filter_by)[0]
         for match in matches:
             self.assertEqual(filter_by.split('_')[1], match.round)
@@ -749,14 +750,14 @@ class TestApp(unittest.TestCase):
         filter_by = 'Team_Ajax'
 
         # Forward sort
-        matches = get_matches(offset=0, per_page=1000,
+        matches = Matches.get_instances(offset=0, per_page=1000,
                               sort_by='date', filter_by=filter_by)[0]
         for match in matches:
             self.assertTrue(filter_by.split('_')[1] == match.away_team_name
                             or filter_by.split('_')[1] == match.home_team_name)
 
         # Backward sort
-        matches = get_matches(offset=0, per_page=1000,
+        matches = Matches.get_instances(offset=0, per_page=1000,
                               sort_by='-date', filter_by=filter_by)[0]
         for match in matches:
             self.assertTrue(filter_by.split('_')[1] == match.away_team_name
@@ -769,13 +770,13 @@ class TestApp(unittest.TestCase):
         filter_by = 'Stadium_Neo GSP'
 
         # Forward sort
-        matches = get_matches(offset=0, per_page=1000,
+        matches = Matches.get_instances(offset=0, per_page=1000,
                               sort_by='date', filter_by=filter_by)[0]
         for match in matches:
             self.assertEqual(filter_by.split('_')[1], match.stadium)
 
         # Backward sort
-        matches = get_matches(offset=0, per_page=1000,
+        matches = Matches.get_instances(offset=0, per_page=1000,
                               sort_by='-date', filter_by=filter_by)[0]
         for match in matches:
             self.assertEqual(filter_by.split('_')[1], match.stadium)
@@ -789,7 +790,7 @@ class TestApp(unittest.TestCase):
         filter_by = 'Position_Midfielder'
 
         # Forward sort
-        players = get_players(offset=0, per_page=1000, filter_by=filter_by,
+        players = Players.get_instances(offset=0, per_page=1000, filter_by=filter_by,
                               sort_by='goals', search_query=query)[0]
 
         goals = -1
@@ -802,7 +803,7 @@ class TestApp(unittest.TestCase):
             goals = player.goals
 
         # Backward sort
-        players = get_players(offset=0, per_page=1000, filter_by=filter_by,
+        players = Players.get_instances(offset=0, per_page=1000, filter_by=filter_by,
                               sort_by='-goals', search_query=query)[0]
 
         goals = 1000
@@ -825,7 +826,7 @@ class TestApp(unittest.TestCase):
         filter_by = 'Country_Spain'
 
         # Forward sort
-        teams = get_teams(offset=0, per_page=1000, filter_by=filter_by,
+        teams = Teams.get_instances(offset=0, per_page=1000, filter_by=filter_by,
                           sort_by="founded", search_query=query)[0]
 
         founded = 1
@@ -841,7 +842,7 @@ class TestApp(unittest.TestCase):
             founded = team.founded
 
         # Backward sort
-        teams = get_teams(offset=0, per_page=1000, filter_by=filter_by,
+        teams = Teams.get_instances(offset=0, per_page=1000, filter_by=filter_by,
                           sort_by="-founded", search_query=query)[0]
 
         founded = 10000
@@ -865,7 +866,7 @@ class TestApp(unittest.TestCase):
         filter_by = 'Round_3rd Qualifying Round'
 
         # Forward sort
-        matches = get_matches(offset=0, per_page=1000, search_query=query,
+        matches = Matches.get_instances(offset=0, per_page=1000, search_query=query,
                               sort_by='home_team_name', filter_by=filter_by)[0]
         name = matches[0].home_team_name
         for match in matches:
@@ -880,7 +881,7 @@ class TestApp(unittest.TestCase):
             name = match.home_team_name
 
         # Backward sort
-        matches = get_matches(offset=0, per_page=1000, search_query=query,
+        matches = Matches.get_instances(offset=0, per_page=1000, search_query=query,
                               sort_by='away_team_name', filter_by=filter_by)[0]
         name = matches[0].away_team_name
         for match in matches:
