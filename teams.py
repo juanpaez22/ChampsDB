@@ -28,14 +28,14 @@ class Teams(db.Document):
          }
     ]}
 
-    instances = None
+    __instances = None
 
     @staticmethod
     def get_instances(offset=0, per_page=-1, sort_by="name", search_query=None, filter_by=None):
-        if Teams.instances is None:
-            Teams.instances = Teams.objects()
+        if Teams.__instances is None:
+            Teams.__instances = Teams.objects()
 
-        teams = Teams.instances
+        teams = Teams.__instances
 
         if sort_by is None or sort_by == "None":
             sort_by = "name"
@@ -57,5 +57,4 @@ class Teams(db.Document):
             return list(teams), len(teams)
 
         return teams[offset: offset + per_page], len(teams)
-
 

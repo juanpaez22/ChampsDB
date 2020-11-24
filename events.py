@@ -24,12 +24,12 @@ class Events(db.Document):
     passes = db.IntField()
     pass_accuracy = db.IntField()
 
-    instances = None
+    __instances = None
 
     @staticmethod
     def get_instances():
-        if Events.instances is None:
-            Events.instances = Events.objects()
+        if Events.__instances is None:
+            Events.__instances = Events.objects()
 
-        return Events.instances, len(Events.instances)
+        return Events.__instances, len(Events.__instances)
     

@@ -44,14 +44,14 @@ class Players(db.Document):
          }
     ]}
 
-    instances = None
+    __instances = None
 
     @staticmethod
     def get_instances(offset=0, per_page=-1, sort_by="-goals", search_query=None, filter_by=None):
-        if Players.instances is None:
-            Players.instances = Players.objects()
+        if Players.__instances is None:
+            Players.__instances = Players.objects()
 
-        players = Players.instances
+        players = Players.__instances
 
         if sort_by is None or sort_by == "None":
             sort_by = "-goals"
@@ -73,4 +73,3 @@ class Players(db.Document):
             return list(players), len(players)
 
         return players[offset: offset + per_page], len(players)
-

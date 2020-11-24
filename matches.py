@@ -27,14 +27,14 @@ class Matches(db.Document):
          }
     ]}
 
-    instances = None
+    __instances = None
 
     @staticmethod
     def get_instances(offset=0, per_page=-1, sort_by="-date", search_query=None, filter_by=None):
-        if Matches.instances is None:
-            Matches.instances = Matches.objects()
+        if Matches.__instances is None:
+            Matches.__instances = Matches.objects()
 
-        matches = Matches.instances
+        matches = Matches.__instances
 
         if sort_by is None or sort_by == "None":
             sort_by = "-date"
