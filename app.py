@@ -8,6 +8,10 @@ from flask_paginate import Pagination, get_page_args, get_page_parameter
 from flask_sqlalchemy import SQLAlchemy
 from mongoengine.queryset.visitor import Q
 from pymongo import MongoClient
+from players import *
+from teams import *
+from matches import *
+from events import *
 
 app = Flask(__name__)
 app.config['MONGODB_SETTINGS'] = {
@@ -17,201 +21,6 @@ app.config['MONGODB_SETTINGS'] = {
 }
 db = MongoEngine()
 db.init_app(app)
-
-
-class Tweet(db.EmbeddedDocument):
-    '''
-    The embeded Tweet collection from the db
-
-    This belongs to the Players collection
-    '''
-    id = db.StringField()
-    text = db.StringField()
-    lang = db.StringField()
-    html = db.StringField()
-
-
-class Players(db.Document):
-    ''' The Players collection from the db '''
-    _id = db.IntField()
-    name = db.StringField()
-    position = db.StringField()
-    team_id = db.IntField()
-    team_name = db.StringField()
-    media_link = db.URLField()
-    media_link_2 = db.URLField()
-    number = db.IntField()
-    captain = db.BooleanField()
-
-    # Twitter API
-    tweets = db.ListField(db.EmbeddedDocumentField(Tweet))
-
-    # FutDB fields
-    rating_overall = db.IntField()  # -1 if scraping failed
-    rating_defending = db.IntField()
-    rating_dribbling = db.IntField()
-    rating_pace = db.IntField()
-    rating_passing = db.IntField()
-    rating_physicality = db.IntField()
-    rating_shooting = db.IntField()
-
-    # Summary from match events
-    goals = db.IntField()
-    assists = db.IntField()
-    passes = db.IntField()
-    shots = db.IntField()
-    shots_on_target = db.IntField()
-    avg_minutes_played = db.DecimalField()
-    avg_rating = db.DecimalField()
-    avg_pass_accuracy = db.DecimalField()
-
-    meta = {'indexes': [
-        {'fields': ['$name', '$position', '$team_name'],
-         'default_language': 'english',
-         'weights': {'name': 10, 'position': 1, 'team_name': 7}
-         }
-    ]}
-
-
-class Teams(db.Document):
-    ''' The Teams collection from the db '''
-    _id = db.IntField()
-    name = db.StringField()
-    country = db.StringField()
-    city = db.StringField()
-    stadium = db.StringField()
-    media_link = db.URLField()
-    media_link_2 = db.URLField()
-    founded = db.IntField()
-    stadium_surface = db.StringField()
-    stadium_address = db.StringField()
-    stadium_capacity = db.IntField()
-
-    # Twitter API
-    tweets = db.ListField(db.EmbeddedDocumentField(Tweet))
-
-    meta = {'indexes': [
-        {'fields': ['$name', "$country", "$city", "$stadium", "$stadium_surface", "$stadium_address"],
-         'default_language': 'english',
-         'weights': {'name': 10, 'country': 5, 'city': 5, 'stadium': 5, 'stadium_surface': 1, 'stadium_address': 1}
-         }
-    ]}
-
-
-class Matches(db.Document):
-    ''' The Matches collection from the db '''
-    _id = db.IntField()
-    date = db.DateTimeField()
-    stadium = db.StringField()
-    home_team_name = db.StringField()
-    home_team_id = db.IntField()
-    away_team_name = db.StringField()
-    away_team_id = db.IntField()
-    score = db.StringField()
-    media_link = db.URLField()
-    media_link_2 = db.URLField()
-    round = db.StringField()
-    referee = db.StringField()
-    goals_home_team = db.IntField()
-    goals_away_team = db.IntField()
-    video = db.StringField()
-
-    meta = {'indexes': [
-        {'fields': ['$home_team_name', "$away_team_name", "$stadium", "$score", "$round", "$referee"],
-         'default_language': 'english',
-         'weights': {'home_team_name': 10, 'away_team_name': 10, 'stadium': 5, 'score': 1, 'round': 1, 'referee': 1}
-         }
-    ]}
-
-
-class Events(db.Document):
-    ''' The Events collection from the db '''
-    _id = db.IntField()
-    player_id = db.IntField()
-    player_name = db.StringField()
-    team_id = db.IntField()
-    team_name = db.StringField()
-    number = db.IntField()
-    position = db.StringField()
-    rating = db.StringField()
-    minutes_played = db.IntField()
-    captain = db.BooleanField()
-    substitute = db.BooleanField()
-    offsides = db.IntField(null=True)
-    match_id = db.IntField()
-    shots = db.IntField()
-    shots_on_target = db.IntField()
-    goals = db.IntField()
-    assists = db.IntField()
-    passes = db.IntField()
-    pass_accuracy = db.IntField()
-
-
-# Source used to help with pagination: https://gist.github.com/mozillazg/69fb40067ae6d80386e10e105e6803c9
-def get_players(offset=0, per_page=12, sort_by="-goals", search_query=None, filter_by=None):
-    if sort_by == None or sort_by == "None":
-        sort_by = "-goals"
-
-    players = None
-    if search_query is None or len(search_query) == 0 or search_query == "None":
-        players = Players.objects().order_by(sort_by)
-    else:
-        players = Players.objects().search_text(search_query).order_by(sort_by)
-
-    if filter_by is not None and len(filter_by) > 0 and filter_by != "None":
-        key = filter_by.split('_')[0]
-        val = filter_by.split('_')[1]
-        if key == 'Club':
-            players = [player for player in players if player.team_name == val]
-        if key == 'Position':
-            players = [player for player in players if player.position == val[0]]
-
-    return players[offset: offset + per_page], len(players)
-
-
-def get_teams(offset=0, per_page=12, sort_by="name", search_query=None, filter_by=None):
-    if sort_by == None or sort_by == "None":
-        sort_by = "name"
-
-    teams = None
-    if search_query is None or len(search_query) == 0 or search_query == "None":
-        teams = Teams.objects().order_by(sort_by)
-    else:
-        teams = Teams.objects().search_text(search_query).order_by(sort_by)
-
-    if filter_by is not None and len(filter_by) > 0 and filter_by != "None":
-        key = filter_by.split('_')[0]
-        val = filter_by.split('_')[1]
-        if key == 'Country':
-            teams = [team for team in teams if team.country == val]
-        if key == 'City':
-            teams = [team for team in teams if team.city == val]
-
-    return teams[offset: offset + per_page], len(teams)
-
-
-def get_matches(offset=0, per_page=12, sort_by="-date", search_query=None, filter_by=None):
-    if sort_by is None or sort_by == "None":
-        sort_by = "-date"
-
-    matches = None
-    if search_query is None or len(search_query) == 0 or search_query == "None":
-        matches = Matches.objects().order_by(sort_by)
-    else:
-        matches = Matches.objects().search_text(search_query).order_by(sort_by)
-
-    if filter_by is not None and len(filter_by) > 0 and filter_by != "None":
-        key = filter_by.split('_')[0]
-        val = filter_by.split('_')[1]
-        if key == 'Round':
-            matches = [match for match in matches if match.round == val]
-        if key == 'Team':
-            matches = [match for match in matches if match.home_team_name == val] + [match for match in matches if match.away_team_name == val]
-        if key == 'Stadium':
-            matches = [match for match in matches if match.stadium == val]
-
-
-    return matches[offset: offset + per_page], len(matches)
 
 
 @app.route('/')
@@ -238,28 +47,28 @@ def model(model=None):
     if model == 'player':
         page, per_page, offset = get_page_args(
             page_parameter='page', per_page_parameter='per_page', per_page=12)
-        pagination_players, total = get_players(
+        pagination_players, total = Players.get_instances(
             offset=offset, per_page=12, sort_by=sort_by, search_query=search_query, filter_by=filter_by)
         pagination = Pagination(
             page=page, per_page=per_page, total=total, css_framework='bootstrap4')
 
         filter_options = {
             'Position': ['Goalkeeper', 'Defender', 'Midfielder', 'Forward'],
-            'Club': sorted(list(set([player.team_name for player in Players.objects()])))
+            'Club': sorted(list(set([player.team_name for player in Players.get_instances()[0]])))
         }
 
         return render_template('model_players.html', players=pagination_players, page=page, per_page=per_page, pagination=pagination, model=model, sort=sort_by, query=search_query, filter_options=filter_options, filter=filter_by)
     elif model == 'team':
         page, per_page, offset = get_page_args(
             page_parameter='page', per_page_parameter='per_page', per_page=12)
-        pagination_teams, total = get_teams(
+        pagination_teams, total = Teams.get_instances(
             offset=offset, per_page=12, sort_by=sort_by, search_query=search_query, filter_by=filter_by)
         pagination = Pagination(
             page=page, per_page=per_page, total=total, css_framework='bootstrap4')
 
         filter_options = {
-            'Country': sorted(list(set([team.country for team in Teams.objects()]))),
-            'City': sorted(list(set([team.city for team in Teams.objects()])))
+            'Country': sorted(list(set([team.country for team in Teams.get_instances()[0]]))),
+            'City': sorted(list(set([team.city for team in Teams.get_instances()[0]])))
         }
 
         return render_template('model_teams.html', teams=pagination_teams, page=page, per_page=per_page, pagination=pagination, model=model, sort=sort_by, query=search_query, filter_options=filter_options, filter=filter_by)
@@ -267,15 +76,15 @@ def model(model=None):
     elif model == 'match':
         page, per_page, offset = get_page_args(
             page_parameter='page', per_page_parameter='per_page', per_page=12)
-        pagination_matches, total = get_matches(
+        pagination_matches, total = Matches.get_instances(
             offset=offset, per_page=12, sort_by=sort_by, search_query=search_query, filter_by=filter_by)
         pagination = Pagination(
             page=page, per_page=per_page, total=total, css_framework='bootstrap4')
 
         filter_options = {
-            'Round': sorted(list(set([match.round for match in Matches.objects()]))),
-            'Team': sorted(list(set([match.home_team_name for match in Matches.objects()]) | set([match.away_team_name for match in Matches.objects()]))),
-            'Stadium': sorted(list(set([match.stadium for match in Matches.objects()]))),
+            'Round': sorted(list(set([match.round for match in Matches.get_instances()[0]]))),
+            'Team': sorted(list(set([match.home_team_name for match in Matches.get_instances()[0]]) | set([match.away_team_name for match in Matches.get_instances()[0]]))),
+            'Stadium': sorted(list(set([match.stadium for match in Matches.get_instances()[0]]))),
         }
 
         return render_template('model_matches.html', matches=pagination_matches, page=page, per_page=per_page, pagination=pagination, model=model, sort=sort_by, query=search_query, filter_options=filter_options, filter=filter_by)
@@ -294,41 +103,41 @@ def instance(model=None, id=0):
         404 error if <id> does not exist in the model
     '''
     if model == 'player':
-        player = Players.objects(_id=id)
+        player = [player for player in Players.get_instances()[0] if player._id == id]
 
         if len(player) == 0:
             return not_found(404)
 
         player = player[0]
-        player_matches = Matches.objects(
-            Q(home_team_id=player.team_id) | Q(away_team_id=player.team_id))
-        player_events = Events.objects(Q(player_id=id))
+        player_matches = [match for match in Matches.get_instances()[0] if player.team_id == match.home_team_id]
+        player_matches += [match for match in Matches.get_instances()[0] if player.team_id == match.away_team_id]
+        player_events = [event for event in Events.get_instances()[0] if event.player_id == id]
 
         return render_template('instance_player.html', model=model, id=id, player=player, matches=player_matches, player_events=player_events)
     elif model == 'team':
-        team = Teams.objects(_id=id)
+        team = [team for team in Teams.get_instances()[0] if team._id == id]
 
         if len(team) == 0:
             return not_found(404)
 
         team = team[0]
-        team_players = Players.objects(team_id=team._id)
-        team_matches = Matches.objects(
-            Q(home_team_id=team._id) | Q(away_team_id=team._id))
+        team_players = [player for player in Players.get_instances()[0] if player.team_id == team._id]
+        team_matches = [match for match in Matches.get_instances()[0] if match.home_team_id == team._id]
+        team_matches += [match for match in Matches.get_instances()[0] if match.away_team_id == team._id]
 
         return render_template('instance_team.html', model=model, id=id, team=team, matches=team_matches, players=team_players)
     elif model == 'match':
-        match = Matches.objects(_id=id)
+        match = [match for match in Matches.get_instances()[0] if match._id == id]
 
         if len(match) == 0:
             return not_found(404)
 
         match = match[0]
-        teams = Teams.objects(Q(_id=match.home_team_id) |
-                              Q(_id=match.away_team_id))
-        players = Players.objects(
-            Q(team_id=match.home_team_id) | Q(team_id=match.away_team_id))
-        events = Events.objects(Q(match_id=id))
+        teams = [team for team in Teams.get_instances()[0] if match.home_team_id == team._id]
+        teams += [team for team in Teams.get_instances()[0] if match.away_team_id == team._id]
+        players = [player for player in Players.get_instances()[0] if player.team_id == match.home_team_id]
+        players += [player for player in Players.get_instances()[0] if player.team_id == match.away_team_id]
+        events = [event for event in Events.get_instances()[0] if event.match_id == id]
 
         return render_template('instance_match.html', model=model, id=id, match=match, teams=teams, players=players, events=events)
 
