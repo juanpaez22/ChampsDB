@@ -26,11 +26,13 @@ db.init_app(app)
 
 @app.route('/')
 def index():
+    ''' Index route to display the home page '''
     return render_template('index.html')
 
 
 @app.route('/about')
 def about():
+    ''' About route to display the about page '''
     return render_template('about.html')
 
 
@@ -45,6 +47,7 @@ def model(model=None):
     search_query = str(request.args.get('q'))
     filter_by = str(request.args.get('filter'))
 
+    # Select which model to display then load its values
     if model == 'player':
         page, per_page, offset = get_page_args(
             page_parameter='page', per_page_parameter='per_page', per_page=12)
@@ -103,6 +106,8 @@ def instance(model=None, id=0):
     <id> is the integer id of the specific instance
         404 error if <id> does not exist in the model
     '''
+
+    # Select which model the instance is from and then load the instance page
     if model == 'player':
         player = [player for player in Players.get_instances()[0]
                   if player._id == id]
@@ -160,7 +165,9 @@ def instance(model=None, id=0):
 
 @app.errorhandler(404)
 def not_found(error):
-    ''' 404 Handler to return our custome template and set the 404 status code '''
+    '''
+    404 Handler to return our custome template and set the 404 status code
+    '''
     return render_template('404.html'), 404
 
 
