@@ -59,7 +59,7 @@ def model(model=None):
 
 
 def model_player(sort_by, filter_by, search_query):
-    ''' 
+    '''
     Load the players model page and then return it back to model()
     '''
     page, per_page, offset = get_page_args(
@@ -78,7 +78,7 @@ def model_player(sort_by, filter_by, search_query):
 
 
 def model_team(sort_by, filter_by, search_query):
-    ''' 
+    '''
     Load the teams model page and then return it back to model()
     '''
     page, per_page, offset = get_page_args(
@@ -97,7 +97,7 @@ def model_team(sort_by, filter_by, search_query):
 
 
 def model_match(sort_by, filter_by, search_query):
-    ''' 
+    '''
     Load the matches model page and then return it back to model()
     '''
     page, per_page, offset = get_page_args(
@@ -129,58 +129,79 @@ def instance(model=None, id=0):
 
     # Select which model the instance is from and then load the instance page
     if model == 'player':
-        player = [player for player in Players.get_instances()[0]
-                  if player._id == id]
-
-        if len(player) == 0:
-            return not_found(404)
-
-        player = player[0]
-        player_matches = [match for match in Matches.get_instances(
-        )[0] if player.team_id == match.home_team_id]
-        player_matches += [match for match in Matches.get_instances()
-                           [0] if player.team_id == match.away_team_id]
-        player_events = [event for event in Events.get_instances()[
-            0] if event.player_id == id]
-
-        return render_template('instance_player.html', model=model, id=id, player=player, matches=player_matches, player_events=player_events)
+        return instance_player(id)
     elif model == 'team':
-        team = [team for team in Teams.get_instances()[0] if team._id == id]
-
-        if len(team) == 0:
-            return not_found(404)
-
-        team = team[0]
-        team_players = [player for player in Players.get_instances()[
-            0] if player.team_id == team._id]
-        team_matches = [match for match in Matches.get_instances()[
-            0] if match.home_team_id == team._id]
-        team_matches += [match for match in Matches.get_instances()
-                         [0] if match.away_team_id == team._id]
-
-        return render_template('instance_team.html', model=model, id=id, team=team, matches=team_matches, players=team_players)
+        return instance_team(id)
     elif model == 'match':
-        match = [match for match in Matches.get_instances()[0]
-                 if match._id == id]
-
-        if len(match) == 0:
-            return not_found(404)
-
-        match = match[0]
-        teams = [team for team in Teams.get_instances(
-        )[0] if match.home_team_id == team._id]
-        teams += [team for team in Teams.get_instances()[0]
-                  if match.away_team_id == team._id]
-        players = [player for player in Players.get_instances(
-        )[0] if player.team_id == match.home_team_id]
-        players += [player for player in Players.get_instances()[0]
-                    if player.team_id == match.away_team_id]
-        events = [event for event in Events.get_instances()[0]
-                  if event.match_id == id]
-
-        return render_template('instance_match.html', model=model, id=id, match=match, teams=teams, players=players, events=events)
+        return instance_match(id)
 
     return not_found(404)
+
+
+def instance_player(id):
+    '''
+    Load the correct instance page and then return it back to instance()
+    '''
+    player = [player for player in Players.get_instances()[0]
+              if player._id == id]
+
+    if len(player) == 0:
+        return not_found(404)
+
+    player = player[0]
+    player_matches = [match for match in Matches.get_instances(
+    )[0] if player.team_id == match.home_team_id]
+    player_matches += [match for match in Matches.get_instances()
+                       [0] if player.team_id == match.away_team_id]
+    player_events = [event for event in Events.get_instances()[
+        0] if event.player_id == id]
+
+    return render_template('instance_player.html', model='player', id=id, player=player, matches=player_matches, player_events=player_events)
+
+
+def instance_team(id):
+    '''
+    Load the correct instance page and then return it back to instance()
+    '''
+    team = [team for team in Teams.get_instances()[0] if team._id == id]
+
+    if len(team) == 0:
+        return not_found(404)
+
+    team = team[0]
+    team_players = [player for player in Players.get_instances()[
+        0] if player.team_id == team._id]
+    team_matches = [match for match in Matches.get_instances()[
+        0] if match.home_team_id == team._id]
+    team_matches += [match for match in Matches.get_instances()
+                     [0] if match.away_team_id == team._id]
+
+    return render_template('instance_team.html', model='team', id=id, team=team, matches=team_matches, players=team_players)
+
+
+def instance_match(id):
+    '''
+    Load the correct instance page and then return it back to instance()
+    '''
+    match = [match for match in Matches.get_instances()[0]
+             if match._id == id]
+
+    if len(match) == 0:
+        return not_found(404)
+
+    match = match[0]
+    teams = [team for team in Teams.get_instances(
+    )[0] if match.home_team_id == team._id]
+    teams += [team for team in Teams.get_instances()[0]
+              if match.away_team_id == team._id]
+    players = [player for player in Players.get_instances(
+    )[0] if player.team_id == match.home_team_id]
+    players += [player for player in Players.get_instances()[0]
+                if player.team_id == match.away_team_id]
+    events = [event for event in Events.get_instances()[0]
+              if event.match_id == id]
+
+    return render_template('instance_match.html', model='match', id=id, match=match, teams=teams, players=players, events=events)
 
 
 @app.errorhandler(404)
