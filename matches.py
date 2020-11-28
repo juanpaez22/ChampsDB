@@ -1,5 +1,6 @@
 from flask_mongoengine import MongoEngine
-from mongoengine import Document, IntField, DateTimeField, StringField, URLField
+from mongoengine import (DateTimeField, Document, IntField, StringField,
+                         URLField)
 
 db = MongoEngine()
 

@@ -8,10 +8,11 @@ from flask_paginate import Pagination, get_page_args, get_page_parameter
 from flask_sqlalchemy import SQLAlchemy
 from mongoengine.queryset.visitor import Q
 from pymongo import MongoClient
-from players import *
-from teams import *
-from matches import *
-from events import *
+
+from events import Events
+from matches import Matches
+from players import Players
+from teams import Teams
 
 app = Flask(__name__)
 app.config['MONGODB_SETTINGS'] = {
@@ -103,15 +104,19 @@ def instance(model=None, id=0):
         404 error if <id> does not exist in the model
     '''
     if model == 'player':
-        player = [player for player in Players.get_instances()[0] if player._id == id]
+        player = [player for player in Players.get_instances()[0]
+                  if player._id == id]
 
         if len(player) == 0:
             return not_found(404)
 
         player = player[0]
-        player_matches = [match for match in Matches.get_instances()[0] if player.team_id == match.home_team_id]
-        player_matches += [match for match in Matches.get_instances()[0] if player.team_id == match.away_team_id]
-        player_events = [event for event in Events.get_instances()[0] if event.player_id == id]
+        player_matches = [match for match in Matches.get_instances(
+        )[0] if player.team_id == match.home_team_id]
+        player_matches += [match for match in Matches.get_instances()
+                           [0] if player.team_id == match.away_team_id]
+        player_events = [event for event in Events.get_instances()[
+            0] if event.player_id == id]
 
         return render_template('instance_player.html', model=model, id=id, player=player, matches=player_matches, player_events=player_events)
     elif model == 'team':
@@ -121,23 +126,32 @@ def instance(model=None, id=0):
             return not_found(404)
 
         team = team[0]
-        team_players = [player for player in Players.get_instances()[0] if player.team_id == team._id]
-        team_matches = [match for match in Matches.get_instances()[0] if match.home_team_id == team._id]
-        team_matches += [match for match in Matches.get_instances()[0] if match.away_team_id == team._id]
+        team_players = [player for player in Players.get_instances()[
+            0] if player.team_id == team._id]
+        team_matches = [match for match in Matches.get_instances()[
+            0] if match.home_team_id == team._id]
+        team_matches += [match for match in Matches.get_instances()
+                         [0] if match.away_team_id == team._id]
 
         return render_template('instance_team.html', model=model, id=id, team=team, matches=team_matches, players=team_players)
     elif model == 'match':
-        match = [match for match in Matches.get_instances()[0] if match._id == id]
+        match = [match for match in Matches.get_instances()[0]
+                 if match._id == id]
 
         if len(match) == 0:
             return not_found(404)
 
         match = match[0]
-        teams = [team for team in Teams.get_instances()[0] if match.home_team_id == team._id]
-        teams += [team for team in Teams.get_instances()[0] if match.away_team_id == team._id]
-        players = [player for player in Players.get_instances()[0] if player.team_id == match.home_team_id]
-        players += [player for player in Players.get_instances()[0] if player.team_id == match.away_team_id]
-        events = [event for event in Events.get_instances()[0] if event.match_id == id]
+        teams = [team for team in Teams.get_instances(
+        )[0] if match.home_team_id == team._id]
+        teams += [team for team in Teams.get_instances()[0]
+                  if match.away_team_id == team._id]
+        players = [player for player in Players.get_instances(
+        )[0] if player.team_id == match.home_team_id]
+        players += [player for player in Players.get_instances()[0]
+                    if player.team_id == match.away_team_id]
+        events = [event for event in Events.get_instances()[0]
+                  if event.match_id == id]
 
         return render_template('instance_match.html', model=model, id=id, match=match, teams=teams, players=players, events=events)
 
