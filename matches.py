@@ -1,25 +1,26 @@
 from flask_mongoengine import MongoEngine
+from mongoengine import Document, IntField, DateTimeField, StringField, URLField
 
 db = MongoEngine()
 
 
-class Matches(db.Document):
+class Matches(Document):
     ''' The Matches collection from the db '''
-    _id = db.IntField()
-    date = db.DateTimeField()
-    stadium = db.StringField()
-    home_team_name = db.StringField()
-    home_team_id = db.IntField()
-    away_team_name = db.StringField()
-    away_team_id = db.IntField()
-    score = db.StringField()
-    media_link = db.URLField()
-    media_link_2 = db.URLField()
-    round = db.StringField()
-    referee = db.StringField()
-    goals_home_team = db.IntField()
-    goals_away_team = db.IntField()
-    video = db.StringField()
+    _id = IntField()
+    date = DateTimeField()
+    stadium = StringField()
+    home_team_name = StringField()
+    home_team_id = IntField()
+    away_team_name = StringField()
+    away_team_id = IntField()
+    score = StringField()
+    media_link = URLField()
+    media_link_2 = URLField()
+    round = StringField()
+    referee = StringField()
+    goals_home_team = IntField()
+    goals_away_team = IntField()
+    video = StringField()
 
     meta = {'indexes': [
         {'fields': ['$home_team_name', "$away_team_name", "$stadium", "$score", "$round", "$referee"],

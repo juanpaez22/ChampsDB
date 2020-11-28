@@ -1,29 +1,30 @@
 from flask_mongoengine import MongoEngine
+from mongoengine import BooleanField, Document, IntField, StringField
 
 db = MongoEngine()
 
 
-class Events(db.Document):
+class Events(Document):
     ''' The Events collection from the db '''
-    _id = db.IntField()
-    player_id = db.IntField()
-    player_name = db.StringField()
-    team_id = db.IntField()
-    team_name = db.StringField()
-    number = db.IntField()
-    position = db.StringField()
-    rating = db.StringField()
-    minutes_played = db.IntField()
-    captain = db.BooleanField()
-    substitute = db.BooleanField()
-    offsides = db.IntField(null=True)
-    match_id = db.IntField()
-    shots = db.IntField()
-    shots_on_target = db.IntField()
-    goals = db.IntField()
-    assists = db.IntField()
-    passes = db.IntField()
-    pass_accuracy = db.IntField()
+    _id = IntField()
+    player_id = IntField()
+    player_name = StringField()
+    team_id = IntField()
+    team_name = StringField()
+    number = IntField()
+    position = StringField()
+    rating = StringField()
+    minutes_played = IntField()
+    captain = BooleanField()
+    substitute = BooleanField()
+    offsides = IntField(null=True)
+    match_id = IntField()
+    shots = IntField()
+    shots_on_target = IntField()
+    goals = IntField()
+    assists = IntField()
+    passes = IntField()
+    pass_accuracy = IntField()
 
     __instances = None
 
