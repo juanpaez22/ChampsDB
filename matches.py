@@ -2,6 +2,7 @@ from flask_mongoengine import MongoEngine
 
 db = MongoEngine()
 
+
 class Matches(db.Document):
     ''' The Matches collection from the db '''
     _id = db.IntField()
@@ -50,7 +51,8 @@ class Matches(db.Document):
             if key == 'Round':
                 matches = [match for match in matches if match.round == val]
             if key == 'Team':
-                matches = [match for match in matches if match.home_team_name == val] + [match for match in matches if match.away_team_name == val]
+                matches = [match for match in matches if match.home_team_name ==
+                           val] + [match for match in matches if match.away_team_name == val]
             if key == 'Stadium':
                 matches = [match for match in matches if match.stadium == val]
 

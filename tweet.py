@@ -2,6 +2,7 @@ from flask_mongoengine import MongoEngine
 
 db = MongoEngine()
 
+
 class Tweet(db.EmbeddedDocument):
     '''
     The embeded Tweet collection from the db

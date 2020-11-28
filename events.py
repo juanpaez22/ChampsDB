@@ -2,6 +2,7 @@ from flask_mongoengine import MongoEngine
 
 db = MongoEngine()
 
+
 class Events(db.Document):
     ''' The Events collection from the db '''
     _id = db.IntField()
@@ -32,4 +33,3 @@ class Events(db.Document):
             Events.__instances = Events.objects()
 
         return Events.__instances, len(Events.__instances)
-    

@@ -1,7 +1,9 @@
 from flask_mongoengine import MongoEngine
+
 from tweet import Tweet
 
 db = MongoEngine()
+
 
 class Players(db.Document):
     ''' The Players collection from the db '''
@@ -65,9 +67,11 @@ class Players(db.Document):
             key = filter_by.split('_')[0]
             val = filter_by.split('_')[1]
             if key == 'Club':
-                players = [player for player in players if player.team_name == val]
+                players = [
+                    player for player in players if player.team_name == val]
             if key == 'Position':
-                players = [player for player in players if player.position == val[0]]
+                players = [
+                    player for player in players if player.position == val[0]]
 
         if per_page == -1:
             return list(players), len(players)

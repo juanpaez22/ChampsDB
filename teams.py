@@ -1,8 +1,10 @@
 
 from flask_mongoengine import MongoEngine
+
 from tweet import Tweet
 
 db = MongoEngine()
+
 
 class Teams(db.Document):
     ''' The Teams collection from the db '''
@@ -57,4 +59,3 @@ class Teams(db.Document):
             return list(teams), len(teams)
 
         return teams[offset: offset + per_page], len(teams)
-
