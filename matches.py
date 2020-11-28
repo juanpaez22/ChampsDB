@@ -33,7 +33,7 @@ class Matches(Document):
     __instances = None
 
     @staticmethod
-    def get_instances(offset=0, per_page=-1, sort_by="-date", search_query=None, filter_by=None):
+    def get_instances(pagination_offset=0, per_page=-1, sort_by="-date", search_query=None, filter_by=None):
         if Matches.__instances is None:
             Matches.__instances = Matches.objects()
 
@@ -61,4 +61,4 @@ class Matches(Document):
         if per_page == -1:
             return list(matches), len(matches)
 
-        return matches[offset: offset + per_page], len(matches)
+        return matches[pagination_offset: pagination_offset + per_page], len(matches)

@@ -52,7 +52,7 @@ class Players(Document):
     __instances = None
 
     @staticmethod
-    def get_instances(offset=0, per_page=-1, sort_by="-goals", search_query=None, filter_by=None):
+    def get_instances(pagination_offset=0, per_page=-1, sort_by="-goals", search_query=None, filter_by=None):
         if Players.__instances is None:
             Players.__instances = Players.objects()
 
@@ -79,4 +79,4 @@ class Players(Document):
         if per_page == -1:
             return list(players), len(players)
 
-        return players[offset: offset + per_page], len(players)
+        return players[pagination_offset: pagination_offset + per_page], len(players)

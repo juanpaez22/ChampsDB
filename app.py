@@ -62,10 +62,10 @@ def model_player(sort_by, filter_by, search_query):
     '''
     Load the players model page and then return it back to model()
     '''
-    page, per_page, offset = get_page_args(
+    page, per_page, pagination_offset = get_page_args(
         page_parameter='page', per_page_parameter='per_page', per_page=12)
     pagination_players, total = Players.get_instances(
-        offset=offset, per_page=12, sort_by=sort_by, search_query=search_query, filter_by=filter_by)
+        pagination_offset=pagination_offset, per_page=12, sort_by=sort_by, search_query=search_query, filter_by=filter_by)
     pagination = Pagination(
         page=page, per_page=per_page, total=total, css_framework='bootstrap4')
 
@@ -81,10 +81,10 @@ def model_team(sort_by, filter_by, search_query):
     '''
     Load the teams model page and then return it back to model()
     '''
-    page, per_page, offset = get_page_args(
+    page, per_page, pagination_offset = get_page_args(
         page_parameter='page', per_page_parameter='per_page', per_page=12)
     pagination_teams, total = Teams.get_instances(
-        offset=offset, per_page=12, sort_by=sort_by, search_query=search_query, filter_by=filter_by)
+        pagination_offset=pagination_offset, per_page=12, sort_by=sort_by, search_query=search_query, filter_by=filter_by)
     pagination = Pagination(
         page=page, per_page=per_page, total=total, css_framework='bootstrap4')
 
@@ -100,10 +100,10 @@ def model_match(sort_by, filter_by, search_query):
     '''
     Load the matches model page and then return it back to model()
     '''
-    page, per_page, offset = get_page_args(
+    page, per_page, pagination_offset = get_page_args(
         page_parameter='page', per_page_parameter='per_page', per_page=12)
     pagination_matches, total = Matches.get_instances(
-        offset=offset, per_page=12, sort_by=sort_by, search_query=search_query, filter_by=filter_by)
+        pagination_offset=pagination_offset, per_page=12, sort_by=sort_by, search_query=search_query, filter_by=filter_by)
     pagination = Pagination(
         page=page, per_page=per_page, total=total, css_framework='bootstrap4')
 

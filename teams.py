@@ -35,7 +35,7 @@ class Teams(Document):
     __instances = None
 
     @staticmethod
-    def get_instances(offset=0, per_page=-1, sort_by="name", search_query=None, filter_by=None):
+    def get_instances(pagination_offset=0, per_page=-1, sort_by="name", search_query=None, filter_by=None):
         if Teams.__instances is None:
             Teams.__instances = Teams.objects()
 
@@ -60,4 +60,4 @@ class Teams(Document):
         if per_page == -1:
             return list(teams), len(teams)
 
-        return teams[offset: offset + per_page], len(teams)
+        return teams[pagination_offset: pagination_offset + per_page], len(teams)
