@@ -43,9 +43,9 @@ def model(model=None):
 
     <model> is one of: {player, team, match}
     '''
-    sort_by = str(request.args.get('sort'))
-    search_query = str(request.args.get('q'))
-    filter_by = str(request.args.get('filter'))
+    sort_by = get_sort()
+    filter_by = get_filter()
+    search_query = get_query()
 
     # Select which model to display then load its values
     if model == 'player':
@@ -210,6 +210,20 @@ def not_found(error):
     404 Handler to return our custome template and set the 404 status code
     '''
     return render_template('404.html'), 404
+
+
+def get_sort():
+    ''' Determine the sorting requested by the user '''
+    return str(request.args.get('sort'))
+
+
+def get_filter():
+    ''' Get the filters requested by the user '''
+    return str(request.args.get('filter'))
+
+def get_query():
+    ''' Get the search query requested by the user '''
+    return str(request.args.get('q'))
 
 
 if __name__ == '__main__':
