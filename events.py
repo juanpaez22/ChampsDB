@@ -1,7 +1,6 @@
 from flask_mongoengine import MongoEngine
 from mongoengine import BooleanField, Document, IntField, StringField
 
-db = MongoEngine()
 
 
 class Events(Document):
