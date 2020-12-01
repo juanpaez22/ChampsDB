@@ -1,7 +1,6 @@
 from flask_mongoengine import MongoEngine
 from mongoengine import EmbeddedDocument, StringField
 
-db = MongoEngine()
 
 
 class Tweet(EmbeddedDocument):
