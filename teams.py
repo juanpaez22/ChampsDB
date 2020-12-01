@@ -1,25 +1,28 @@
 
 from flask_mongoengine import MongoEngine
+from mongoengine import (Document, EmbeddedDocumentField, IntField, ListField,
+                         StringField, URLField)
+
 from tweet import Tweet
 
-db = MongoEngine()
 
-class Teams(db.Document):
+
+class Teams(Document):
     ''' The Teams collection from the db '''
-    _id = db.IntField()
-    name = db.StringField()
-    country = db.StringField()
-    city = db.StringField()
-    stadium = db.StringField()
-    media_link = db.URLField()
-    media_link_2 = db.URLField()
-    founded = db.IntField()
-    stadium_surface = db.StringField()
-    stadium_address = db.StringField()
-    stadium_capacity = db.IntField()
+    _id = IntField()
+    name = StringField()
+    country = StringField()
+    city = StringField()
+    stadium = StringField()
+    media_link = URLField()
+    media_link_2 = URLField()
+    founded = IntField()
+    stadium_surface = StringField()
+    stadium_address = StringField()
+    stadium_capacity = IntField()
 
     # Twitter API
-    tweets = db.ListField(db.EmbeddedDocumentField(Tweet))
+    tweets = ListField(EmbeddedDocumentField(Tweet))
 
     meta = {'indexes': [
         {'fields': ['$name', "$country", "$city", "$stadium", "$stadium_surface", "$stadium_address"],
@@ -31,7 +34,7 @@ class Teams(db.Document):
     __instances = None
 
     @staticmethod
-    def get_instances(offset=0, per_page=-1, sort_by="name", search_query=None, filter_by=None):
+    def get_instances(pagination_offset=0, per_page=-1, sort_by="name", search_query=None, filter_by=None):
         if Teams.__instances is None:
             Teams.__instances = Teams.objects()
 
@@ -56,5 +59,4 @@ class Teams(db.Document):
         if per_page == -1:
             return list(teams), len(teams)
 
-        return teams[offset: offset + per_page], len(teams)
-
+        return teams[pagination_offset: pagination_offset + per_page], len(teams)

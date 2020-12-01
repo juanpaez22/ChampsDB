@@ -1,24 +1,26 @@
 from flask_mongoengine import MongoEngine
+from mongoengine import (DateTimeField, Document, IntField, StringField,
+                         URLField)
 
-db = MongoEngine()
 
-class Matches(db.Document):
+
+class Matches(Document):
     ''' The Matches collection from the db '''
-    _id = db.IntField()
-    date = db.DateTimeField()
-    stadium = db.StringField()
-    home_team_name = db.StringField()
-    home_team_id = db.IntField()
-    away_team_name = db.StringField()
-    away_team_id = db.IntField()
-    score = db.StringField()
-    media_link = db.URLField()
-    media_link_2 = db.URLField()
-    round = db.StringField()
-    referee = db.StringField()
-    goals_home_team = db.IntField()
-    goals_away_team = db.IntField()
-    video = db.StringField()
+    _id = IntField()
+    date = DateTimeField()
+    stadium = StringField()
+    home_team_name = StringField()
+    home_team_id = IntField()
+    away_team_name = StringField()
+    away_team_id = IntField()
+    score = StringField()
+    media_link = URLField()
+    media_link_2 = URLField()
+    round = StringField()
+    referee = StringField()
+    goals_home_team = IntField()
+    goals_away_team = IntField()
+    video = StringField()
 
     meta = {'indexes': [
         {'fields': ['$home_team_name', "$away_team_name", "$stadium", "$score", "$round", "$referee"],
@@ -30,7 +32,7 @@ class Matches(db.Document):
     __instances = None
 
     @staticmethod
-    def get_instances(offset=0, per_page=-1, sort_by="-date", search_query=None, filter_by=None):
+    def get_instances(pagination_offset=0, per_page=-1, sort_by="-date", search_query=None, filter_by=None):
         if Matches.__instances is None:
             Matches.__instances = Matches.objects()
 
@@ -50,11 +52,12 @@ class Matches(db.Document):
             if key == 'Round':
                 matches = [match for match in matches if match.round == val]
             if key == 'Team':
-                matches = [match for match in matches if match.home_team_name == val] + [match for match in matches if match.away_team_name == val]
+                matches = [match for match in matches if match.home_team_name ==
+                           val] + [match for match in matches if match.away_team_name == val]
             if key == 'Stadium':
                 matches = [match for match in matches if match.stadium == val]
 
         if per_page == -1:
             return list(matches), len(matches)
 
-        return matches[offset: offset + per_page], len(matches)
+        return matches[pagination_offset: pagination_offset + per_page], len(matches)

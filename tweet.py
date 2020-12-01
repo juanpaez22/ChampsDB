@@ -1,14 +1,15 @@
 from flask_mongoengine import MongoEngine
+from mongoengine import EmbeddedDocument, StringField
 
-db = MongoEngine()
 
-class Tweet(db.EmbeddedDocument):
+
+class Tweet(EmbeddedDocument):
     '''
     The embeded Tweet collection from the db
 
     This belongs to the Players collection
     '''
-    id = db.StringField()
-    text = db.StringField()
-    lang = db.StringField()
-    html = db.StringField()
+    id = StringField()
+    text = StringField()
+    lang = StringField()
+    html = StringField()

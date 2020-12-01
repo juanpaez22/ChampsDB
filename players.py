@@ -1,41 +1,45 @@
 from flask_mongoengine import MongoEngine
+from mongoengine import (BooleanField, DecimalField, Document,
+                         EmbeddedDocumentField, IntField, ListField,
+                         StringField, URLField)
+
 from tweet import Tweet
 
-db = MongoEngine()
 
-class Players(db.Document):
+
+class Players(Document):
     ''' The Players collection from the db '''
-    _id = db.IntField()
-    name = db.StringField()
-    position = db.StringField()
-    team_id = db.IntField()
-    team_name = db.StringField()
-    media_link = db.URLField()
-    media_link_2 = db.URLField()
-    number = db.IntField()
-    captain = db.BooleanField()
+    _id = IntField()
+    name = StringField()
+    position = StringField()
+    team_id = IntField()
+    team_name = StringField()
+    media_link = URLField()
+    media_link_2 = URLField()
+    number = IntField()
+    captain = BooleanField()
 
     # Twitter API
-    tweets = db.ListField(db.EmbeddedDocumentField(Tweet))
+    tweets = ListField(EmbeddedDocumentField(Tweet))
 
     # FutDB fields
-    rating_overall = db.IntField()  # -1 if scraping failed
-    rating_defending = db.IntField()
-    rating_dribbling = db.IntField()
-    rating_pace = db.IntField()
-    rating_passing = db.IntField()
-    rating_physicality = db.IntField()
-    rating_shooting = db.IntField()
+    rating_overall = IntField()  # -1 if scraping failed
+    rating_defending = IntField()
+    rating_dribbling = IntField()
+    rating_pace = IntField()
+    rating_passing = IntField()
+    rating_physicality = IntField()
+    rating_shooting = IntField()
 
     # Summary from match events
-    goals = db.IntField()
-    assists = db.IntField()
-    passes = db.IntField()
-    shots = db.IntField()
-    shots_on_target = db.IntField()
-    avg_minutes_played = db.DecimalField()
-    avg_rating = db.DecimalField()
-    avg_pass_accuracy = db.DecimalField()
+    goals = IntField()
+    assists = IntField()
+    passes = IntField()
+    shots = IntField()
+    shots_on_target = IntField()
+    avg_minutes_played = DecimalField()
+    avg_rating = DecimalField()
+    avg_pass_accuracy = DecimalField()
 
     meta = {'indexes': [
         {'fields': ['$name', '$position', '$team_name'],
@@ -47,7 +51,7 @@ class Players(db.Document):
     __instances = None
 
     @staticmethod
-    def get_instances(offset=0, per_page=-1, sort_by="-goals", search_query=None, filter_by=None):
+    def get_instances(pagination_offset=0, per_page=-1, sort_by="-goals", search_query=None, filter_by=None):
         if Players.__instances is None:
             Players.__instances = Players.objects()
 
@@ -65,11 +69,13 @@ class Players(db.Document):
             key = filter_by.split('_')[0]
             val = filter_by.split('_')[1]
             if key == 'Club':
-                players = [player for player in players if player.team_name == val]
+                players = [
+                    player for player in players if player.team_name == val]
             if key == 'Position':
-                players = [player for player in players if player.position == val[0]]
+                players = [
+                    player for player in players if player.position == val[0]]
 
         if per_page == -1:
             return list(players), len(players)
 
-        return players[offset: offset + per_page], len(players)
+        return players[pagination_offset: pagination_offset + per_page], len(players)
