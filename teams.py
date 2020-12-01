@@ -5,7 +5,6 @@ from mongoengine import (Document, EmbeddedDocumentField, IntField, ListField,
 
 from tweet import Tweet
 
-db = MongoEngine()
 
 
 class Teams(Document):
