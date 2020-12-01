@@ -5,7 +5,6 @@ from mongoengine import (BooleanField, DecimalField, Document,
 
 from tweet import Tweet
 
-db = MongoEngine()
 
 
 class Players(Document):
